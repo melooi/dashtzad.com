@@ -1,0 +1,13 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+        NEXT_PUBLIC_WP_URL: ${NEXT_PUBLIC_WP_URL}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    env_file:
+      - .env.local
+    # Nginx (host) terminates TLS and proxies to 127.0.0.1:3000

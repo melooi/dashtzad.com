@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  Design tokens (Tailwind v4 CSS-first config) — all prefixed dz-*   */
+/*  Usage: bg-dz-primary, text-dz-ink, rounded-dz, shadow-dz, ...      */
+/* ------------------------------------------------------------------ */
+@theme {
+  /* brand palette */
+  --color-dz-primary: #1f7a4d;
+  --color-dz-primary-600: #186040;
+  --color-dz-primary-50: #eaf6ef;
+  --color-dz-accent: #e8a83a;
+  --color-dz-ink: #1a1a1a;
+  --color-dz-muted: #6b7280;
+  --color-dz-line: #e6e8eb;
+  --color-dz-bg: #ffffff;
+  --color-dz-surface: #f7f8f9;
+  --color-dz-danger: #d92d20;
+  --color-dz-success: #1f7a4d;
+
+  /* typography — IRANYekanX wired through next/font (see src/lib/fonts.ts) */
+  --font-sans: var(--font-iranyekan), ui-sans-serif, system-ui, sans-serif;
+
+  /* radii / shadow */
+  --radius-dz: 1.2rem;
+  --radius-dz-sm: 0.8rem;
+  --shadow-dz: 0 0.4rem 2.4rem rgba(16, 24, 40, 0.08);
+
+  /* layout */
+  --container-dz: 120rem;
+}
+
+/* rem base = 10px so `1rem = 10px` (html 62.5% of default 16px) */
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem; /* = 16px */
+  line-height: 1.8;
+  background-color: var(--color-dz-bg);
+  color: var(--color-dz-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* RTL niceties */
+[dir="rtl"] {
+  text-align: right;
+}
+
+/* Persian numerals where desired */
+.dz-num-fa {
+  font-feature-settings: "ss01";
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
