@@ -7,6 +7,7 @@ import { getCategoryBySlug } from "@/lib/woo/categories";
 import { listProducts } from "@/lib/woo/products";
 import { getRankMath } from "@/lib/seo/rankmath";
 import { breadcrumbSchema } from "@/lib/seo/jsonld";
+import { isValidSlug } from "@/lib/utils";
 
 export const revalidate = 3600;
 
@@ -14,26 +15,23 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-function decode(slug: string): string {
-  try {
-    return decodeURIComponent(slug);
-  } catch {
-    return slug;
-  }
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  if (!isValidSlug(slug)) return {};
+
   const { metadata } = await getRankMath(`/category/${slug}`);
   if (metadata.title) return metadata;
 
-  const category = await getCategoryBySlug(decode(slug));
+  const category = await getCategoryBySlug(slug);
   return category ? { title: category.name, description: category.description } : {};
 }
 
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params;
-  const category = await getCategoryBySlug(decode(slug));
+  // Reject non-English / non-URL-safe slugs outright (no encode/decode fallback).
+  if (!isValidSlug(slug)) notFound();
+
+  const category = await getCategoryBySlug(slug);
   if (!category) notFound();
 
   const { items } = await listProducts({ category: String(category.id), perPage: 24 });

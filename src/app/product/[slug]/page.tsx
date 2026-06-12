@@ -7,7 +7,7 @@ import { AddToCartButton } from "@/components/product/AddToCartButton";
 import { getAllProductSlugs, getProductBySlug } from "@/lib/woo/products";
 import { getRankMath } from "@/lib/seo/rankmath";
 import { breadcrumbSchema, productSchema } from "@/lib/seo/jsonld";
-import { formatToman, stripHtml } from "@/lib/utils";
+import { formatToman, isValidSlug, stripHtml } from "@/lib/utils";
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -16,19 +16,11 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-// Persian slugs come through URL-encoded; decode before querying Woo.
-function decode(slug: string): string {
-  try {
-    return decodeURIComponent(slug);
-  } catch {
-    return slug;
-  }
-}
-
 export async function generateStaticParams() {
   try {
     const slugs = await getAllProductSlugs();
-    return slugs.map((slug) => ({ slug: encodeURIComponent(slug) }));
+    // Only pre-render valid English slugs; a Persian slug from Woo is skipped, not normalized.
+    return slugs.filter(isValidSlug).map((slug) => ({ slug }));
   } catch {
     return [];
   }
@@ -36,12 +28,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  if (!isValidSlug(slug)) return {};
+
   // Rank Math is the source of truth for SEO meta.
   const { metadata } = await getRankMath(`/product/${slug}`);
   if (metadata.title) return metadata;
 
   // Fallback to Woo fields if Rank Math is unavailable.
-  const product = await getProductBySlug(decode(slug));
+  const product = await getProductBySlug(slug);
   if (!product) return {};
   return {
     title: product.name,
@@ -51,7 +45,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = await getProductBySlug(decode(slug));
+  // Reject non-English / non-URL-safe slugs outright (no encode/decode fallback).
+  if (!isValidSlug(slug)) notFound();
+
+  const product = await getProductBySlug(slug);
   if (!product) notFound();
 
   const { jsonLd } = await getRankMath(`/product/${slug}`);

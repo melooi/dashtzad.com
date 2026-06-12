@@ -6,6 +6,21 @@ export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * Slug policy (see CLAUDE.md): lowercase kebab-case, only `a-z 0-9 -`,
+ * single hyphens, no leading/trailing hyphen. No spaces, Persian chars,
+ * underscores, parentheses, or special characters.
+ *
+ * The front-end NEVER encodes/decodes or normalizes a Persian slug — any slug
+ * that fails this check is rejected (notFound / dropped from sitemap), so a
+ * Persian slug coming from WooCommerce surfaces as an error rather than working.
+ */
+const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+export function isValidSlug(slug: string): boolean {
+  return SLUG_RE.test(slug);
+}
+
 const faDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
 
 /** Convert ASCII digits in a string to Persian digits. */
