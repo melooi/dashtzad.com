@@ -5,8 +5,7 @@ import { breadcrumbSchema } from "@/lib/seo/jsonld";
 import { absoluteUrl } from "@/lib/utils";
 import "./about.css";
 
-// Icons use Font Awesome via CDN (same icon set as the design handoff) — no npm dependency.
-const FA_CDN = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css";
+// Font Awesome is loaded site-wide in app/layout.tsx.
 
 const DESCRIPTION =
   "دشت‌زاد فقط یک فروشگاه آنلاین مواد غذایی نیست؛ روایتی از زمین، صبر و سفره ایرانی است. داستان برند، ریشه خانوادگی و قولِ ما به شما.";
@@ -46,10 +45,7 @@ export default function AboutPage() {
   };
 
   return (
-    <>
-      <link rel="stylesheet" href={FA_CDN} />
-
-      <div className="about-page">
+    <div className="about-page">
         <JsonLd
           data={[
             aboutLd,
@@ -467,7 +463,6 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
-      </div>
-    </>
+    </div>
   );
 }

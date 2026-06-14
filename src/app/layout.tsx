@@ -6,8 +6,12 @@ import { organizationSchema, websiteSchema } from "@/lib/seo/jsonld";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
+import "@/styles/dz.css";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+// Font Awesome (icons used across the design) — loaded via CDN, site-wide.
+const FA_CDN = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -30,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fa" dir="rtl" className={iranYekan.variable} suppressHydrationWarning>
       <body>
+        <link rel="stylesheet" href={FA_CDN} />
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <Providers>
           <Header />
