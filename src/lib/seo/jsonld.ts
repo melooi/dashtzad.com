@@ -30,24 +30,36 @@ export function websiteSchema(): Json {
   };
 }
 
-export function productSchema(p: WooProduct): Json {
+/** A custom spec rendered as schema.org PropertyValue (origin, harvest date, …). */
+export interface ProductSpecLite {
+  label: string;
+  value: string;
+}
+
+export function productSchema(p: WooProduct, specs: ProductSpecLite[] = []): Json {
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name: p.name,
     description: stripHtml(p.short_description || p.description),
     sku: p.sku || undefined,
-    image: p.images.map((i) => i.src),
+    image: p.images.length > 0 ? p.images.map((i) => i.src) : undefined,
+    brand: { "@type": "Brand", name: "دشت‌زاد" },
     category: p.categories[0]?.name,
+    additionalProperty:
+      specs.length > 0
+        ? specs.map((s) => ({ "@type": "PropertyValue", name: s.label, value: s.value }))
+        : undefined,
     offers: {
       "@type": "Offer",
       priceCurrency: "IRR",
-      price: p.price,
+      price: p.price || undefined,
       availability:
         p.stock_status === "instock"
           ? "https://schema.org/InStock"
           : "https://schema.org/OutOfStock",
       url: absoluteUrl(`/product/${p.slug}`),
+      priceValidUntil: p.date_on_sale_to || undefined,
     },
     aggregateRating:
       p.rating_count > 0

@@ -26,6 +26,8 @@ export interface WooProduct {
   regular_price: string;
   sale_price: string;
   on_sale: boolean;
+  /** ISO date the sale ends — used for JSON-LD priceValidUntil. */
+  date_on_sale_to?: string | null;
   stock_status: "instock" | "outofstock" | "onbackorder";
   stock_quantity: number | null;
   average_rating: string;

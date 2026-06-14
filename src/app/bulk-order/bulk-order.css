@@ -1,0 +1,268 @@
+/* ============================================================
+   دشت‌زاد — صفحه خرید عمده و همکاری (Bulk Order), scoped under
+   .bulk-order-page. Hero (.faq-hero) comes from dz.css; the
+   support-card, form and contact-method styles are page-local.
+   ============================================================ */
+
+.bulk-order-page {
+  /* centered single-column body (shared layout w/ support pages) */
+  .support-wrap {
+    max-width: 86rem;
+    margin-inline: auto;
+    margin-top: 0;
+    position: relative;
+    z-index: 2;
+    padding-top: clamp(3rem, 4vw, 4.4rem);
+    padding-bottom: clamp(4rem, 6vw, 7rem);
+  }
+
+  .support-card {
+    background: #fff;
+    border: 1px solid var(--hair);
+    border-radius: var(--r-lg);
+    padding: clamp(2.2rem, 3.4vw, 3.4rem);
+    box-shadow: var(--shadow);
+  }
+  .support-card + .support-card {
+    margin-top: 2rem;
+  }
+  .support-card__h {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1.8rem;
+  }
+  .support-card__ic {
+    width: 5rem;
+    height: 5rem;
+    border-radius: var(--r);
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    background: var(--green-soft);
+    color: var(--green-deep);
+    font-size: 2rem;
+  }
+  .support-card__ic--clay {
+    background: var(--clay-soft);
+    color: var(--clay-deep);
+  }
+  .support-card__ic--gold {
+    background: var(--amber-soft);
+    color: var(--gold-deep);
+  }
+  .support-card__t {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(2rem, 2.6vw, 2.4rem);
+    letter-spacing: -0.01em;
+  }
+  .support-card__n {
+    font-size: 1.35rem;
+    color: var(--ink-faint);
+    margin-top: 0.2rem;
+  }
+
+  /* benefits grid (value proposition) */
+  .bulk-benefits {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.4rem;
+    margin-top: 0.6rem;
+  }
+  .bulk-benefit {
+    display: flex;
+    gap: 1.2rem;
+    background: var(--surface-warm);
+    border: 1px solid var(--hair);
+    border-radius: var(--r);
+    padding: 1.6rem;
+  }
+  .bulk-benefit i {
+    width: 4rem;
+    height: 4rem;
+    border-radius: var(--r-sm);
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    background: #fff;
+    border: 1px solid var(--hair);
+    color: var(--green);
+    font-size: 1.7rem;
+  }
+  .bulk-benefit b {
+    display: block;
+    font-size: 1.5rem;
+    color: var(--ink);
+  }
+  .bulk-benefit span {
+    display: block;
+    font-size: 1.3rem;
+    color: var(--ink-soft);
+    margin-top: 0.3rem;
+    line-height: 1.7;
+  }
+
+  /* request form */
+  .contact-form {
+    margin-top: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+  .cf-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem;
+  }
+  .cf-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .cf-field label {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--ink);
+  }
+  .cf-field label .req {
+    color: var(--clay);
+  }
+  .cf-field input,
+  .cf-field select,
+  .cf-field textarea {
+    font-family: inherit;
+    font-size: 1.5rem;
+    color: var(--ink);
+    background: var(--surface-warm);
+    border: 1.5px solid var(--hair-strong);
+    border-radius: var(--r);
+    padding: 1.25rem 1.5rem;
+    outline: none;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s,
+      background 0.15s;
+    width: 100%;
+  }
+  .cf-field textarea {
+    resize: vertical;
+    min-height: 13rem;
+    line-height: 1.8;
+  }
+  .cf-field input::placeholder,
+  .cf-field textarea::placeholder {
+    color: var(--ink-faint);
+  }
+  .cf-field input:focus,
+  .cf-field select:focus,
+  .cf-field textarea:focus {
+    border-color: var(--green);
+    background: #fff;
+    box-shadow: 0 0 0 4px var(--green-soft);
+  }
+  .cf-field select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2378716c' stroke-width='2.5'><path d='M6 9l6 6 6-6'/></svg>");
+    background-repeat: no-repeat;
+    background-position: left 1.5rem center;
+    background-size: 1.6rem;
+    padding-inline-start: 4rem;
+  }
+  .contact-form .btn {
+    align-self: flex-start;
+  }
+  .cf-note {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 1.3rem;
+    color: var(--ink-faint);
+  }
+  .cf-note i {
+    color: var(--green);
+  }
+  .cf-ok {
+    display: none;
+    align-items: center;
+    gap: 1rem;
+    background: var(--green-soft);
+    color: var(--green-deep);
+    border-radius: var(--r);
+    padding: 1.4rem 1.6rem;
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+  .cf-ok.show {
+    display: flex;
+  }
+  .cf-ok i {
+    font-size: 1.8rem;
+  }
+
+  /* direct-contact methods */
+  .contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .contact-method {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    background: var(--surface-warm);
+    border: 1px solid var(--hair);
+    border-radius: var(--r);
+    padding: 1.6rem 1.8rem;
+    box-shadow: var(--shadow-sm);
+    transition:
+      border-color 0.15s,
+      transform 0.15s,
+      box-shadow 0.15s;
+  }
+  .contact-method:hover {
+    border-color: var(--green);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .contact-method__ic {
+    width: 5rem;
+    height: 5rem;
+    border-radius: var(--r-sm);
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    background: var(--green-soft);
+    color: var(--green-deep);
+    font-size: 2rem;
+  }
+  .contact-method:nth-child(2) .contact-method__ic {
+    background: var(--clay-soft);
+    color: var(--clay-deep);
+  }
+  .contact-method__l {
+    font-size: 1.25rem;
+    color: var(--ink-faint);
+    font-weight: 600;
+  }
+  .contact-method__v {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-top: 0.3rem;
+    direction: ltr;
+    text-align: right;
+    unicode-bidi: plaintext;
+  }
+
+  @media (max-width: 600px) {
+    .bulk-benefits {
+      grid-template-columns: 1fr;
+    }
+    .cf-row {
+      grid-template-columns: 1fr;
+    }
+  }
+}

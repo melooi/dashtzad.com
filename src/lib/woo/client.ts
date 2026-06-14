@@ -14,6 +14,11 @@ const API_URL = process.env.WOO_API_URL;
 const KEY = process.env.WOO_CONSUMER_KEY;
 const SECRET = process.env.WOO_CONSUMER_SECRET;
 
+/** Whether real WooCommerce credentials are configured. */
+export function isWooConfigured(): boolean {
+  return Boolean(API_URL && KEY && SECRET);
+}
+
 export const WOO_TAGS = {
   products: "woo:products",
   product: (slug: string) => `woo:product:${slug}`,
