@@ -822,6 +822,109 @@
 }
 
 /* ============================================================
+   NEWSLETTER (shared partial)
+   ============================================================ */
+.news {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-xl);
+  background: var(--ink);
+  color: #fff;
+  padding: clamp(3.4rem, 5vw, 6rem) clamp(2.4rem, 5vw, 6rem);
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(2.4rem, 4vw, 5rem);
+  align-items: center;
+}
+.news::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(80% 120% at 100% 0%, oklch(0.45 0.12 150 / 0.5), transparent 55%),
+    radial-gradient(70% 100% at 0% 100%, oklch(0.55 0.12 70 / 0.35), transparent 55%);
+}
+.news__l {
+  position: relative;
+}
+.news__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--honey);
+  letter-spacing: 0.04em;
+}
+.news__title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 3.4vw, 3.8rem);
+  margin-top: 1.2rem;
+  line-height: 1.18;
+}
+.news__sub {
+  color: oklch(1 0 0 / 0.8);
+  font-size: 1.55rem;
+  margin-top: 1.2rem;
+  max-width: 46rem;
+}
+.news__form {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  background: #fff;
+  border-radius: 1.4rem;
+  padding: 0.7rem;
+  box-shadow: var(--shadow-lg);
+}
+.news__form input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 1.5rem;
+  color: var(--ink);
+  padding: 1.1rem 1.8rem;
+  min-width: 0;
+}
+.news__form input::placeholder {
+  color: var(--ink-faint);
+}
+.news__form button {
+  flex: 0 0 auto;
+}
+.news__note {
+  position: relative;
+  color: oklch(1 0 0 / 0.62);
+  font-size: 1.25rem;
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.news__ok {
+  position: relative;
+  margin-top: 1.2rem;
+  display: none;
+  align-items: center;
+  gap: 0.8rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--honey);
+}
+.news__ok.show {
+  display: inline-flex;
+}
+@media (max-width: 1080px) {
+  .news {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
    HEADER / FOOTER RESPONSIVE
    ============================================================ */
 @media (max-width: 760px) {
