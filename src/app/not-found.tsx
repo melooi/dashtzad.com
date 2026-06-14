@@ -1,6 +1,19 @@
 import Link from "next/link";
+import {
+  Badge,
+  ButtonLink,
+  Card,
+  Hero,
+  IconBox,
+  Placeholder,
+  Price,
+  RatingChip,
+  SectionHead,
+} from "@/components/ui";
 import { NotFoundSearch } from "./NotFoundSearch";
 import "./not-found.css";
+
+// Font Awesome is loaded site-wide in app/layout.tsx.
 
 const CATEGORIES = [
   { icon: "fa-wheat-awn", label: "خشکبار" },
@@ -10,94 +23,84 @@ const CATEGORIES = [
 ];
 
 const SUGGESTIONS = [
-  { name: "برگه زردآلوی طلایی", price: "۲۴۶٬۰۰۰", rating: "۴٫۷", tag: "پرفروش", label: "زردآلو خشک" },
-  { name: "توت خشک سفید اعلا", price: "۳۱۵٬۰۰۰", rating: "۴٫۹", tag: "تازه", label: "توت خشک" },
-  { name: "انجیر خشک پرک", price: "۴۱۰٬۰۰۰", rating: "۴٫۸", tag: null, label: "انجیر خشک" },
-  { name: "آلوبخارا بی‌هسته", price: "۱۸۸٬۰۰۰", rating: "۴٫۶", tag: null, label: "آلوبخارا" },
+  { name: "برگه زردآلوی طلایی", price: 246000, rating: "۴٫۷", tag: "پرفروش", label: "زردآلو خشک" },
+  { name: "توت خشک سفید اعلا", price: 315000, rating: "۴٫۹", tag: "تازه", label: "توت خشک" },
+  { name: "انجیر خشک پرک", price: 410000, rating: "۴٫۸", tag: null, label: "انجیر خشک" },
+  { name: "آلوبخارا بی‌هسته", price: 188000, rating: "۴٫۶", tag: null, label: "آلوبخارا" },
 ];
 
 export default function NotFound() {
   return (
     <div className="notfound-page dz">
       {/* HERO */}
-      <section className="nf">
-        <div className="nf-inner">
-          <span className="nf-kicker">
+      <Hero
+        kicker={
+          <>
             <i className="fa-solid fa-magnifying-glass" aria-hidden /> خطای ۴۰۴ — صفحه پیدا نشد
-          </span>
-
-          <div className="nf-code" aria-label="۴۰۴">
-            <span className="nf-code__d num">۴</span>
-            <span className="nf-seal">
-              <i className="fa-solid fa-leaf" aria-hidden />
-            </span>
-            <span className="nf-code__d num">۴</span>
-          </div>
-
-          <h1 className="nf-title">صفحه‌ای که دنبالش بودید پیدا نشد</h1>
-          <p className="nf-lead">
-            شاید نشانی را اشتباه وارد کرده‌اید، یا این محصول دیگر در باغ ما موجود نیست. نگران نباشید؛
-            از همین‌جا جستجو کنید یا به خانه برگردید.
-          </p>
-
-          <NotFoundSearch />
-
-          <div className="nf-actions">
-            <Link className="btn btn--primary btn--lg" href="/">
-              <i className="fa-solid fa-house" aria-hidden /> بازگشت به خانه
-            </Link>
-            <Link className="btn btn--ghost btn--lg" href="/products">
-              <i className="fa-solid fa-cart-shopping" aria-hidden /> مشاهده محصولات
-            </Link>
-          </div>
-
-          <div className="nf-chips">
-            <span className="nf-chips__lead">دسته‌های پرطرفدار:</span>
-            {CATEGORIES.map((c) => (
-              <Link key={c.label} className="nf-chip" href="/products">
-                <i className={`fa-solid ${c.icon}`} aria-hidden /> {c.label}
-              </Link>
-            ))}
-          </div>
+          </>
+        }
+        title="صفحه‌ای که دنبالش بودید پیدا نشد"
+        sub="شاید نشانی را اشتباه وارد کرده‌اید، یا این محصول دیگر در باغ ما موجود نیست. نگران نباشید؛ از همین‌جا جستجو کنید یا به خانه برگردید."
+      >
+        <div className="nf-seal" aria-label="۴۰۴">
+          <span className="nf-seal__digit num display">۴</span>
+          <IconBox icon="fa-leaf" tone="gold" size="lg" round className="nf-seal__badge" />
+          <span className="nf-seal__digit num display">۴</span>
         </div>
-      </section>
+
+        <NotFoundSearch />
+
+        <div className="nf-actions">
+          <ButtonLink href="/" size="lg">
+            <i className="fa-solid fa-house" aria-hidden /> بازگشت به خانه
+          </ButtonLink>
+          <ButtonLink href="/products" variant="ghost" size="lg">
+            <i className="fa-solid fa-cart-shopping" aria-hidden /> مشاهده محصولات
+          </ButtonLink>
+        </div>
+
+        <div className="nf-cats">
+          <span className="nf-cats__lead">دسته‌های پرطرفدار:</span>
+          {CATEGORIES.map((c) => (
+            <Link key={c.label} className="hero__chip" href="/products">
+              <i className={`fa-solid ${c.icon}`} aria-hidden /> {c.label}
+            </Link>
+          ))}
+        </div>
+      </Hero>
 
       {/* SUGGESTED PRODUCTS */}
-      <section className="nf-sugg">
-        <div className="nf-sugg__head">
-          <h2 className="nf-sugg__t">شاید این‌ها را بپسندید</h2>
-          <Link className="nf-sugg__more" href="/products">
-            همه محصولات <i className="fa-solid fa-angle-left" aria-hidden />
-          </Link>
-        </div>
-        <div className="nf-grid">
+      <section className="wrap sec">
+        <SectionHead
+          title="شاید این‌ها را بپسندید"
+          action={
+            <Link className="nf-more" href="/products">
+              همه محصولات <i className="fa-solid fa-angle-left" aria-hidden />
+            </Link>
+          }
+        />
+        <div className="grid--4 nf-grid">
           {SUGGESTIONS.map((p) => (
-            <article key={p.name} className="nf-card">
+            <Card as="article" hover key={p.name} className="nf-card">
               <div className="nf-card__media">
-                {p.tag && <span className="nf-card__tag">{p.tag}</span>}
-                <div className="ph">
-                  <span className="ph__label">{p.label}</span>
-                </div>
+                {p.tag && (
+                  <Badge tone="clay" className="nf-card__tag">
+                    {p.tag}
+                  </Badge>
+                )}
+                <Placeholder className="nf-card__ph" label={p.label} />
               </div>
               <div className="nf-card__body">
                 <h3 className="nf-card__name">{p.name}</h3>
-                <span className="nf-card__rate">
-                  <i className="fa-solid fa-star" aria-hidden /> {p.rating}
-                </span>
+                <RatingChip value={p.rating} />
                 <div className="nf-card__foot">
-                  <span className="nf-card__price num">
-                    {p.price} <span className="nf-card__toman">تومان</span>
-                  </span>
-                  <Link
-                    className="nf-card__add"
-                    href="/products"
-                    aria-label={`مشاهده ${p.name}`}
-                  >
+                  <Price now={p.price} size="sm" />
+                  <Link className="nf-card__add" href="/products" aria-label={`مشاهده ${p.name}`}>
                     <i className="fa-solid fa-plus" aria-hidden />
                   </Link>
                 </div>
               </div>
-            </article>
+            </Card>
           ))}
         </div>
       </section>

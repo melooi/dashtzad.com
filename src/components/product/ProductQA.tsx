@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Button, Card, FormOk, FormRow, IconBox, Input, Textarea } from "@/components/ui";
 import { toFaDigits } from "@/lib/utils";
 import type { ProductQuestion, ProductView } from "@/lib/woo/view";
 
@@ -10,7 +11,7 @@ function QACard({ q }: { q: ProductQuestion }) {
   const answered = !!(q.a && q.a.trim());
   const isExpert = q.role !== "user";
   return (
-    <div className="qa-card">
+    <Card pad className="qa-card">
       <div className="qa-card__q">
         <span className="qa-card__qmark">؟</span>
         <div>
@@ -22,21 +23,16 @@ function QACard({ q }: { q: ProductQuestion }) {
       </div>
       {answered ? (
         <div className={`qa-card__a${isExpert ? " is-expert" : ""}`}>
-          <span className="qa-card__avatar">
+          <span className={`avatar avatar--sm${isExpert ? " avatar--green" : ""}`}>
             {isExpert ? <i className="fa-solid fa-check" aria-hidden /> : (q.by ?? "؟").charAt(0)}
           </span>
           <div>
             <div className="qa-card__by-row">
               <b className="qa-card__by">{q.by}</b>
-              {isExpert ? (
-                <span className="badge qa-card__tag">
-                  <i className="fa-solid fa-check" aria-hidden /> پاسخ رسمی
-                </span>
-              ) : (
-                <span className="badge badge--clay qa-card__tag">
-                  <i className="fa-regular fa-user" aria-hidden /> خریدار
-                </span>
-              )}
+              <span className={`badge${isExpert ? "" : " badge--clay"} qa-card__tag`}>
+                <i className={`fa-solid ${isExpert ? "fa-check" : "fa-user"}`} aria-hidden />{" "}
+                {isExpert ? "پاسخ رسمی" : "خریدار"}
+              </span>
             </div>
             <p className="muted qa-card__at">{q.a}</p>
           </div>
@@ -58,7 +54,7 @@ function QACard({ q }: { q: ProductQuestion }) {
           </button>
         </div>
       )}
-    </div>
+    </Card>
   );
 }
 
@@ -88,11 +84,9 @@ export function ProductQA({ view }: { view: ProductView }) {
 
   return (
     <div className="qa">
-      <div className="card qa-bar">
+      <Card pad className="qa-bar">
         <div className="qa-bar__l">
-          <span className="qa-bar__ic">
-            <i className="fa-regular fa-circle-question" aria-hidden />
-          </span>
+          <IconBox icon="fa-circle-question" />
           <div>
             <b className="qa-bar__t">پرسش و پاسخ</b>
             <div className="faint">
@@ -100,35 +94,30 @@ export function ProductQA({ view }: { view: ProductView }) {
             </div>
           </div>
         </div>
-        <button type="button" className="btn btn--primary" onClick={() => setFormOpen((o) => !o)}>
+        <Button onClick={() => setFormOpen((o) => !o)}>
           <i className="fa-solid fa-plus" aria-hidden /> پرسش خود را بپرسید
-        </button>
-      </div>
+        </Button>
+      </Card>
 
-      {thanks && (
-        <div className="form-ok">
-          <i className="fa-solid fa-circle-check" aria-hidden /> با تشکر! پرسش شما ثبت شد؛ به‌محض پاسخ، از طریق
-          پیامک به شماره‌ی شما اطلاع می‌دهیم.
-        </div>
-      )}
+      <FormOk show={thanks}>پرسش شما ثبت شد؛ به‌محض پاسخ، پیامک می‌کنیم.</FormOk>
 
       {formOpen && (
-        <form className="card review-form" onSubmit={submit}>
+        <Card as="form" pad className="review-form" onSubmit={submit}>
           <h4 className="review-form__h">پرسش خود را بپرسید</h4>
-          <div className="review-form__row">
-            <input name="qName" placeholder="نام شما" required />
-            <input name="qPhone" type="tel" placeholder="شماره تماس (برای اطلاع پاسخ)" dir="ltr" />
-          </div>
-          <textarea name="qText" placeholder="سؤال‌تان درباره این محصول را بنویسید…" required />
+          <FormRow cols={2}>
+            <Input name="qName" placeholder="نام شما" required />
+            <Input name="qPhone" type="tel" placeholder="شماره تماس (برای اطلاع پاسخ)" dir="ltr" />
+          </FormRow>
+          <Textarea name="qText" placeholder="سؤال‌تان درباره این محصول را بنویسید…" required />
           <div className="review-form__actions">
-            <button type="submit" className="btn btn--primary">
+            <Button type="submit">
               <i className="fa-solid fa-check" aria-hidden /> ثبت پرسش
-            </button>
-            <button type="button" className="btn btn--ghost" onClick={() => setFormOpen(false)}>
+            </Button>
+            <Button type="button" variant="ghost" onClick={() => setFormOpen(false)}>
               انصراف
-            </button>
+            </Button>
           </div>
-        </form>
+        </Card>
       )}
 
       <div className="qa-list">
@@ -138,10 +127,10 @@ export function ProductQA({ view }: { view: ProductView }) {
       </div>
 
       {all.length > 2 && (
-        <button type="button" className="btn btn--ghost qa-more" onClick={() => setExpanded((e) => !e)}>
+        <Button variant="ghost" className="qa-more" onClick={() => setExpanded((e) => !e)}>
           {expanded ? "نمایش کمتر" : `نمایش ${toFaDigits(all.length - 2)} پرسش دیگر`}
           <i className={`fa-solid fa-angle-down${expanded ? " is-up" : ""}`} aria-hidden />
-        </button>
+        </Button>
       )}
     </div>
   );

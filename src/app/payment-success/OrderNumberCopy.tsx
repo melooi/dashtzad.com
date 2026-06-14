@@ -23,7 +23,7 @@ export function OrderNumberCopy({ orderNumber }: { orderNumber: string }) {
 
   return (
     <>
-      <div className="ordernum rise" data-d="3">
+      <div className="ordernum">
         <span className="ordernum__label">شماره سفارش</span>
         <span className="ordernum__val num">{orderNumber}</span>
         <button className="ordernum__copy" type="button" onClick={copy}>

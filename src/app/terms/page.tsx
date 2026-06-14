@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/jsonld";
+import { Card, Hero, Note } from "@/components/ui";
 import { TermsToc } from "./TermsToc";
 import "./terms.css";
+
+// Font Awesome is loaded site-wide in app/layout.tsx.
 
 export const metadata: Metadata = {
   title: "قوانین و مقررات",
@@ -23,46 +26,40 @@ export default function TermsPage() {
       />
 
       {/* HERO */}
-      <section className="faq-hero">
-        <div className="wrap">
-          <div className="faq-hero__inner">
-            <span className="faq-hero__kicker">
-              <i className="fa-solid fa-scale-balanced" aria-hidden /> اعتماد، پایه هر خرید است
-            </span>
-            <h1 className="faq-hero__title">قوانین و مقررات</h1>
-            <p className="faq-hero__sub">
-              شرایط خرید، حساب کاربری، ارسال، مرجوعی، پرداخت و حریم خصوصی شما را این‌جا روشن و
-              بی‌ابهام نوشته‌ایم. ثبت هر سفارش به‌منزله مطالعه و پذیرش این مقررات است.
-            </p>
-            <span className="legal-updated">
-              <i className="fa-regular fa-calendar-check" aria-hidden /> آخرین به‌روزرسانی: ۱۲ خرداد
-              ۱۴۰۵
-            </span>
-
-            <div className="faq-hero__chips">
-              <a className="faq-chip" href="#t-buy">
-                <i className="fa-solid fa-bag-shopping" aria-hidden /> شرایط خرید
-              </a>
-              <a className="faq-chip" href="#t-return">
-                <i className="fa-solid fa-rotate-left" aria-hidden /> شرایط مرجوعی
-              </a>
-              <a className="faq-chip" href="#t-privacy">
-                <i className="fa-solid fa-user-shield" aria-hidden /> حریم خصوصی
-              </a>
-            </div>
-          </div>
+      <Hero
+        kicker={
+          <>
+            <i className="fa-solid fa-scale-balanced" aria-hidden /> اعتماد، پایه هر خرید است
+          </>
+        }
+        title="قوانین و مقررات"
+        sub="شرایط خرید، حساب کاربری، ارسال، مرجوعی، پرداخت و حریم خصوصی شما را این‌جا روشن و بی‌ابهام نوشته‌ایم. ثبت هر سفارش به‌منزله مطالعه و پذیرش این مقررات است."
+      >
+        <span className="terms-updated">
+          <i className="fa-regular fa-calendar-check" aria-hidden /> آخرین به‌روزرسانی: ۱۲ خرداد ۱۴۰۵
+        </span>
+        <div className="hero__chips">
+          <a className="hero__chip" href="#t-buy">
+            <i className="fa-solid fa-bag-shopping" aria-hidden /> شرایط خرید
+          </a>
+          <a className="hero__chip" href="#t-return">
+            <i className="fa-solid fa-rotate-left" aria-hidden /> شرایط مرجوعی
+          </a>
+          <a className="hero__chip" href="#t-privacy">
+            <i className="fa-solid fa-user-shield" aria-hidden /> حریم خصوصی
+          </a>
         </div>
-      </section>
+      </Hero>
 
       {/* BODY */}
       <main className="wrap">
-        <div className="faq-layout">
+        <div className="terms-layout">
           {/* TOC nav (scroll-spy) */}
           <TermsToc />
 
           {/* legal prose */}
-          <div className="legal">
-            <div className="legal-intro">
+          <div className="terms-prose">
+            <Card pad className="terms-intro">
               <p>
                 فروشگاه دشت‌زاد (با نام حقوقی <strong>شرکت دشت‌زاد تجارت ایرانیان</strong>) متعهد است
                 محصولاتی طبیعی و باکیفیت را با شفاف‌ترین شرایط ممکن به دست شما برساند. مقرراتی که در
@@ -72,25 +69,25 @@ export default function TermsPage() {
                 این مقررات ممکن است هر از چندی به‌روزرسانی شود؛ نسخه معتبر همان است که در زمان ثبت
                 سفارش روی این صفحه قرار دارد.
               </p>
-            </div>
+            </Card>
 
             {/* 1 — کلیات و تعاریف */}
-            <section className="legal-sec" id="t-general">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۱</span>
+            <Card as="section" pad className="terms-sec" id="t-general">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۱</span>
                 <div>
-                  <h2 className="legal-sec__t">کلیات و تعاریف</h2>
-                  <p className="legal-sec__n">دامنه کاربرد، تعریف‌ها و پذیرش قوانین</p>
+                  <h2 className="terms-sec__t">کلیات و تعاریف</h2>
+                  <p className="terms-sec__n">دامنه کاربرد، تعریف‌ها و پذیرش قوانین</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>
                   استفاده از وب‌سایت دشت‌زاد و خدمات آن، برای تمام افرادی که بر اساس قوانین جمهوری
                   اسلامی ایران اهلیت قانونی دارند، به‌شرط رعایت این قوانین مجاز است. ورود به حساب
                   کاربری یا ثبت هر سفارش، به‌منزله آگاهی و پذیرش کامل این مقررات و جایگزین توافق‌های
                   پیشین است.
                 </p>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -115,23 +112,23 @@ export default function TermsPage() {
                   </li>
                 </ul>
               </div>
-            </section>
+            </Card>
 
             {/* 2 — حساب کاربری و ثبت‌نام */}
-            <section className="legal-sec" id="t-account">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۲</span>
+            <Card as="section" pad className="terms-sec" id="t-account">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۲</span>
                 <div>
-                  <h2 className="legal-sec__t">حساب کاربری و ثبت‌نام</h2>
-                  <p className="legal-sec__n">ساخت حساب، صحت اطلاعات و امنیت آن</p>
+                  <h2 className="terms-sec__t">حساب کاربری و ثبت‌نام</h2>
+                  <p className="terms-sec__n">ساخت حساب، صحت اطلاعات و امنیت آن</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>
                   برای استفاده از خدمات و ثبت سفارش، داشتن حساب کاربری لازم است. ثبت‌نام با شماره
                   موبایل و کد فعال‌سازی پیامکی انجام می‌شود.
                 </p>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -169,23 +166,23 @@ export default function TermsPage() {
                   </li>
                 </ul>
               </div>
-            </section>
+            </Card>
 
             {/* 3 — شرایط خرید و ثبت سفارش */}
-            <section className="legal-sec" id="t-buy">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۳</span>
+            <Card as="section" pad className="terms-sec" id="t-buy">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۳</span>
                 <div>
-                  <h2 className="legal-sec__t">شرایط خرید و ثبت سفارش</h2>
-                  <p className="legal-sec__n">قیمت، موجودی، قرارداد الکترونیکی و سفارش</p>
+                  <h2 className="terms-sec__t">شرایط خرید و ثبت سفارش</h2>
+                  <p className="terms-sec__n">قیمت، موجودی، قرارداد الکترونیکی و سفارش</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>
                   ثبت سفارش در دشت‌زاد به‌منزله انعقاد قرارداد الکترونیکی است. لطفاً پیش از
                   نهایی‌کردن خرید به نکات زیر توجه کنید:
                 </p>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -226,23 +223,23 @@ export default function TermsPage() {
                   </li>
                 </ul>
               </div>
-            </section>
+            </Card>
 
             {/* 4 — تسویه حساب */}
-            <section className="legal-sec" id="t-pay">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۴</span>
+            <Card as="section" pad className="terms-sec" id="t-pay">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۴</span>
                 <div>
-                  <h2 className="legal-sec__t">تسویه حساب</h2>
-                  <p className="legal-sec__n">پرداخت، درگاه امن و کارت‌به‌کارت</p>
+                  <h2 className="terms-sec__t">تسویه حساب</h2>
+                  <p className="terms-sec__n">پرداخت، درگاه امن و کارت‌به‌کارت</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>
                   انجام تسویه‌حساب برای ثبت نهایی سفارش الزامی است. در پایان مراحل ثبت سفارش، درگاه
                   پرداخت اینترنتی امن باز می‌شود.
                 </p>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -275,23 +272,23 @@ export default function TermsPage() {
                   </li>
                 </ul>
               </div>
-            </section>
+            </Card>
 
             {/* 5 — حمل، تحویل و دریافت */}
-            <section className="legal-sec" id="t-ship">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۵</span>
+            <Card as="section" pad className="terms-sec" id="t-ship">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۵</span>
                 <div>
-                  <h2 className="legal-sec__t">حمل، تحویل و دریافت سفارش</h2>
-                  <p className="legal-sec__n">زمان‌بندی، روش ارسال و بازرسی هنگام تحویل</p>
+                  <h2 className="terms-sec__t">حمل، تحویل و دریافت سفارش</h2>
+                  <p className="terms-sec__n">زمان‌بندی، روش ارسال و بازرسی هنگام تحویل</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>
                   ارسال سفارش‌ها در محدوده تهران از طریق پیک و در سایر شهرها به‌واسطه پست انجام
                   می‌شود. هر سفارش حداکثر ظرف ۲۴ ساعت کاری پردازش و تحویل پست/پیک می‌شود.
                 </p>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -323,25 +320,25 @@ export default function TermsPage() {
                     </span>
                   </li>
                 </ul>
-                <Link className="legal-link" href="/faq">
+                <Link className="terms-link" href="/faq">
                   <i className="fa-solid fa-circle-info" aria-hidden /> جزئیات زمان و هزینه ارسال در
                   پرسش‌های متداول
                 </Link>
               </div>
-            </section>
+            </Card>
 
             {/* 6 — مرجوعی و استرداد */}
-            <section className="legal-sec" id="t-return">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۶</span>
+            <Card as="section" pad className="terms-sec" id="t-return">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۶</span>
                 <div>
-                  <h2 className="legal-sec__t">شرایط مرجوعی و استرداد (حق انصراف)</h2>
-                  <p className="legal-sec__n">بازگشت کالا، موارد قابل و غیرقابل مرجوع</p>
+                  <h2 className="terms-sec__t">شرایط مرجوعی و استرداد (حق انصراف)</h2>
+                  <p className="terms-sec__n">بازگشت کالا، موارد قابل و غیرقابل مرجوع</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>رضایت شما برای ما در اولویت است. شرایط مرجوع‌کردن و استرداد به این شرح است:</p>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -373,28 +370,28 @@ export default function TermsPage() {
                     </span>
                   </li>
                 </ul>
-                <Link className="legal-link" href="/faq">
+                <Link className="terms-link" href="/faq">
                   <i className="fa-solid fa-shield-heart" aria-hidden /> ضمانت کیفیت و بازگشت کالای
                   معیوب در پرسش‌های متداول
                 </Link>
               </div>
-            </section>
+            </Card>
 
             {/* 7 — مسئولیت ثبت آدرس */}
-            <section className="legal-sec" id="t-address">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۷</span>
+            <Card as="section" pad className="terms-sec" id="t-address">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۷</span>
                 <div>
-                  <h2 className="legal-sec__t">مسئولیت مشتری در ثبت آدرس</h2>
-                  <p className="legal-sec__n">صحت آدرس و پیامدهای اطلاعات نادرست</p>
+                  <h2 className="terms-sec__t">مسئولیت مشتری در ثبت آدرس</h2>
+                  <p className="terms-sec__n">صحت آدرس و پیامدهای اطلاعات نادرست</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>
                   درست‌بودن نشانی و شماره تماس، نقش کلیدی در رسیدن به‌موقع سفارش دارد و مسئولیت آن بر
                   عهده خریدار است.
                 </p>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -419,22 +416,22 @@ export default function TermsPage() {
                   </li>
                 </ul>
               </div>
-            </section>
+            </Card>
 
             {/* 8 — کد تخفیف */}
-            <section className="legal-sec" id="t-coupon">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۸</span>
+            <Card as="section" pad className="terms-sec" id="t-coupon">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۸</span>
                 <div>
-                  <h2 className="legal-sec__t">شرایط استفاده از کد تخفیف</h2>
-                  <p className="legal-sec__n">اعتبار، محدودیت‌ها و نحوه اعمال کد</p>
+                  <h2 className="terms-sec__t">شرایط استفاده از کد تخفیف</h2>
+                  <p className="terms-sec__n">اعتبار، محدودیت‌ها و نحوه اعمال کد</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>
                   کدهای تخفیف هدیه‌ای از سوی دشت‌زاد هستند و استفاده از آن‌ها تابع شرایط زیر است:
                 </p>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -473,20 +470,20 @@ export default function TermsPage() {
                   </li>
                 </ul>
               </div>
-            </section>
+            </Card>
 
             {/* 9 — مالکیت معنوی */}
-            <section className="legal-sec" id="t-ip">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۹</span>
+            <Card as="section" pad className="terms-sec" id="t-ip">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۹</span>
                 <div>
-                  <h2 className="legal-sec__t">مالکیت معنوی</h2>
-                  <p className="legal-sec__n">حقوق محتوا، تصاویر و اطلاعات سایت</p>
+                  <h2 className="terms-sec__t">مالکیت معنوی</h2>
+                  <p className="terms-sec__n">حقوق محتوا، تصاویر و اطلاعات سایت</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>محتوای این سایت برای استفاده شخصی و غیرتجاری کاربران عرضه شده است.</p>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -517,28 +514,28 @@ export default function TermsPage() {
                   </li>
                 </ul>
               </div>
-            </section>
+            </Card>
 
             {/* 10 — حریم خصوصی */}
-            <section className="legal-sec" id="t-privacy">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۱۰</span>
+            <Card as="section" pad className="terms-sec" id="t-privacy">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۱۰</span>
                 <div>
-                  <h2 className="legal-sec__t">قوانین حریم خصوصی</h2>
-                  <p className="legal-sec__n">گردآوری، استفاده و حفاظت از اطلاعات شما</p>
+                  <h2 className="terms-sec__t">قوانین حریم خصوصی</h2>
+                  <p className="terms-sec__n">گردآوری، استفاده و حفاظت از اطلاعات شما</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>
                   حفظ حریم خصوصی و امنیت اطلاعات شما یکی از اصول بنیادین دشت‌زاد است. در این بخش
                   به‌روشنی توضیح می‌دهیم که <strong>چه اطلاعاتی</strong>، <strong>چرا</strong> و{" "}
                   <strong>چگونه</strong> گردآوری می‌شود و شما چه اختیاراتی نسبت به آن دارید.
                 </p>
 
-                <h3 className="legal-subh">
+                <h3 className="terms-subh">
                   <i className="fa-solid fa-folder-open" aria-hidden /> چه اطلاعاتی جمع‌آوری می‌کنیم؟
                 </h3>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -569,11 +566,11 @@ export default function TermsPage() {
                   </li>
                 </ul>
 
-                <h3 className="legal-subh">
+                <h3 className="terms-subh">
                   <i className="fa-solid fa-download" aria-hidden /> چطور این اطلاعات را به دست
                   می‌آوریم؟
                 </h3>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -590,11 +587,11 @@ export default function TermsPage() {
                   </li>
                 </ul>
 
-                <h3 className="legal-subh">
+                <h3 className="terms-subh">
                   <i className="fa-solid fa-list-check" aria-hidden /> از اطلاعات شما چطور استفاده
                   می‌کنیم؟
                 </h3>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -614,11 +611,11 @@ export default function TermsPage() {
                   </li>
                 </ul>
 
-                <h3 className="legal-subh">
+                <h3 className="terms-subh">
                   <i className="fa-solid fa-share-nodes" aria-hidden /> اطلاعات با چه کسانی به اشتراک
                   گذاشته می‌شود؟
                 </h3>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -641,15 +638,12 @@ export default function TermsPage() {
                     </span>
                   </li>
                 </ul>
-                <div className="faq-note">
-                  <i className="fa-solid fa-ban" aria-hidden />
-                  <span>
-                    اطلاعات شخصی شما <strong>هرگز</strong> به اشخاص یا شرکت‌های ثالث برای مقاصد
-                    تبلیغاتی فروخته یا اجاره داده نمی‌شود.
-                  </span>
-                </div>
+                <Note tone="green" icon="fa-ban">
+                  اطلاعات شخصی شما <strong>هرگز</strong> به اشخاص یا شرکت‌های ثالث برای مقاصد تبلیغاتی
+                  فروخته یا اجاره داده نمی‌شود.
+                </Note>
 
-                <h3 className="legal-subh">
+                <h3 className="terms-subh">
                   <i className="fa-solid fa-cookie-bite" aria-hidden /> کوکی‌ها و فناوری‌های ردیابی
                 </h3>
                 <p>
@@ -659,10 +653,10 @@ export default function TermsPage() {
                   نکنند.
                 </p>
 
-                <h3 className="legal-subh">
+                <h3 className="terms-subh">
                   <i className="fa-solid fa-shield-halved" aria-hidden /> امنیت و مدت نگهداری اطلاعات
                 </h3>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -679,10 +673,10 @@ export default function TermsPage() {
                   </li>
                 </ul>
 
-                <h3 className="legal-subh">
+                <h3 className="terms-subh">
                   <i className="fa-solid fa-user-gear" aria-hidden /> حقوق شما نسبت به اطلاعاتتان
                 </h3>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -699,35 +693,32 @@ export default function TermsPage() {
                   </li>
                 </ul>
 
-                <div className="faq-note faq-note--gold">
-                  <i className="fa-solid fa-child-reaching" aria-hidden />
-                  <span>
-                    <strong>حریم خصوصی کودکان:</strong> خدمات دشت‌زاد برای بزرگسالان طراحی شده است و
-                    ما آگاهانه اطلاعات افراد زیر ۱۸ سال را جمع‌آوری نمی‌کنیم.
-                  </span>
-                </div>
+                <Note tone="gold" icon="fa-child-reaching">
+                  <strong>حریم خصوصی کودکان:</strong> خدمات دشت‌زاد برای بزرگسالان طراحی شده است و ما
+                  آگاهانه اطلاعات افراد زیر ۱۸ سال را جمع‌آوری نمی‌کنیم.
+                </Note>
 
-                <Link className="legal-link" href="/faq">
+                <Link className="terms-link" href="/faq">
                   <i className="fa-solid fa-lock" aria-hidden /> اطلاعات بیشتر درباره امنیت پرداخت
                 </Link>
               </div>
-            </section>
+            </Card>
 
             {/* 11 — قوانین ارسال نظر */}
-            <section className="legal-sec" id="t-comments">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۱۱</span>
+            <Card as="section" pad className="terms-sec" id="t-comments">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۱۱</span>
                 <div>
-                  <h2 className="legal-sec__t">قوانین ارسال نظر</h2>
-                  <p className="legal-sec__n">اشتراک تجربه و چارچوب نقد محصولات</p>
+                  <h2 className="terms-sec__t">قوانین ارسال نظر</h2>
+                  <p className="terms-sec__n">اشتراک تجربه و چارچوب نقد محصولات</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>
                   هدف از بخش نظرات، اشتراک‌گذاری تجربه خرید و استفاده از محصولات است. هر نظر پس از
                   بررسی کارشناسان و در صورت رعایت قوانین، منتشر می‌شود.
                 </p>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -758,23 +749,23 @@ export default function TermsPage() {
                   </li>
                 </ul>
               </div>
-            </section>
+            </Card>
 
             {/* 12 — قوه قهریه */}
-            <section className="legal-sec" id="t-force">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۱۲</span>
+            <Card as="section" pad className="terms-sec" id="t-force">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۱۲</span>
                 <div>
-                  <h2 className="legal-sec__t">قوه قهریه (فورس ماژور)</h2>
-                  <p className="legal-sec__n">حوادث غیرمترقبه و تعلیق خدمات</p>
+                  <h2 className="terms-sec__t">قوه قهریه (فورس ماژور)</h2>
+                  <p className="terms-sec__n">حوادث غیرمترقبه و تعلیق خدمات</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>
                   چنانچه بر اثر وقوع حوادث غیرمترقبه، امکان فعالیت دشت‌زاد کلاً یا بخشی از آن به‌طور
                   موقت ناممکن شود، ثبت سفارش جدید و ارسال سفارش‌های ثبت‌شده به حالت تعلیق درمی‌آید.
                 </p>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -798,23 +789,23 @@ export default function TermsPage() {
                   </li>
                 </ul>
               </div>
-            </section>
+            </Card>
 
             {/* 13 — تغییر قوانین و حل اختلاف */}
-            <section className="legal-sec" id="t-change">
-              <div className="legal-sec__head">
-                <span className="legal-sec__no">۱۳</span>
+            <Card as="section" pad className="terms-sec" id="t-change">
+              <div className="terms-sec__head">
+                <span className="terms-sec__no num">۱۳</span>
                 <div>
-                  <h2 className="legal-sec__t">تغییر قوانین و حل اختلاف</h2>
-                  <p className="legal-sec__n">به‌روزرسانی مقررات و مرجع رسیدگی</p>
+                  <h2 className="terms-sec__t">تغییر قوانین و حل اختلاف</h2>
+                  <p className="terms-sec__n">به‌روزرسانی مقررات و مرجع رسیدگی</p>
                 </div>
               </div>
-              <div className="legal-sec__body">
+              <div className="terms-sec__body">
                 <p>
                   این مقررات برای حفظ حقوق شما و شفافیتِ همکاری تنظیم شده و ممکن است در طول زمان بهبود
                   یابد.
                 </p>
-                <ul className="legal-list">
+                <ul className="terms-list">
                   <li>
                     <i className="fa-solid fa-circle-check" aria-hidden />
                     <span>
@@ -836,13 +827,13 @@ export default function TermsPage() {
                     </span>
                   </li>
                 </ul>
-                <Link className="legal-link" href="/contact">
+                <Link className="terms-link" href="/contact">
                   <i className="fa-solid fa-headset" aria-hidden /> تماس با پشتیبانی دشت‌زاد
                 </Link>
               </div>
-            </section>
+            </Card>
 
-            <div className="legal-foot">
+            <div className="terms-foot">
               <b>توضیح:</b> این سند به‌منظور شفافیت و راهنمایی شما تنظیم شده و موارد درج‌نشده یا مبهم
               در آن، تابع قوانین، آیین‌نامه‌ها و مصوبات مراجع قانونی کشور است. این صفحه متعلق به شرکت{" "}
               <b>دشت‌زاد تجارت ایرانیان</b> است و در صورت وجود هرگونه ابهام، تیم پشتیبانی آماده

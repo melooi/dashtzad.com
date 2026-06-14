@@ -1,8 +1,12 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Chip, Note, Steps } from "@/components/ui";
 
 /* FAQ content — shared, non-client module so the server page can build the
-   FAQ JSON-LD from the same data the client accordion renders. */
+   FAQ JSON-LD from the same data the client accordion renders.
+   Answers are composed entirely from design-system primitives
+   (Chip / Note / Steps); the only page-local class is the .faq-page__facts
+   flex wrapper that lays chips out in a wrapping row. */
 
 export type Tone = "green" | "clay" | "gold";
 
@@ -20,6 +24,28 @@ export interface Group {
   title: string;
   note: string;
   items: QA[];
+}
+
+/** Wrapping row of fact chips (layout-only helper). */
+function Facts({ children }: { children: ReactNode }) {
+  return <div className="faq-page__facts">{children}</div>;
+}
+
+/** Inline "learn more" link styled with the shared see-all vocabulary. */
+function MoreLink({
+  href,
+  icon,
+  children,
+}: {
+  href: string;
+  icon: string;
+  children: ReactNode;
+}) {
+  return (
+    <Link className="see-all" href={href}>
+      <i className={`fa-solid ${icon}`} aria-hidden /> {children}
+    </Link>
+  );
 }
 
 export const FAQ_GROUPS: Group[] = [
@@ -41,27 +67,24 @@ export const FAQ_GROUPS: Group[] = [
               <strong>تاریخ انقضا (یا بهترین زمان مصرف)</strong> درج شده است. ماندگاری تقریبی محصولات
               در شرایط نگهداری درست به این صورت است:
             </p>
-            <div className="faq-facts">
-              <span className="faq-fact">
-                <i className="fa-solid fa-bowl-rice" aria-hidden /> برنج: تا ۱۸ ماه
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-seedling" aria-hidden /> حبوبات: تا ۱۲ ماه
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-mortar-pestle" aria-hidden /> زعفران: تا ۲۴ ماه
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-bowl-food" aria-hidden /> خشکبار و آجیل: ۶ تا ۹ ماه
-              </span>
-            </div>
-            <div className="faq-note">
-              <i className="fa-solid fa-circle-info" aria-hidden />
-              <span>
-                این بازه‌ها برای بسته‌بندیِ پلمب‌شده و نگهداری در جای خشک و خنک است. برنج کهنه با گذر
-                زمان عطر و خاصیت دانه‌دانه‌شدنش بهتر هم می‌شود.
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="green" icon="fa-bowl-rice">
+                برنج: تا ۱۸ ماه
+              </Chip>
+              <Chip tone="green" icon="fa-seedling">
+                حبوبات: تا ۱۲ ماه
+              </Chip>
+              <Chip tone="green" icon="fa-mortar-pestle">
+                زعفران: تا ۲۴ ماه
+              </Chip>
+              <Chip tone="green" icon="fa-bowl-food">
+                خشکبار و آجیل: ۶ تا ۹ ماه
+              </Chip>
+            </Facts>
+            <Note tone="green" icon="fa-circle-info">
+              این بازه‌ها برای بسته‌بندیِ پلمب‌شده و نگهداری در جای خشک و خنک است. برنج کهنه با گذر
+              زمان عطر و خاصیت دانه‌دانه‌شدنش بهتر هم می‌شود.
+            </Note>
           </>
         ),
       },
@@ -75,25 +98,21 @@ export const FAQ_GROUPS: Group[] = [
               کلید ماندگاری، نگهداری در جای <strong>خشک، خنک و دور از نور و رطوبت</strong> است. پس از
               باز کردن بسته، محتویات را در ظرف دربسته بریزید:
             </p>
-            <div className="faq-facts">
-              <span className="faq-fact">
-                <i className="fa-solid fa-box" aria-hidden /> برنج و حبوبات: ظرف دربسته، دور از رطوبت
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-snowflake" aria-hidden /> برای جلوگیری از شپشه: نگهداری در
-                فریزر
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-jar" aria-hidden /> زعفران: شیشه دربسته، دور از نور
-              </span>
-            </div>
-            <div className="faq-note">
-              <i className="fa-solid fa-lightbulb" aria-hidden />
-              <span>
-                گذاشتن چند حبه نمک خشک یا چند برگ بو لای برنج، یک ترفند خانگیِ قدیمی برای دور
-                نگه‌داشتن آفت است. خشکبار و آجیل را برای ماندگاری بیشتر در یخچال نگه دارید.
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="green" icon="fa-box">
+                برنج و حبوبات: ظرف دربسته، دور از رطوبت
+              </Chip>
+              <Chip tone="green" icon="fa-snowflake">
+                برای جلوگیری از شپشه: نگهداری در فریزر
+              </Chip>
+              <Chip tone="green" icon="fa-jar">
+                زعفران: شیشه دربسته، دور از نور
+              </Chip>
+            </Facts>
+            <Note tone="green" icon="fa-lightbulb">
+              گذاشتن چند حبه نمک خشک یا چند برگ بو لای برنج، یک ترفند خانگیِ قدیمی برای دور
+              نگه‌داشتن آفت است. خشکبار و آجیل را برای ماندگاری بیشتر در یخچال نگه دارید.
+            </Note>
           </>
         ),
       },
@@ -109,24 +128,21 @@ export const FAQ_GROUPS: Group[] = [
               سنجیده می‌شود — استانداردی که میزان رنگ‌دهی (کروسین)، تلخی (پیکروکروسین) و عطر
               (سافرانال) را اندازه می‌گیرد.
             </p>
-            <div className="faq-facts">
-              <span className="faq-fact">
-                <i className="fa-solid fa-flask-vial" aria-hidden /> آزمون آزمایشگاهی طبق ISO 3632
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-ban" aria-hidden /> بدون رنگ و افزودنی
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-certificate" aria-hidden /> دارای استاندارد ملی
-              </span>
-            </div>
-            <div className="faq-note">
-              <i className="fa-solid fa-circle-check" aria-hidden />
-              <span>
-                یک آزمایش ساده خانگی: زعفران اصل در آب سرد به‌آرامی و یکدست رنگ می‌دهد، نه فوری و
-                پررنگ؛ و رشته‌ها رنگ خود را پس از خیساندن از دست نمی‌دهند.
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="green" icon="fa-flask-vial">
+                آزمون آزمایشگاهی طبق ISO 3632
+              </Chip>
+              <Chip tone="green" icon="fa-ban">
+                بدون رنگ و افزودنی
+              </Chip>
+              <Chip tone="green" icon="fa-certificate">
+                دارای استاندارد ملی
+              </Chip>
+            </Facts>
+            <Note tone="green" icon="fa-circle-check">
+              یک آزمایش ساده خانگی: زعفران اصل در آب سرد به‌آرامی و یکدست رنگ می‌دهد، نه فوری و
+              پررنگ؛ و رشته‌ها رنگ خود را پس از خیساندن از دست نمی‌دهند.
+            </Note>
           </>
         ),
       },
@@ -141,14 +157,11 @@ export const FAQ_GROUPS: Group[] = [
               ترازوهای کالیبره‌شده و مطابق الزامات <strong>سازمان ملی استاندارد ایران</strong> توزین
               می‌شود.
             </p>
-            <div className="faq-note">
-              <i className="fa-solid fa-scale-balanced" aria-hidden />
-              <span>
-                برای محصولات طبیعی و فله ممکن است اختلاف بسیار ناچیز و مجاز وجود داشته باشد؛ اگر وزن
-                دریافتی به‌طور محسوس کمتر بود، طبق{" "}
-                <a href="#g-return">ضمانت بازگشت کالا</a> رسیدگی می‌شود.
-              </span>
-            </div>
+            <Note tone="green" icon="fa-scale-balanced">
+              برای محصولات طبیعی و فله ممکن است اختلاف بسیار ناچیز و مجاز وجود داشته باشد؛ اگر وزن
+              دریافتی به‌طور محسوس کمتر بود، طبق <a href="#g-return">ضمانت بازگشت کالا</a> رسیدگی
+              می‌شود.
+            </Note>
           </>
         ),
       },
@@ -158,29 +171,22 @@ export const FAQ_GROUPS: Group[] = [
           "همه محصولات خوراکی دشت‌زاد دارای مجوزهای بهداشتی لازم هستند: پروانه بهداشت از سازمان غذا و دارو، نشان استاندارد ملی برای اقلام مشمول، بسته‌بندی بهداشتی و پلمب‌دار.",
         a: (
           <>
-            <p>
-              همه محصولات خوراکی دشت‌زاد دارای مجوزهای بهداشتی لازم برای عرضه و فروش هستند:
-            </p>
-            <div className="faq-facts">
-              <span className="faq-fact">
-                <i className="fa-solid fa-shield-halved" aria-hidden /> پروانه بهداشت از سازمان غذا و
-                دارو
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-certificate" aria-hidden /> نشان استاندارد ملی برای اقلام
-                مشمول
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-box-tissue" aria-hidden /> بسته‌بندی بهداشتی و پلمب‌دار
-              </span>
-            </div>
-            <div className="faq-note">
-              <i className="fa-solid fa-circle-info" aria-hidden />
-              <span>
-                مشخصات و مجوز هر محصول در صفحه همان کالا در{" "}
-                <Link href="/products">فروشگاه</Link> قابل مشاهده است.
-              </span>
-            </div>
+            <p>همه محصولات خوراکی دشت‌زاد دارای مجوزهای بهداشتی لازم برای عرضه و فروش هستند:</p>
+            <Facts>
+              <Chip tone="green" icon="fa-shield-halved">
+                پروانه بهداشت از سازمان غذا و دارو
+              </Chip>
+              <Chip tone="green" icon="fa-certificate">
+                نشان استاندارد ملی برای اقلام مشمول
+              </Chip>
+              <Chip tone="green" icon="fa-box-tissue">
+                بسته‌بندی بهداشتی و پلمب‌دار
+              </Chip>
+            </Facts>
+            <Note tone="green" icon="fa-circle-info">
+              مشخصات و مجوز هر محصول در صفحه همان کالا در <Link href="/products">فروشگاه</Link> قابل
+              مشاهده است.
+            </Note>
           </>
         ),
       },
@@ -203,24 +209,21 @@ export const FAQ_GROUPS: Group[] = [
               سفارش‌هایی که تا <strong>ساعت ۱۲ ظهر</strong> ثبت شوند، همان روز کاری بسته‌بندی و تحویل
               پست/پیک می‌شوند. زمان رسیدن به دست شما بسته به مقصد است:
             </p>
-            <div className="faq-facts">
-              <span className="faq-fact">
-                <i className="fa-solid fa-location-dot" aria-hidden /> تهران: ۱ تا ۲ روز کاری
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-map" aria-hidden /> مراکز استان‌ها: ۲ تا ۳ روز کاری
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-mountain-sun" aria-hidden /> سایر شهرها: ۳ تا ۴ روز کاری
-              </span>
-            </div>
-            <div className="faq-note">
-              <i className="fa-solid fa-circle-info" aria-hidden />
-              <span>
-                روزهای تعطیل رسمی جزو روزهای کاری حساب نمی‌شوند. در ایام پرسفارش (مثل شب عید) ممکن است
-                یک روز به این بازه اضافه شود؛ در آن صورت پیش از خرید اطلاع‌رسانی می‌کنیم.
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="green" icon="fa-location-dot">
+                تهران: ۱ تا ۲ روز کاری
+              </Chip>
+              <Chip tone="green" icon="fa-map">
+                مراکز استان‌ها: ۲ تا ۳ روز کاری
+              </Chip>
+              <Chip tone="green" icon="fa-mountain-sun">
+                سایر شهرها: ۳ تا ۴ روز کاری
+              </Chip>
+            </Facts>
+            <Note tone="green" icon="fa-circle-info">
+              روزهای تعطیل رسمی جزو روزهای کاری حساب نمی‌شوند. در ایام پرسفارش (مثل شب عید) ممکن است
+              یک روز به این بازه اضافه شود؛ در آن صورت پیش از خرید اطلاع‌رسانی می‌کنیم.
+            </Note>
           </>
         ),
       },
@@ -235,14 +238,14 @@ export const FAQ_GROUPS: Group[] = [
               نهایی‌شدن خرید، در صفحه پرداخت به‌صورت دقیق به شما نمایش داده می‌شود؛ هیچ هزینه پنهانی
               وجود ندارد.
             </p>
-            <div className="faq-facts">
-              <span className="faq-fact faq-fact--gold">
-                <i className="fa-solid fa-gift" aria-hidden /> خرید بالای ۷۰۰٬۰۰۰ تومان: ارسال رایگان
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-box" aria-hidden /> سفارش‌های سنگین: بر اساس تعرفه باربری
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="gold" icon="fa-gift">
+                خرید بالای ۷۰۰٬۰۰۰ تومان: ارسال رایگان
+              </Chip>
+              <Chip tone="green" icon="fa-box">
+                سفارش‌های سنگین: بر اساس تعرفه باربری
+              </Chip>
+            </Facts>
             <p>
               برای شهرهای دارای پیک، امکان <strong>ارسال سریع همان‌روز</strong> هم با هزینه جداگانه در
               دسترس است.
@@ -260,27 +263,27 @@ export const FAQ_GROUPS: Group[] = [
               به‌محض ارسال سفارش، یک <strong>کد رهگیری</strong> از طریق پیامک برایتان فرستاده می‌شود.
               وضعیت سفارش را به دو روش می‌توانید ببینید:
             </p>
-            <ul className="faq-steps">
-              <li>
-                <b>۱</b>
-                <span>
-                  از صفحه <Link href="/track-order">پیگیری سفارش</Link> با شماره سفارش یا موبایل،
-                  مرحله‌به‌مرحله وضعیت را ببینید.
-                </span>
-              </li>
-              <li>
-                <b>۲</b>
-                <span>
-                  کد رهگیری را در سامانه شرکت پست/پیک وارد کنید تا موقعیت دقیق مرسوله را دنبال کنید.
-                </span>
-              </li>
-            </ul>
-            <div className="faq-note">
-              <i className="fa-solid fa-bell" aria-hidden />
-              <span>
-                در هر مرحله — تأیید، بسته‌بندی، ارسال و تحویل — یک پیامک به‌روزرسانی دریافت می‌کنید.
-              </span>
-            </div>
+            <Steps
+              items={[
+                {
+                  num: "۱",
+                  title: (
+                    <>
+                      از صفحه <Link href="/track-order">پیگیری سفارش</Link> با شماره سفارش یا موبایل،
+                      مرحله‌به‌مرحله وضعیت را ببینید.
+                    </>
+                  ),
+                },
+                {
+                  num: "۲",
+                  title:
+                    "کد رهگیری را در سامانه شرکت پست/پیک وارد کنید تا موقعیت دقیق مرسوله را دنبال کنید.",
+                },
+              ]}
+            />
+            <Note tone="green" icon="fa-bell">
+              در هر مرحله — تأیید، بسته‌بندی، ارسال و تحویل — یک پیامک به‌روزرسانی دریافت می‌کنید.
+            </Note>
           </>
         ),
       },
@@ -295,21 +298,18 @@ export const FAQ_GROUPS: Group[] = [
               با <strong>بسته‌بندی بهداشتی، پلمب‌شده و مقاوم</strong> ارسال می‌شوند تا سالم و تازه به
               دستتان برسند.
             </p>
-            <div className="faq-facts">
-              <span className="faq-fact">
-                <i className="fa-solid fa-truck" aria-hidden /> ارسال به همه شهرها و روستاها
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-box-tissue" aria-hidden /> لفاف محافظ برای اقلام شکننده
-              </span>
-            </div>
-            <div className="faq-note">
-              <i className="fa-solid fa-circle-info" aria-hidden />
-              <span>
-                برای مناطق دورافتاده ممکن است یک تا دو روز به زمان ارسال اضافه شود. ارسال به خارج از
-                کشور فعلاً تنها برای سفارش‌های خاص و با هماهنگی پشتیبانی انجام می‌شود.
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="green" icon="fa-truck">
+                ارسال به همه شهرها و روستاها
+              </Chip>
+              <Chip tone="green" icon="fa-box-tissue">
+                لفاف محافظ برای اقلام شکننده
+              </Chip>
+            </Facts>
+            <Note tone="green" icon="fa-circle-info">
+              برای مناطق دورافتاده ممکن است یک تا دو روز به زمان ارسال اضافه شود. ارسال به خارج از
+              کشور فعلاً تنها برای سفارش‌های خاص و با هماهنگی پشتیبانی انجام می‌شود.
+            </Note>
           </>
         ),
       },
@@ -333,13 +333,10 @@ export const FAQ_GROUPS: Group[] = [
               آن‌که <strong>بسته‌بندی باز نشده</strong> و کالا دست‌نخورده باشد. کافی است از بخش حساب
               کاربری گزینه «درخواست مرجوعی» را بزنید.
             </p>
-            <div className="faq-note faq-note--clay">
-              <i className="fa-solid fa-triangle-exclamation" aria-hidden />
-              <span>
-                اقلام خوراکیِ <strong>باز یا مصرف‌شده</strong> به دلیل بهداشتی قابل مرجوع نیستند، مگر
-                ایراد کیفی داشته باشند.
-              </span>
-            </div>
+            <Note tone="clay" icon="fa-triangle-exclamation">
+              اقلام خوراکیِ <strong>باز یا مصرف‌شده</strong> به دلیل بهداشتی قابل مرجوع نیستند، مگر
+              ایراد کیفی داشته باشند.
+            </Note>
           </>
         ),
       },
@@ -353,22 +350,23 @@ export const FAQ_GROUPS: Group[] = [
               پیش از هر چیز عذرخواهی می‌کنیم — و خیالتان راحت باشد که{" "}
               <strong>هزینه‌ای بابت آن نمی‌پردازید</strong>. روند رسیدگی ساده است:
             </p>
-            <ul className="faq-steps">
-              <li>
-                <b>۱</b>
-                <span>مشکل را از بخش سفارش‌های من یا از طریق پشتیبانی ثبت کنید.</span>
-              </li>
-              <li>
-                <b>۲</b>
-                <span>
-                  کارشناسان ما طی <strong>۲۴ ساعت</strong> بررسی و با شما تماس می‌گیرند.
-                </span>
-              </li>
-              <li>
-                <b>۳</b>
-                <span>به‌انتخاب شما، جبران انجام می‌شود (جزئیات در پرسش‌های پایین‌تر).</span>
-              </li>
-            </ul>
+            <Steps
+              items={[
+                { num: "۱", title: "مشکل را از بخش سفارش‌های من یا از طریق پشتیبانی ثبت کنید." },
+                {
+                  num: "۲",
+                  title: (
+                    <>
+                      کارشناسان ما طی <strong>۲۴ ساعت</strong> بررسی و با شما تماس می‌گیرند.
+                    </>
+                  ),
+                },
+                {
+                  num: "۳",
+                  title: "به‌انتخاب شما، جبران انجام می‌شود (جزئیات در پرسش‌های پایین‌تر).",
+                },
+              ]}
+            />
           </>
         ),
       },
@@ -379,23 +377,18 @@ export const FAQ_GROUPS: Group[] = [
         a: (
           <>
             <p>هرچه زودتر اطلاع دهید، رسیدگی سریع‌تر است. بازه زمانی ثبت مشکل به این صورت است:</p>
-            <div className="faq-facts">
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-box-open" aria-hidden /> کالای معیوب یا مغایر: تا ۴۸ ساعت
-                پس از تحویل
-              </span>
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-magnifying-glass" aria-hidden /> ایراد کیفیِ پنهان: تا ۷
-                روز پس از تحویل
-              </span>
-            </div>
-            <div className="faq-note faq-note--clay">
-              <i className="fa-solid fa-clock" aria-hidden />
-              <span>
-                برای ثبت سریع‌تر، بهتر است بسته آسیب‌دیده را پیش از باز کردنِ کامل، همان لحظه تحویل
-                بررسی کنید.
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="clay" icon="fa-box-open">
+                کالای معیوب یا مغایر: تا ۴۸ ساعت پس از تحویل
+              </Chip>
+              <Chip tone="clay" icon="fa-magnifying-glass">
+                ایراد کیفیِ پنهان: تا ۷ روز پس از تحویل
+              </Chip>
+            </Facts>
+            <Note tone="clay" icon="fa-clock">
+              برای ثبت سریع‌تر، بهتر است بسته آسیب‌دیده را پیش از باز کردنِ کامل، همان لحظه تحویل
+              بررسی کنید.
+            </Note>
           </>
         ),
       },
@@ -409,24 +402,21 @@ export const FAQ_GROUPS: Group[] = [
               بله، ثبت <strong>عکس یا ویدیو</strong> کمک می‌کند مشکل سریع‌تر و دقیق‌تر بررسی شود و
               معمولاً نیاز به ارسال کالا برای کارشناسی را حذف می‌کند.
             </p>
-            <div className="faq-facts">
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-camera" aria-hidden /> یک عکس واضح از کالا
-              </span>
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-box" aria-hidden /> عکس بسته‌بندی و برچسب
-              </span>
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-video" aria-hidden /> ویدیوی باز کردن بسته (در صورت امکان)
-              </span>
-            </div>
-            <div className="faq-note faq-note--clay">
-              <i className="fa-solid fa-circle-info" aria-hidden />
-              <span>
-                اگر امکان تهیه عکس نبود، باز هم می‌توانید درخواست را ثبت کنید؛ تنها ممکن است بررسی
-                کمی بیشتر طول بکشد.
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="clay" icon="fa-camera">
+                یک عکس واضح از کالا
+              </Chip>
+              <Chip tone="clay" icon="fa-box">
+                عکس بسته‌بندی و برچسب
+              </Chip>
+              <Chip tone="clay" icon="fa-video">
+                ویدیوی باز کردن بسته (در صورت امکان)
+              </Chip>
+            </Facts>
+            <Note tone="clay" icon="fa-circle-info">
+              اگر امکان تهیه عکس نبود، باز هم می‌توانید درخواست را ثبت کنید؛ تنها ممکن است بررسی
+              کمی بیشتر طول بکشد.
+            </Note>
           </>
         ),
       },
@@ -439,29 +429,32 @@ export const FAQ_GROUPS: Group[] = [
             <p>
               پس از تأیید مشکل، <strong>انتخاب با شماست</strong>:
             </p>
-            <ul className="faq-steps">
-              <li>
-                <b>۱</b>
-                <span>
-                  <strong>ارسال جایگزین رایگان:</strong> کالای سالم در اولین فرصت و بدون هزینه ارسال
-                  برای شما فرستاده می‌شود.
-                </span>
-              </li>
-              <li>
-                <b>۲</b>
-                <span>
-                  <strong>بازگشت کامل وجه:</strong> مبلغ طی <strong>۳ تا ۵ روز کاری</strong> به حساب
-                  یا کیف پول شما در سایت بازمی‌گردد.
-                </span>
-              </li>
-            </ul>
-            <div className="faq-note faq-note--clay">
-              <i className="fa-solid fa-handshake-angle" aria-hidden />
-              <span>
-                اگر فقط بخشی از سفارش مشکل داشته باشد، جبران تنها برای همان قلم انجام می‌شود و بقیه
-                سفارش دست‌نخورده می‌ماند.
-              </span>
-            </div>
+            <Steps
+              items={[
+                {
+                  num: "۱",
+                  title: (
+                    <>
+                      <strong>ارسال جایگزین رایگان:</strong> کالای سالم در اولین فرصت و بدون هزینه
+                      ارسال برای شما فرستاده می‌شود.
+                    </>
+                  ),
+                },
+                {
+                  num: "۲",
+                  title: (
+                    <>
+                      <strong>بازگشت کامل وجه:</strong> مبلغ طی <strong>۳ تا ۵ روز کاری</strong> به
+                      حساب یا کیف پول شما در سایت بازمی‌گردد.
+                    </>
+                  ),
+                },
+              ]}
+            />
+            <Note tone="clay" icon="fa-handshake-angle">
+              اگر فقط بخشی از سفارش مشکل داشته باشد، جبران تنها برای همان قلم انجام می‌شود و بقیه
+              سفارش دست‌نخورده می‌ماند.
+            </Note>
           </>
         ),
       },
@@ -475,24 +468,21 @@ export const FAQ_GROUPS: Group[] = [
               برنج‌های دشت‌زاد مستقیم از <strong>شالیزارهای شمال و باغ‌های خانوادگی</strong> تأمین
               می‌شوند؛ بدون واسطه، بدون اسانس و رنگ افزودنی. هر بسته با همین وسواس کنترل می‌شود:
             </p>
-            <div className="faq-facts">
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-seedling" aria-hidden /> صددرصد طبیعی، بدون افزودنی
-              </span>
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-calendar-check" aria-hidden /> درج سال برداشت روی بسته
-              </span>
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-wind" aria-hidden /> بوجاری و سورت دانه‌به‌دانه
-              </span>
-            </div>
-            <div className="faq-note faq-note--clay">
-              <i className="fa-solid fa-award" aria-hidden />
-              <span>
-                <strong>ضمانت عطر و دانه‌دانه‌شدن:</strong> اگر برنج دریافتی مطابق توضیحات نبود، بدون
-                چون‌وچرا تعویض می‌شود یا وجهش بازمی‌گردد.
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="clay" icon="fa-seedling">
+                صددرصد طبیعی، بدون افزودنی
+              </Chip>
+              <Chip tone="clay" icon="fa-calendar-check">
+                درج سال برداشت روی بسته
+              </Chip>
+              <Chip tone="clay" icon="fa-wind">
+                بوجاری و سورت دانه‌به‌دانه
+              </Chip>
+            </Facts>
+            <Note tone="clay" icon="fa-award">
+              <strong>ضمانت عطر و دانه‌دانه‌شدن:</strong> اگر برنج دریافتی مطابق توضیحات نبود، بدون
+              چون‌وچرا تعویض می‌شود یا وجهش بازمی‌گردد.
+            </Note>
           </>
         ),
       },
@@ -515,26 +505,22 @@ export const FAQ_GROUPS: Group[] = [
               پرداخت‌ها از طریق <strong>درگاه بانکی معتبر و مورد تأیید شاپرک</strong> انجام می‌شود و
               تمام ارتباط شما با سایت با پروتکل امن <strong>SSL</strong> رمزنگاری شده است.
             </p>
-            <div className="faq-facts">
-              <span className="faq-fact faq-fact--gold">
-                <i className="fa-solid fa-lock" aria-hidden /> رمزنگاری SSL سرتاسری
-              </span>
-              <span className="faq-fact faq-fact--gold">
-                <i className="fa-solid fa-credit-card" aria-hidden /> اطلاعات کارت نزد ما ذخیره
-                نمی‌شود
-              </span>
-              <span className="faq-fact faq-fact--gold">
-                <i className="fa-solid fa-building-columns" aria-hidden /> درگاه رسمی بانکی
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="gold" icon="fa-lock">
+                رمزنگاری SSL سرتاسری
+              </Chip>
+              <Chip tone="gold" icon="fa-credit-card">
+                اطلاعات کارت نزد ما ذخیره نمی‌شود
+              </Chip>
+              <Chip tone="gold" icon="fa-building-columns">
+                درگاه رسمی بانکی
+              </Chip>
+            </Facts>
             <p>اطلاعات کارت شما فقط در صفحه بانک وارد می‌شود و دشت‌زاد به آن دسترسی ندارد.</p>
-            <div className="faq-note faq-note--gold">
-              <i className="fa-solid fa-shield-heart" aria-hidden />
-              <span>
-                اگر مبلغی از حساب شما کسر شد اما سفارش ثبت نشد، طبق قوانین بانکی حداکثر تا{" "}
-                <strong>۷۲ ساعت</strong> به‌صورت خودکار بازمی‌گردد.
-              </span>
-            </div>
+            <Note tone="gold" icon="fa-shield-heart">
+              اگر مبلغی از حساب شما کسر شد اما سفارش ثبت نشد، طبق قوانین بانکی حداکثر تا{" "}
+              <strong>۷۲ ساعت</strong> به‌صورت خودکار بازمی‌گردد.
+            </Note>
           </>
         ),
       },
@@ -545,25 +531,21 @@ export const FAQ_GROUPS: Group[] = [
         a: (
           <>
             <p>برای راحتی شما چند روش پرداخت در دسترس است:</p>
-            <div className="faq-facts">
-              <span className="faq-fact faq-fact--gold">
-                <i className="fa-solid fa-credit-card" aria-hidden /> پرداخت آنلاین با همه کارت‌های
-                شتاب
-              </span>
-              <span className="faq-fact faq-fact--gold">
-                <i className="fa-solid fa-wallet" aria-hidden /> کیف پول دشت‌زاد
-              </span>
-              <span className="faq-fact faq-fact--gold">
-                <i className="fa-solid fa-money-bill-wave" aria-hidden /> پرداخت در محل (شهرهای منتخب)
-              </span>
-            </div>
-            <div className="faq-note faq-note--gold">
-              <i className="fa-solid fa-circle-info" aria-hidden />
-              <span>
-                پرداخت در محل برای همه مناطق فعال نیست؛ در صورت پشتیبانی، این گزینه هنگام نهایی‌کردن
-                سفارش نمایش داده می‌شود.
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="gold" icon="fa-credit-card">
+                پرداخت آنلاین با همه کارت‌های شتاب
+              </Chip>
+              <Chip tone="gold" icon="fa-wallet">
+                کیف پول دشت‌زاد
+              </Chip>
+              <Chip tone="gold" icon="fa-money-bill-wave">
+                پرداخت در محل (شهرهای منتخب)
+              </Chip>
+            </Facts>
+            <Note tone="gold" icon="fa-circle-info">
+              پرداخت در محل برای همه مناطق فعال نیست؛ در صورت پشتیبانی، این گزینه هنگام نهایی‌کردن
+              سفارش نمایش داده می‌شود.
+            </Note>
           </>
         ),
       },
@@ -581,25 +563,16 @@ export const FAQ_GROUPS: Group[] = [
         plain:
           "ساخت حساب در چند ثانیه انجام می‌شود: روی گزینه ورود / ثبت‌نام کلیک و شماره موبایل را وارد کنید، کد فعال‌سازی پیامک‌شده را وارد کنید، سپس نام و مشخصات خود را کامل کنید.",
         a: (
-          <>
-            <p>ساخت حساب در چند ثانیه انجام می‌شود:</p>
-            <ul className="faq-steps">
-              <li>
-                <b>۱</b>
-                <span>
-                  روی گزینه «ورود / ثبت‌نام» کلیک کنید و شماره موبایل خود را وارد کنید.
-                </span>
-              </li>
-              <li>
-                <b>۲</b>
-                <span>کد فعال‌سازی پیامک‌شده را وارد کنید تا حساب ساخته شود.</span>
-              </li>
-              <li>
-                <b>۳</b>
-                <span>از بخش «تکمیل اطلاعات»، نام و مشخصات خود را کامل کنید.</span>
-              </li>
-            </ul>
-          </>
+          <Steps
+            items={[
+              {
+                num: "۱",
+                title: "روی گزینه «ورود / ثبت‌نام» کلیک کنید و شماره موبایل خود را وارد کنید.",
+              },
+              { num: "۲", title: "کد فعال‌سازی پیامک‌شده را وارد کنید تا حساب ساخته شود." },
+              { num: "۳", title: "از بخش «تکمیل اطلاعات»، نام و مشخصات خود را کامل کنید." },
+            ]}
+          />
         ),
       },
       {
@@ -621,24 +594,20 @@ export const FAQ_GROUPS: Group[] = [
         a: (
           <>
             <p>رمز قوی و غیرقابل‌حدس، بهترین سپر در برابر نفوذ به حساب شماست:</p>
-            <div className="faq-facts">
-              <span className="faq-fact">
-                <i className="fa-solid fa-key" aria-hidden /> دست‌کم ۸ کاراکتر
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-font" aria-hidden /> ترکیب حروف بزرگ، کوچک، عدد و نماد
-              </span>
-              <span className="faq-fact">
-                <i className="fa-solid fa-user-secret" aria-hidden /> پرهیز از اطلاعات قابل‌حدس (تاریخ
-                تولد، شماره موبایل)
-              </span>
-            </div>
-            <div className="faq-note">
-              <i className="fa-solid fa-shield-halved" aria-hidden />
-              <span>
-                از یک رمز تکراری در چند سایت استفاده نکنید؛ برای هر حساب یک رمز یکتا بسازید.
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="green" icon="fa-key">
+                دست‌کم ۸ کاراکتر
+              </Chip>
+              <Chip tone="green" icon="fa-font">
+                ترکیب حروف بزرگ، کوچک، عدد و نماد
+              </Chip>
+              <Chip tone="green" icon="fa-user-secret">
+                پرهیز از اطلاعات قابل‌حدس (تاریخ تولد، شماره موبایل)
+              </Chip>
+            </Facts>
+            <Note tone="green" icon="fa-shield-halved">
+              از یک رمز تکراری در چند سایت استفاده نکنید؛ برای هر حساب یک رمز یکتا بسازید.
+            </Note>
           </>
         ),
       },
@@ -676,10 +645,9 @@ export const FAQ_GROUPS: Group[] = [
               کنید. این شماره برای <strong>بازگشت وجه</strong> سفارش‌های مرجوعی یا لغو‌شده استفاده
               می‌شود.
             </p>
-            <div className="faq-note">
-              <i className="fa-solid fa-circle-info" aria-hidden />
-              <span>شماره کارت باید به نام صاحب حساب کاربری باشد.</span>
-            </div>
+            <Note tone="green" icon="fa-circle-info">
+              شماره کارت باید به نام صاحب حساب کاربری باشد.
+            </Note>
           </>
         ),
       },
@@ -694,9 +662,9 @@ export const FAQ_GROUPS: Group[] = [
               <strong>«ایجاد اطلاعات حقوقی»</strong> را انتخاب و اطلاعات شرکت (نام، شناسه ملی و کد
               اقتصادی) را ثبت کنید تا فاکتور رسمی صادر شود.
             </p>
-            <a className="legal-link" href="#g-corporate">
-              <i className="fa-solid fa-gift" aria-hidden /> بیشتر درباره خرید سازمانی
-            </a>
+            <MoreLink href="#g-corporate" icon="fa-gift">
+              بیشتر درباره خرید سازمانی
+            </MoreLink>
           </>
         ),
       },
@@ -727,21 +695,18 @@ export const FAQ_GROUPS: Group[] = [
         a: (
           <>
             <p>دو راه ساده برای جمع‌کردن امتیاز دارید:</p>
-            <div className="faq-facts">
-              <span className="faq-fact faq-fact--gold">
-                <i className="fa-solid fa-cart-shopping" aria-hidden /> خرید کالا
-              </span>
-              <span className="faq-fact faq-fact--gold">
-                <i className="fa-solid fa-star" aria-hidden /> ثبت دیدگاه تأیید‌شده
-              </span>
-            </div>
-            <div className="faq-note faq-note--gold">
-              <i className="fa-solid fa-calculator" aria-hidden />
-              <span>
-                امتیاز خرید بر اساس مبلغ سفارش محاسبه می‌شود — به ازای هر{" "}
-                <strong>۱۰٬۰۰۰ تومان</strong> خرید، ۱ امتیاز — و به نوع کالا بستگی ندارد.
-              </span>
-            </div>
+            <Facts>
+              <Chip tone="gold" icon="fa-cart-shopping">
+                خرید کالا
+              </Chip>
+              <Chip tone="gold" icon="fa-star">
+                ثبت دیدگاه تأیید‌شده
+              </Chip>
+            </Facts>
+            <Note tone="gold" icon="fa-calculator">
+              امتیاز خرید بر اساس مبلغ سفارش محاسبه می‌شود — به ازای هر <strong>۱۰٬۰۰۰ تومان</strong>{" "}
+              خرید، ۱ امتیاز — و به نوع کالا بستگی ندارد.
+            </Note>
           </>
         ),
       },
@@ -755,13 +720,10 @@ export const FAQ_GROUPS: Group[] = [
               به بخش «سفارش‌های من» بروید، روی <strong>«جزئیات»</strong> سفارش و سپس{" "}
               <strong>«ثبت نظر»</strong> بزنید تا دیدگاه، عکس و فیلم خود را از کالا ثبت کنید.
             </p>
-            <div className="faq-note faq-note--gold">
-              <i className="fa-solid fa-circle-check" aria-hidden />
-              <span>
-                پس از تأیید دیدگاه توسط کارشناسان، امتیاز آن برای شما ثبت می‌شود؛ تا پیش از تأیید، در
-                بخش تاریخچه با وضعیت «در صف بررسی» دیده می‌شود.
-              </span>
-            </div>
+            <Note tone="gold" icon="fa-circle-check">
+              پس از تأیید دیدگاه توسط کارشناسان، امتیاز آن برای شما ثبت می‌شود؛ تا پیش از تأیید، در
+              بخش تاریخچه با وضعیت «در صف بررسی» دیده می‌شود.
+            </Note>
           </>
         ),
       },
@@ -795,16 +757,14 @@ export const FAQ_GROUPS: Group[] = [
         a: (
           <>
             <p>
-              همه کدهای تخفیفی که با خرج‌کردن امتیاز دریافت کرده‌اید، در صفحه <strong>«تاریخچه»</strong>{" "}
-              باشگاه با جزئیات و <strong>تاریخ انقضا</strong> قابل مشاهده‌اند.
+              همه کدهای تخفیفی که با خرج‌کردن امتیاز دریافت کرده‌اید، در صفحه{" "}
+              <strong>«تاریخچه»</strong> باشگاه با جزئیات و <strong>تاریخ انقضا</strong> قابل
+              مشاهده‌اند.
             </p>
-            <div className="faq-note faq-note--gold">
-              <i className="fa-solid fa-triangle-exclamation" aria-hidden />
-              <span>
-                پس از پایان اعتبار، کدهای تخفیف قابل تمدید یا تعویض نیستند. کد دریافتی به جهت امنیت،
-                تنها در حساب کاربری خودتان قابل استفاده است.
-              </span>
-            </div>
+            <Note tone="gold" icon="fa-triangle-exclamation">
+              پس از پایان اعتبار، کدهای تخفیف قابل تمدید یا تعویض نیستند. کد دریافتی به جهت امنیت،
+              تنها در حساب کاربری خودتان قابل استفاده است.
+            </Note>
           </>
         ),
       },
@@ -851,21 +811,20 @@ export const FAQ_GROUPS: Group[] = [
               مالیات بر ارزش افزوده صادر می‌شود. کافی است پیش از ثبت سفارش، اطلاعات زیر را به کارشناس
               فروش سازمانی بدهید:
             </p>
-            <div className="faq-facts">
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-building" aria-hidden /> نام شرکت و شناسه ملی
-              </span>
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-hashtag" aria-hidden /> کد اقتصادی و نشانی
-              </span>
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-percent" aria-hidden /> شامل ارزش افزوده
-              </span>
-            </div>
-            <div className="faq-note faq-note--clay">
-              <i className="fa-solid fa-file-invoice" aria-hidden />
-              <span>نسخه رسمی فاکتور پس از تأیید سفارش برای شما ارسال می‌شود.</span>
-            </div>
+            <Facts>
+              <Chip tone="clay" icon="fa-building">
+                نام شرکت و شناسه ملی
+              </Chip>
+              <Chip tone="clay" icon="fa-hashtag">
+                کد اقتصادی و نشانی
+              </Chip>
+              <Chip tone="clay" icon="fa-percent">
+                شامل ارزش افزوده
+              </Chip>
+            </Facts>
+            <Note tone="clay" icon="fa-file-invoice">
+              نسخه رسمی فاکتور پس از تأیید سفارش برای شما ارسال می‌شود.
+            </Note>
           </>
         ),
       },
@@ -880,13 +839,10 @@ export const FAQ_GROUPS: Group[] = [
               سازمان، یا <strong>توزیع جداگانه</strong> به گیرندگان. زمان‌بندی تحویل با هماهنگی قبلی و
               توسط کارشناس اختصاصی تنظیم می‌شود.
             </p>
-            <div className="faq-note faq-note--clay">
-              <i className="fa-solid fa-calendar-check" aria-hidden />
-              <span>
-                برای مناسبت‌های خاص (مانند عید یا روزهای سازمانی) بهتر است سفارش را چند روز زودتر ثبت
-                کنید.
-              </span>
-            </div>
+            <Note tone="clay" icon="fa-calendar-check">
+              برای مناسبت‌های خاص (مانند عید یا روزهای سازمانی) بهتر است سفارش را چند روز زودتر ثبت
+              کنید.
+            </Note>
           </>
         ),
       },
@@ -910,13 +866,10 @@ export const FAQ_GROUPS: Group[] = [
               بله. کافی است فهرست <strong>گیرندگان و آدرس‌ها</strong> را در قالب یک فایل در اختیار ما
               بگذارید تا هر هدیه به‌صورت جداگانه به مقصد خودش ارسال شود.
             </p>
-            <div className="faq-note faq-note--clay">
-              <i className="fa-solid fa-map-location-dot" aria-hidden />
-              <span>
-                هزینه توزیع چندمقصده بر اساس تعداد و پراکندگی آدرس‌ها محاسبه و پیش از تأیید به شما
-                اعلام می‌شود.
-              </span>
-            </div>
+            <Note tone="clay" icon="fa-map-location-dot">
+              هزینه توزیع چندمقصده بر اساس تعداد و پراکندگی آدرس‌ها محاسبه و پیش از تأیید به شما
+              اعلام می‌شود.
+            </Note>
           </>
         ),
       },
@@ -961,27 +914,24 @@ export const FAQ_GROUPS: Group[] = [
         a: (
           <>
             <p>تسویه‌حساب به چند روش امکان‌پذیر است:</p>
-            <div className="faq-facts">
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-credit-card" aria-hidden /> پرداخت آنلاین
-              </span>
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-building-columns" aria-hidden /> واریز به حساب شرکتی
-              </span>
-              <span className="faq-fact faq-fact--clay">
-                <i className="fa-solid fa-file-invoice-dollar" aria-hidden /> تسویه مرحله‌ای (سازمانی)
-              </span>
-            </div>
-            <div className="faq-note faq-note--clay">
-              <i className="fa-solid fa-handshake" aria-hidden />
-              <span>
-                برای سازمان‌ها، امکان تسویه مرحله‌ای (پیش‌پرداخت و تسویه مابقی پس از تأیید) با توافق
-                وجود دارد. حساب به نام «دشت‌زاد تجارت ایرانیان» است.
-              </span>
-            </div>
-            <Link className="legal-link legal-link--clay" href="/corporate-gifts">
-              <i className="fa-solid fa-headset" aria-hidden /> تماس با کارشناس فروش سازمانی
-            </Link>
+            <Facts>
+              <Chip tone="clay" icon="fa-credit-card">
+                پرداخت آنلاین
+              </Chip>
+              <Chip tone="clay" icon="fa-building-columns">
+                واریز به حساب شرکتی
+              </Chip>
+              <Chip tone="clay" icon="fa-file-invoice-dollar">
+                تسویه مرحله‌ای (سازمانی)
+              </Chip>
+            </Facts>
+            <Note tone="clay" icon="fa-handshake">
+              برای سازمان‌ها، امکان تسویه مرحله‌ای (پیش‌پرداخت و تسویه مابقی پس از تأیید) با توافق
+              وجود دارد. حساب به نام «دشت‌زاد تجارت ایرانیان» است.
+            </Note>
+            <MoreLink href="/corporate-gifts" icon="fa-headset">
+              تماس با کارشناس فروش سازمانی
+            </MoreLink>
           </>
         ),
       },

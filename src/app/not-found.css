@@ -1,159 +1,92 @@
 /* ============================================================
-   دشت‌زاد — صفحه ۴۰۴ (Not Found), scoped under .notfound-page.
-   Built on dz.css tokens; all page-specific rules nested here.
+   دشت‌زاد — صفحه ۴۰۴ (Not Found). Scoped layout only.
+   Primitives (Hero, Card, Button, Badge, RatingChip, Price,
+   IconBox, Placeholder, FormNote, Input) come from the design
+   system; this file only arranges them.
    ============================================================ */
 
 .notfound-page {
-  .nf {
-    padding: clamp(4.8rem, 8vw, 9rem) 0 clamp(3.6rem, 6vw, 6rem);
-  }
-  .nf-inner {
-    max-width: 78rem;
+  /* hero is centered for the 404 composition */
+  .hero__inner {
+    max-width: 64rem;
     margin-inline: auto;
     text-align: center;
-    padding-inline: clamp(1.6rem, 4vw, 4rem);
+  }
+  .hero__sub {
+    margin-inline: auto;
+  }
+  .hero__chips {
+    justify-content: center;
   }
 
-  .nf-kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    font-size: 1.3rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    color: var(--clay);
-    background: var(--clay-soft);
-    padding: 0.7rem 1.4rem;
-    border-radius: 999px;
-  }
-  .nf-kicker i {
-    font-size: 1.4rem;
-  }
-
-  /* big 404 with the middle 0 as a brand seal */
-  .nf-code {
+  /* big 404: two display digits flanking a leaf seal */
+  .nf-seal {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: clamp(1rem, 2.5vw, 2.4rem);
-    margin: 2.8rem 0 0.6rem;
+    margin-top: 2.8rem;
   }
-  .nf-code__d {
-    font-family: var(--display);
-    font-weight: 700;
+  .nf-seal__digit {
+    font-size: clamp(7rem, 18vw, 13rem);
     line-height: 0.9;
-    font-size: clamp(9rem, 22vw, 17rem);
-    color: var(--green-deep);
+    color: #fff;
     letter-spacing: -0.03em;
   }
-  .nf-seal {
-    position: relative;
-    flex: 0 0 auto;
-    width: clamp(9rem, 20vw, 16rem);
-    height: clamp(9rem, 20vw, 16rem);
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, var(--green), var(--green-deep));
+  .nf-seal__badge {
+    width: clamp(8rem, 18vw, 13rem);
+    height: clamp(8rem, 18vw, 13rem);
+    font-size: clamp(3rem, 8vw, 5.4rem);
     border: 0.6rem solid var(--gold);
-    display: grid;
-    place-items: center;
-    color: #fff;
     box-shadow: var(--shadow-lg);
   }
-  .nf-seal i {
-    font-size: clamp(3.4rem, 8vw, 6rem);
-  }
-  .nf-seal::after {
-    content: "";
-    position: absolute;
-    inset: -1.4rem;
-    border-radius: 50%;
-    border: 0.2rem dashed var(--hair-strong);
-    opacity: 0.5;
-    animation: nf-spin 26s linear infinite;
-  }
-  @keyframes nf-spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .nf-seal::after {
-      animation: none;
-    }
-  }
 
-  .nf-title {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: clamp(2.6rem, 4.6vw, 3.8rem);
-    color: var(--ink);
-    margin-top: 1.2rem;
-  }
-  .nf-lead {
-    color: var(--ink-soft);
-    font-size: clamp(1.5rem, 2.2vw, 1.8rem);
-    line-height: 1.9;
-    max-width: 52rem;
-    margin: 1.4rem auto 0;
-    text-wrap: pretty;
-  }
-
+  /* search: wrap the DS Input + Button into one inline pill */
   .nf-search {
+    max-width: 46rem;
+    margin: 2.8rem auto 0;
+  }
+  .nf-search__bar {
     display: flex;
     align-items: center;
     gap: 1rem;
-    max-width: 46rem;
-    margin: 2.8rem auto 0;
     background: #fff;
     border: 1.5px solid var(--hair-strong);
     border-radius: var(--r);
-    padding: 1.2rem 1.6rem;
+    padding: 0.6rem 0.6rem 0.6rem 1.6rem;
     transition: border-color 0.15s;
   }
-  .nf-search:focus-within {
+  .nf-search__bar:focus-within {
     border-color: var(--green);
   }
-  .nf-search input {
+  .nf-search__bar > i {
+    color: var(--ink-faint);
+    flex: 0 0 auto;
+  }
+  .nf-search__input {
     flex: 1;
     min-width: 0;
     border: none;
-    outline: none;
     background: transparent;
-    font-family: inherit;
-    font-size: 1.5rem;
-    color: var(--ink);
+    padding-inline: 0;
   }
-  .nf-search input::placeholder {
-    color: var(--ink-faint);
-  }
-  .nf-search > i {
-    color: var(--ink-faint);
-  }
-  .nf-search button {
-    flex: 0 0 auto;
+  .nf-search__input:focus {
+    border-color: transparent;
   }
   .nf-search__btn {
+    flex: 0 0 auto;
     padding: 1rem 1.8rem;
-    font-size: 1.4rem;
   }
-
-  .nf-search-note {
-    display: none;
-    align-items: center;
+  .nf-search__note {
     justify-content: center;
-    gap: 0.7rem;
-    max-width: 46rem;
-    margin: 1rem auto 0;
-    font-size: 1.35rem;
+    margin-top: 1rem;
     color: var(--green-deep);
   }
-  .nf-search-note.show {
-    display: flex;
-  }
-  .nf-search-note i {
+  .nf-search__note i {
     color: var(--green);
   }
 
+  /* primary/secondary actions */
   .nf-actions {
     display: flex;
     align-items: center;
@@ -163,7 +96,8 @@
     margin-top: 2rem;
   }
 
-  .nf-chips {
+  /* popular categories (reuse .hero__chip) */
+  .nf-cats {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -171,55 +105,14 @@
     flex-wrap: wrap;
     margin-top: 3.2rem;
   }
-  .nf-chips__lead {
-    color: var(--ink-faint);
+  .nf-cats__lead {
+    color: oklch(1 0 0 / 0.7);
     font-size: 1.4rem;
     font-weight: 600;
-  }
-  .nf-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--ink);
-    background: var(--surface-warm);
-    border: 1.5px solid var(--hair);
-    border-radius: 999px;
-    padding: 0.8rem 1.5rem;
-    transition: all 0.15s;
-  }
-  .nf-chip i {
-    color: var(--green);
-    font-size: 1.4rem;
-  }
-  .nf-chip:hover {
-    border-color: var(--green);
-    color: var(--green-deep);
-    background: var(--green-soft);
   }
 
   /* suggested products */
-  .nf-sugg {
-    max-width: var(--maxw);
-    margin-inline: auto;
-    padding: clamp(2.4rem, 4vw, 4rem) clamp(1.6rem, 4vw, 4rem) clamp(4rem, 7vw, 7rem);
-  }
-  .nf-sugg__head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1.6rem;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-  }
-  .nf-sugg__t {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: clamp(2rem, 3vw, 2.6rem);
-    color: var(--ink);
-  }
-  .nf-sugg__more {
+  .nf-more {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
@@ -227,47 +120,23 @@
     font-weight: 700;
     color: var(--green);
   }
-  .nf-sugg__more:hover {
+  .nf-more:hover {
     color: var(--green-deep);
   }
   .nf-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.8rem;
-  }
-  @media (max-width: 980px) {
-    .nf-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  @media (max-width: 520px) {
-    .nf-grid {
-      grid-template-columns: 1fr;
-    }
+    margin-top: 2rem;
   }
 
   .nf-card {
     display: flex;
     flex-direction: column;
-    background: var(--surface);
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
     overflow: hidden;
-    transition:
-      box-shadow 0.2s,
-      border-color 0.2s,
-      transform 0.2s;
-  }
-  .nf-card:hover {
-    border-color: var(--green);
-    box-shadow: var(--shadow);
-    transform: translateY(-3px);
   }
   .nf-card__media {
     position: relative;
     aspect-ratio: 4 / 3;
   }
-  .nf-card__media .ph {
+  .nf-card__ph {
     width: 100%;
     height: 100%;
   }
@@ -275,12 +144,6 @@
     position: absolute;
     top: 1rem;
     inset-inline-end: 1rem;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #fff;
-    background: var(--clay);
-    border-radius: 999px;
-    padding: 0.4rem 1rem;
     z-index: 1;
   }
   .nf-card__body {
@@ -295,16 +158,6 @@
     font-size: 1.55rem;
     color: var(--ink);
   }
-  .nf-card__rate {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.3rem;
-    color: var(--ink-faint);
-  }
-  .nf-card__rate i {
-    color: var(--star);
-  }
   .nf-card__foot {
     display: flex;
     align-items: center;
@@ -312,19 +165,6 @@
     gap: 1rem;
     margin-top: auto;
     padding-top: 0.6rem;
-  }
-  .nf-card__price {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.4rem;
-    font-weight: 700;
-    font-size: 1.7rem;
-    color: var(--ink);
-  }
-  .nf-card__toman {
-    color: var(--ink-faint);
-    font-weight: 600;
-    font-size: 1.15rem;
   }
   .nf-card__add {
     display: grid;
@@ -334,8 +174,8 @@
     border-radius: var(--r-sm);
     background: var(--green-soft);
     color: var(--green-deep);
-    transition: all 0.15s;
     flex: 0 0 auto;
+    transition: all 0.15s;
   }
   .nf-card__add:hover {
     background: var(--green);

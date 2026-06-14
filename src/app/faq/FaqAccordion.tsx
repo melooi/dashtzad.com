@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState, useEffect } from "react";
 import Link from "next/link";
+import { Button, IconBox } from "@/components/ui";
 import { FAQ_GROUPS, NAV } from "./faq-data";
 
 /** Normalize Persian text for forgiving search (drop ZWNJ + diacritics). */
@@ -12,6 +13,9 @@ function norm(s: string): string {
     .toLowerCase()
     .trim();
 }
+
+/** Tone → IconBox tone for the group head badge. */
+const GROUP_TONE = { green: "green", clay: "clay", gold: "gold" } as const;
 
 export function FaqAccordion() {
   const [query, setQuery] = useState("");
@@ -89,10 +93,10 @@ export function FaqAccordion() {
   }, []);
 
   return (
-    <div className="faq-layout">
+    <div className="faq-page__layout">
       {/* ===== side category nav ===== */}
-      <aside className="faq-nav" id="faqNav">
-        <div className="faq-nav__h">
+      <aside className="faq-page__nav" id="faqNav">
+        <div className="faq-page__nav-h">
           <i className="fa-solid fa-layer-group" aria-hidden /> دسته‌بندی پرسش‌ها
         </div>
         {NAV.map((n) => (
@@ -105,14 +109,12 @@ export function FaqAccordion() {
               jumpTo(n.id);
             }}
           >
-            <span className="faq-nav__ic">
-              <i className={`fa-solid ${n.icon}`} aria-hidden />
-            </span>{" "}
+            <IconBox icon={n.icon} size="sm" tone="green" className="faq-page__nav-ic" />
             {n.label}
           </a>
         ))}
-        <div className="faq-nav__sep" />
-        <Link className="faq-nav__contact" href="/contact">
+        <div className="faq-page__nav-sep" />
+        <Link className="faq-page__nav-contact" href="/contact">
           <i className="fa-solid fa-headset" aria-hidden />
           <span>
             <b>تماس با پشتیبانی</b>
@@ -122,10 +124,11 @@ export function FaqAccordion() {
       </aside>
 
       {/* ===== search + accordion groups ===== */}
-      <div className="faq-main">
-        <form className="faq-hero__search faq-search" onSubmit={(e) => e.preventDefault()}>
+      <div className="faq-page__main">
+        <form className="faq-page__search" onSubmit={(e) => e.preventDefault()}>
           <i className="fa-solid fa-magnifying-glass" aria-hidden />
           <input
+            className="input"
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -134,61 +137,61 @@ export function FaqAccordion() {
             autoComplete="off"
           />
           {query && (
-            <button
-              className="btn btn--primary btn--sm"
-              type="button"
-              onClick={() => setQuery("")}
-            >
+            <Button type="button" size="sm" onClick={() => setQuery("")}>
               <i className="fa-solid fa-xmark" aria-hidden /> پاک کردن
-            </button>
+            </Button>
           )}
         </form>
 
         {/* empty state */}
-        <div className={`faq-empty${!anyVisible ? " show" : ""}`}>
-          <i className="fa-regular fa-face-frown" aria-hidden />
-          <p>
-            پرسشی با این عبارت پیدا نشد. عبارت دیگری را امتحان کنید یا با پشتیبانی تماس بگیرید.
-          </p>
-        </div>
+        {!anyVisible && (
+          <div className="faq-page__empty">
+            <i className="fa-regular fa-face-frown" aria-hidden />
+            <p>
+              پرسشی با این عبارت پیدا نشد. عبارت دیگری را امتحان کنید یا با پشتیبانی تماس بگیرید.
+            </p>
+          </div>
+        )}
 
         {filtered.map(({ group, matches }) => {
           if (matches.length === 0) return null;
-          const toneClass =
-            group.tone === "clay"
-              ? "faq-group faq-group--clay"
-              : group.tone === "gold"
-                ? "faq-group faq-group--gold"
-                : "faq-group";
           return (
-            <section className={toneClass} id={group.id} key={group.id}>
-              <div className="faq-group__head">
-                <span className="faq-group__ic">
-                  <i className={`fa-solid ${group.icon}`} aria-hidden />
-                </span>
+            <section className="faq-page__group" id={group.id} key={group.id}>
+              <div className="faq-page__group-head">
+                <IconBox icon={group.icon} size="lg" tone={GROUP_TONE[group.tone]} />
                 <div>
-                  <h2 className="faq-group__t">{group.title}</h2>
-                  <p className="faq-group__n">{group.note}</p>
+                  <h2 className="faq-page__group-t">{group.title}</h2>
+                  <p className="faq-page__group-n">{group.note}</p>
                 </div>
               </div>
-              <div className="faq-list">
+
+              <div className="accordion">
                 {matches.map(({ it, i }) => {
                   const key = `${group.id}:${i}`;
-                  const isOpen = !!open[key] || (!!q && true);
+                  const isOpen = !!open[key] || !!q;
                   return (
-                    <article className={`faq-item${isOpen ? " is-open" : ""}`} key={key}>
-                      <button className="faq-q" type="button" onClick={() => toggle(key)}>
-                        <span className="faq-q__ic">
-                          <i className="fa-solid fa-plus" aria-hidden />
+                    <div
+                      className={`accordion__item${isOpen ? " is-open" : ""}`}
+                      key={key}
+                    >
+                      <button
+                        type="button"
+                        className="accordion__head"
+                        onClick={() => toggle(key)}
+                        aria-expanded={isOpen}
+                      >
+                        <span className="accordion__head-l">
+                          <span className="icon-box icon-box--sm icon-box--round faq-page__q-ic">
+                            <i className="fa-solid fa-plus" aria-hidden />
+                          </span>
+                          {it.q}
                         </span>
-                        <span className="faq-q__txt">{it.q}</span>
+                        <i className="fa-solid fa-angle-down accordion__chev" aria-hidden />
                       </button>
-                      <div className="faq-a">
-                        <div className="faq-a__inner">
-                          <div className="faq-a__body">{it.a}</div>
-                        </div>
+                      <div className="accordion__body">
+                        <div className="accordion__inner faq-page__answer">{it.a}</div>
                       </div>
-                    </article>
+                    </div>
                   );
                 })}
               </div>

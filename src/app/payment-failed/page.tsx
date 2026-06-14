@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { ButtonLink, Card, Chip, IconBox, Placeholder, Price } from "@/components/ui";
 import { HoldCartTimer } from "./HoldCartTimer";
 import "./payment-failed.css";
+
+// Font Awesome is loaded site-wide in app/layout.tsx.
 
 export const metadata: Metadata = {
   title: "پرداخت ناموفق",
@@ -11,27 +13,77 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+const META_FACTS = [
+  {
+    icon: "fa-circle-exclamation",
+    tone: "clay" as const,
+    label: "وضعیت پرداخت",
+    value: <>ناموفق · تأیید نشد</>,
+  },
+  {
+    icon: "fa-wallet",
+    tone: "gold" as const,
+    label: "مبلغ قابل پرداخت",
+    value: (
+      <>
+        <span className="num">۹۹۰٬۰۰۰</span> تومان · پرداخت اینترنتی
+      </>
+    ),
+  },
+  {
+    icon: "fa-basket-shopping",
+    tone: "green" as const,
+    label: "سبد خرید شما",
+    value: (
+      <>
+        <span className="pf-ok">محفوظ ماند</span> · <span className="num">۲ کالا</span>
+      </>
+    ),
+  },
+];
+
+const REASONS = [
+  {
+    icon: "fa-coins",
+    title: "موجودی کافی نبود",
+    desc: "مانده حساب یا سقف مجاز خرید روزانه کارت کفاف مبلغ سفارش را نداده است.",
+  },
+  {
+    icon: "fa-clock",
+    title: "رمز پویا منقضی شد",
+    desc: "رمز دوم یک‌بارمصرف (OTP) دیر وارد شد یا زمان آن به پایان رسید.",
+  },
+  {
+    icon: "fa-wifi",
+    title: "قطع ارتباط لحظه‌ای",
+    desc: "اتصال اینترنت یا درگاه بانک در میانه پرداخت دچار وقفه شده است.",
+  },
+];
+
+const CART_LINES = [
+  {
+    name: "برگه گلابی خشک ممتاز",
+    spec: "۵۰۰ گرم · زیپ‌کیپ کرافت",
+    qty: "۲ عدد",
+    now: 744000,
+    thumb: "برگه گلابی خشک",
+  },
+  {
+    name: "برگه زردآلوی طلایی",
+    spec: "۲۵۰ گرم · زیپ‌کیپ کرافت",
+    qty: "۱ عدد",
+    now: 246000,
+    thumb: "برگه زردآلو",
+  },
+];
+
 export default function PaymentFailedPage() {
   return (
     <div className="payment-failed-page dz">
       {/* ============== HERO ============== */}
-      <header className="pf-hero">
+      <section className="hero hero--clay pf-hero">
         <div className="wrap">
-          <div className="pf-hero__top">
-            <Link className="pf-brand" href="/">
-              <span className="pf-brand__seal">د</span>
-              <span>
-                <span className="pf-brand__name">دشت‌زاد</span>
-                <span className="pf-brand__tag">روایت یک نسل از ۱۳۰۵</span>
-              </span>
-            </Link>
-            <a className="pf-hero__support" href="tel:02191002400">
-              <i className="fa-solid fa-headset" aria-hidden /> پشتیبانی سفارش‌ها —{" "}
-              <span className="num">۰۲۱ ۹۱۰۰۲۴۰۰</span>
-            </a>
-          </div>
-
-          <div className="pf-hero__body">
+          <div className="hero__inner pf-hero__inner">
             <div className="pf-medal" aria-hidden>
               <span className="pf-medal__halo" />
               <svg className="pf-medal__svg" viewBox="0 0 130 130" aria-hidden="true">
@@ -48,226 +100,149 @@ export default function PaymentFailedPage() {
               </svg>
             </div>
 
-            <div className="pf-eyebrow">پرداخت ناتمام ماند</div>
-            <h1 className="pf-hero__title">
+            <span className="hero__kicker pf-hero__kicker">پرداخت ناتمام ماند</span>
+            <h1 className="hero__title">
               پرداخت کامل نشد،
               <br />
-              <em>مریم عزیز</em>
+              <em className="pf-hero__em">مریم عزیز</em>
             </h1>
-            <p className="pf-hero__sub">
+            <p className="hero__sub">
               تراکنش شما از سوی بانک تأیید نشد و سفارش هنوز ثبت نشده است. نگران نباشید — کافی است یک بار
               دیگر تلاش کنید؛ همه‌چیز دقیقاً همان‌طور که بود آماده شماست.
             </p>
 
-            <div className="pf-safepill">
-              <i className="fa-solid fa-shield-check" aria-hidden /> هیچ مبلغی از حساب شما کسر نشده است
+            <div className="pf-hero__chips">
+              <Chip tone="green" icon="fa-shield-check" className="pf-safepill">
+                هیچ مبلغی از حساب شما کسر نشده است
+              </Chip>
             </div>
           </div>
         </div>
-
-        <svg
-          className="pf-hero__wave"
-          viewBox="0 0 1440 80"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path
-            fill="currentColor"
-            d="M0,80 L0,40 C240,72 480,80 720,72 C960,64 1200,32 1440,44 L1440,80 Z"
-          />
-        </svg>
-      </header>
+      </section>
 
       {/* ============== STAGE ============== */}
-      <main className="pf-stage">
-        <div className="wrap">
-          {/* quick facts */}
-          <div className="pf-metastrip">
-            <div className="pf-metastrip__cell">
-              <div className="pf-metastrip__ic">
-                <i className="fa-solid fa-circle-exclamation" aria-hidden />
-              </div>
+      <main className="wrap pf-stage">
+        {/* quick facts */}
+        <Card className="pf-metastrip">
+          {META_FACTS.map((f) => (
+            <div className="pf-metastrip__cell" key={f.label}>
+              <IconBox icon={f.icon} tone={f.tone} />
               <div>
-                <div className="pf-metastrip__k">وضعیت پرداخت</div>
-                <div className="pf-metastrip__v">ناموفق · تأیید نشد</div>
+                <div className="pf-metastrip__k">{f.label}</div>
+                <div className="pf-metastrip__v">{f.value}</div>
               </div>
             </div>
-            <div className="pf-metastrip__cell">
-              <div className="pf-metastrip__ic pf-metastrip__ic--gold">
-                <i className="fa-solid fa-wallet" aria-hidden />
-              </div>
-              <div>
-                <div className="pf-metastrip__k">مبلغ قابل پرداخت</div>
-                <div className="pf-metastrip__v">
-                  <span className="num">۹۹۰٬۰۰۰</span> تومان · پرداخت اینترنتی
-                </div>
-              </div>
+          ))}
+        </Card>
+
+        <div className="pf-cols">
+          {/* چه اتفاقی افتاد */}
+          <section>
+            <div className="pf-seclabel">
+              <span className="pf-seclabel__no num">۰۱</span>
+              <h2 className="pf-seclabel__t">چه پیش آمد؟</h2>
+              <span className="pf-seclabel__line" />
             </div>
-            <div className="pf-metastrip__cell">
-              <div className="pf-metastrip__ic pf-metastrip__ic--green">
-                <i className="fa-solid fa-basket-shopping" aria-hidden />
-              </div>
+
+            <Card pad className="pf-explain">
+              <IconBox icon="fa-credit-card" tone="clay" size="lg" />
               <div>
-                <div className="pf-metastrip__k">سبد خرید شما</div>
-                <div className="pf-metastrip__v">
-                  <span className="pf-ok">محفوظ ماند</span> · <span className="num">۲ کالا</span>
+                <div className="pf-explain__t">پرداخت توسط درگاه بانک تأیید نشد</div>
+                <p className="pf-explain__d">
+                  روند پرداخت پیش از تکمیل متوقف شد، بنابراین سفارش ثبت نشد و وجهی هم برداشت نشد. این
+                  اتفاق معمولاً موقتی است و تلاش دوباره مشکل را حل می‌کند.
+                </p>
+                <div className="pf-explain__code">
+                  <i className="fa-solid fa-hashtag" aria-hidden /> کد پیگیری تراکنش:{" "}
+                  <b className="num">PSP-۴۰۲۱۷</b>
                 </div>
               </div>
+            </Card>
+
+            <div className="pf-seclabel pf-seclabel--gap">
+              <span className="pf-seclabel__no num">۰۲</span>
+              <h2 className="pf-seclabel__t">چند علت رایج</h2>
+              <span className="pf-seclabel__line" />
             </div>
-          </div>
 
-          <div className="pf-cols">
-            {/* چه اتفاقی افتاد */}
-            <section>
-              <div className="pf-seclabel">
-                <span className="pf-seclabel__no num">۰۱</span>
-                <h2 className="pf-seclabel__t">چه پیش آمد؟</h2>
-                <span className="pf-seclabel__line" />
-              </div>
-
-              <div className="pf-explain">
-                <div className="pf-explain__ic">
-                  <i className="fa-solid fa-credit-card" aria-hidden />
-                </div>
-                <div>
-                  <div className="pf-explain__t">پرداخت توسط درگاه بانک تأیید نشد</div>
-                  <div className="pf-explain__d">
-                    روند پرداخت پیش از تکمیل متوقف شد، بنابراین سفارش ثبت نشد و وجهی هم برداشت نشد. این
-                    اتفاق معمولاً موقتی است و تلاش دوباره مشکل را حل می‌کند.
-                  </div>
-                  <div className="pf-explain__code">
-                    <i className="fa-solid fa-hashtag" aria-hidden /> کد پیگیری تراکنش:{" "}
-                    <b className="num">PSP-۴۰۲۱۷</b>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pf-seclabel pf-seclabel--gap">
-                <span className="pf-seclabel__no num">۰۲</span>
-                <h2 className="pf-seclabel__t">چند علت رایج</h2>
-                <span className="pf-seclabel__line" />
-              </div>
-
-              <div className="pf-reasons">
-                <div className="pf-reason">
-                  <div className="pf-reason__ic">
-                    <i className="fa-solid fa-coins" aria-hidden />
-                  </div>
+            <div className="pf-reasons">
+              {REASONS.map((r) => (
+                <div className="pf-reason" key={r.title}>
+                  <IconBox icon={r.icon} tone="ink" size="sm" className="pf-reason__ic" />
                   <div>
-                    <div className="pf-reason__t">موجودی کافی نبود</div>
-                    <div className="pf-reason__d">
-                      مانده حساب یا سقف مجاز خرید روزانه کارت کفاف مبلغ سفارش را نداده است.
-                    </div>
+                    <div className="pf-reason__t">{r.title}</div>
+                    <p className="pf-reason__d">{r.desc}</p>
                   </div>
                 </div>
-                <div className="pf-reason">
-                  <div className="pf-reason__ic">
-                    <i className="fa-solid fa-clock" aria-hidden />
-                  </div>
-                  <div>
-                    <div className="pf-reason__t">رمز پویا منقضی شد</div>
-                    <div className="pf-reason__d">
-                      رمز دوم یک‌بارمصرف (OTP) دیر وارد شد یا زمان آن به پایان رسید.
-                    </div>
-                  </div>
-                </div>
-                <div className="pf-reason">
-                  <div className="pf-reason__ic">
-                    <i className="fa-solid fa-wifi" aria-hidden />
-                  </div>
-                  <div>
-                    <div className="pf-reason__t">قطع ارتباط لحظه‌ای</div>
-                    <div className="pf-reason__d">
-                      اتصال اینترنت یا درگاه بانک در میانه پرداخت دچار وقفه شده است.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
+              ))}
+            </div>
+          </section>
 
-            {/* سبد خرید محفوظ */}
-            <section>
-              <div className="pf-seclabel">
-                <span className="pf-seclabel__no num">۰۳</span>
-                <h2 className="pf-seclabel__t">سبد خرید شما</h2>
-                <span className="pf-seclabel__line" />
-              </div>
+          {/* سبد خرید محفوظ */}
+          <section>
+            <div className="pf-seclabel">
+              <span className="pf-seclabel__no num">۰۳</span>
+              <h2 className="pf-seclabel__t">سبد خرید شما</h2>
+              <span className="pf-seclabel__line" />
+            </div>
 
-              <div className="pf-savedcard">
-                <div className="pf-savedcard__head">
-                  <i className="fa-solid fa-circle-check" aria-hidden />
-                  <span className="pf-savedcard__t">دست‌نخورده باقی ماند</span>
-                  <span className="pf-savedcard__sub num">۲ کالا</span>
-                </div>
-                <div className="pf-savedcard__body">
-                  <div className="pf-lines">
-                    <div className="pf-line">
-                      <div className="pf-line__thumb">
-                        <div className="ph">
-                          <span className="ph__label">برگه گلابی خشک</span>
-                        </div>
-                      </div>
+            <Card className="pf-savedcard">
+              <div className="pf-savedcard__head">
+                <i className="fa-solid fa-circle-check" aria-hidden />
+                <span className="pf-savedcard__t">دست‌نخورده باقی ماند</span>
+                <span className="pf-savedcard__sub num">۲ کالا</span>
+              </div>
+              <div className="pf-savedcard__body">
+                <div className="pf-lines">
+                  {CART_LINES.map((l) => (
+                    <div className="pf-line" key={l.name}>
+                      <Placeholder className="pf-line__thumb" label={l.thumb} />
                       <div className="pf-line__body">
-                        <div className="pf-line__name">برگه گلابی خشک ممتاز</div>
-                        <div className="pf-line__sub">۵۰۰ گرم · زیپ‌کیپ کرافت</div>
+                        <div className="pf-line__name">{l.name}</div>
+                        <div className="pf-line__sub">{l.spec}</div>
                       </div>
                       <div className="pf-line__end">
-                        <span className="pf-line__qty num">۲ عدد</span>
-                        <span className="pf-price num">۷۴۴٬۰۰۰ تومان</span>
+                        <span className="pf-line__qty num">{l.qty}</span>
+                        <Price now={l.now} size="sm" />
                       </div>
                     </div>
-                    <div className="pf-line">
-                      <div className="pf-line__thumb">
-                        <div className="ph">
-                          <span className="ph__label">برگه زردآلو</span>
-                        </div>
-                      </div>
-                      <div className="pf-line__body">
-                        <div className="pf-line__name">برگه زردآلوی طلایی</div>
-                        <div className="pf-line__sub">۲۵۰ گرم · زیپ‌کیپ کرافت</div>
-                      </div>
-                      <div className="pf-line__end">
-                        <span className="pf-line__qty num">۱ عدد</span>
-                        <span className="pf-price num">۲۴۶٬۰۰۰ تومان</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pf-savedtotal">
-                    <span className="pf-savedtotal__k">جمع قابل پرداخت</span>
-                    <span className="pf-savedtotal__v num">۹۹۰٬۰۰۰ تومان</span>
-                  </div>
-
-                  <HoldCartTimer />
+                  ))}
                 </div>
+
+                <div className="pf-savedtotal">
+                  <span className="pf-savedtotal__k">جمع قابل پرداخت</span>
+                  <Price now={990000} size="md" className="pf-savedtotal__v" />
+                </div>
+
+                <HoldCartTimer />
               </div>
-            </section>
-          </div>
+            </Card>
+          </section>
+        </div>
 
-          {/* actions */}
-          <div className="pf-actions">
-            <Link className="pf-btn pf-btn--primary" href="/cart">
-              <i className="fa-solid fa-rotate-right" aria-hidden /> تلاش دوباره برای پرداخت
-            </Link>
-            <Link className="pf-btn pf-btn--ghost" href="/contact">
-              <i className="fa-solid fa-headset" aria-hidden /> تماس با پشتیبانی
-            </Link>
-          </div>
+        {/* actions */}
+        <div className="pf-actions">
+          <ButtonLink href="/cart" variant="clay" size="lg" className="pf-action">
+            <i className="fa-solid fa-rotate-right" aria-hidden /> تلاش دوباره برای پرداخت
+          </ButtonLink>
+          <ButtonLink href="/contact" variant="ghost" size="lg" className="pf-action">
+            <i className="fa-solid fa-headset" aria-hidden /> تماس با پشتیبانی
+          </ButtonLink>
+        </div>
 
-          <div className="pf-reassure">
-            <span className="pf-reassure__item">
-              <i className="fa-solid fa-shield-halved" aria-hidden /> پرداخت امن از طریق{" "}
-              <b>درگاه بانکی</b>
-            </span>
-            <span className="pf-reassure__sep" />
-            <span className="pf-reassure__item">
-              <i className="fa-solid fa-basket-shopping" aria-hidden /> سبد خرید شما <b>ذخیره شد</b>
-            </span>
-            <span className="pf-reassure__sep" />
-            <span className="pf-reassure__item">
-              <i className="fa-solid fa-headset" aria-hidden /> پشتیبانی <b>۹ تا ۲۱</b> همه‌روزه
-            </span>
-          </div>
+        <div className="pf-reassure">
+          <span className="pf-reassure__item">
+            <i className="fa-solid fa-shield-halved" aria-hidden /> پرداخت امن از طریق{" "}
+            <b>درگاه بانکی</b>
+          </span>
+          <span className="pf-reassure__sep" />
+          <span className="pf-reassure__item">
+            <i className="fa-solid fa-basket-shopping" aria-hidden /> سبد خرید شما <b>ذخیره شد</b>
+          </span>
+          <span className="pf-reassure__sep" />
+          <span className="pf-reassure__item">
+            <i className="fa-solid fa-headset" aria-hidden /> پشتیبانی <b>۹ تا ۲۱</b> همه‌روزه
+          </span>
         </div>
       </main>
     </div>

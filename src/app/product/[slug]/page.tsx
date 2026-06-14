@@ -11,7 +11,8 @@ import { getAllProductSlugs, getProductBySlug, listProducts } from "@/lib/woo/pr
 import { buildProductView } from "@/lib/woo/view";
 import { getRankMath } from "@/lib/seo/rankmath";
 import { breadcrumbSchema, faqSchema, productSchema } from "@/lib/seo/jsonld";
-import { formatToman, isValidSlug, stripHtml, toFaDigits } from "@/lib/utils";
+import { isValidSlug, stripHtml } from "@/lib/utils";
+import { Badge, Card, IconBox, Placeholder, Price, RatingChip, SectionHead } from "@/components/ui";
 import "./product.css";
 
 export const revalidate = 3600;
@@ -44,15 +45,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: stripHtml(product.short_description || product.description).slice(0, 160),
     alternates: { canonical: `/product/${product.slug}` },
   };
-}
-
-function SecHead({ kicker, title, center }: { kicker?: string; title: string; center?: boolean }) {
-  return (
-    <div className={`sec-head2${center ? " is-center" : ""}`}>
-      {kicker && <div className="sec__kicker">{kicker}</div>}
-      <h2 className="sec__title">{title}</h2>
-    </div>
-  );
 }
 
 export default async function ProductPage({ params }: Props) {
@@ -113,13 +105,14 @@ export default async function ProductPage({ params }: Props) {
         </nav>
       </div>
 
-      {/* HERO: info + gallery + buy box */}
-      <ProductHero view={view} />
+      {/* HERO: info + gallery + buy box; body sections render in the main column
+          alongside the sticky buy box (matches the design's LayoutCompact) */}
+      <ProductHero view={view}>
 
       {/* PRODUCT DESCRIPTION */}
       {(view.tagline || view.story.length > 0 || view.highlights.length > 0) && (
-        <section id="description-section" className="wrap sec">
-          <SecHead kicker="دربارهٔ محصول" title="توضیح محصول" />
+        <section id="description-section" className="sec">
+          <SectionHead kicker="دربارهٔ محصول" title="توضیح محصول" />
           {view.tagline && <p className="prod-tagline">{view.tagline}</p>}
           {view.story.map((para, i) => (
             <p key={i} className="prod-story muted">
@@ -127,15 +120,15 @@ export default async function ProductPage({ params }: Props) {
             </p>
           ))}
           {view.highlights.length > 0 && (
-            <div className="hl-grid">
+            <div className="grid--auto prod-highlights">
               {view.highlights.map((h, i) => (
-                <div className="hl-card" key={i}>
-                  <span className="hl-card__ic">
-                    <i className={`fa-solid ${h.icon}`} aria-hidden />
-                  </span>
-                  <div className="hl-card__t">{h.title}</div>
-                  <div className="hl-card__p">{h.text}</div>
-                </div>
+                <Card pad key={i} className="prod-hl">
+                  <IconBox icon={h.icon} />
+                  <div>
+                    <div className="prod-hl__t">{h.title}</div>
+                    <div className="prod-hl__p muted">{h.text}</div>
+                  </div>
+                </Card>
               ))}
             </div>
           )}
@@ -144,42 +137,41 @@ export default async function ProductPage({ params }: Props) {
 
       {/* SPECS / NUTRITION / CARE ACCORDION */}
       {(view.specTable.length > 0 || view.nutrition || view.care.length > 0) && (
-        <section className="wrap sec">
-          <SecHead kicker="جزئیات" title="ویژگی‌ها و مشخصات" />
+        <section className="sec">
+          <SectionHead kicker="جزئیات" title="ویژگی‌ها و مشخصات" />
           <ProductDetails view={view} />
         </section>
       )}
 
       {/* RELATED */}
       {related.length > 0 && (
-        <section id="related-section" className="wrap sec">
-          <SecHead kicker="پیشنهاد دشت‌زاد" title="محصولات مرتبط" />
+        <section id="related-section" className="sec">
+          <SectionHead kicker="پیشنهاد دشت‌زاد" title="محصولات مرتبط" />
           <div className="rel-scroll">
             {related.map((rp) => {
               const img = rp.images[0];
               return (
-                <Link key={rp.id} href={`/product/${rp.slug}`} className="rel-card">
+                <Link key={rp.id} href={`/product/${rp.slug}`} className="card card--hover rel-card">
                   <div className="rel-card__media">
-                    {rp.on_sale && <span className="badge badge--clay rel-card__tag">تخفیف</span>}
-                    <div className="ph rel-card__ph">
-                      {img ? (
-                        // eslint-disable-next-line @next/next/no-img-element
+                    {rp.on_sale && (
+                      <Badge tone="clay" className="rel-card__tag">
+                        تخفیف
+                      </Badge>
+                    )}
+                    {img ? (
+                      <div className="ph rel-card__ph">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={img.src} alt={img.alt || rp.name} />
-                      ) : (
-                        <span className="ph__label">{rp.name}</span>
-                      )}
-                    </div>
+                      </div>
+                    ) : (
+                      <Placeholder className="rel-card__ph" label={rp.name} />
+                    )}
                   </div>
                   <div className="rel-card__b">
                     <h3 className="rel-card__name">{rp.name}</h3>
-                    {rp.rating_count > 0 && (
-                      <span className="rating-chip">
-                        <i className="fa-solid fa-star" aria-hidden />
-                        <span className="num">{toFaDigits(rp.average_rating).replace(".", "٫")}</span>
-                      </span>
-                    )}
-                    <span className="rel-card__price num">
-                      {rp.price ? formatToman(rp.price) : "تماس برای قیمت"}
+                    {rp.rating_count > 0 && <RatingChip value={rp.average_rating} />}
+                    <span className="rel-card__price">
+                      {rp.price ? <Price now={rp.price} size="sm" /> : "تماس برای قیمت"}
                     </span>
                   </div>
                 </Link>
@@ -191,27 +183,28 @@ export default async function ProductPage({ params }: Props) {
 
       {/* REVIEWS */}
       {(view.reviews.length > 0 || view.ratingBreakdown.length > 0) && (
-        <section id="reviews-section" className="wrap sec reviews-band">
-          <SecHead title="دیدگاه خریداران" />
+        <section id="reviews-section" className="sec reviews-band">
+          <SectionHead title="دیدگاه خریداران" />
           <ProductReviews view={view} />
         </section>
       )}
 
       {/* Q&A */}
       {view.questions.length > 0 && (
-        <section id="questions-section" className="wrap sec">
-          <SecHead title="پرسش‌های خریداران" />
+        <section id="questions-section" className="sec">
+          <SectionHead title="پرسش‌های خریداران" />
           <ProductQA view={view} />
         </section>
       )}
 
       {/* FAQ */}
       {view.faq.length > 0 && (
-        <section className="wrap sec">
-          <SecHead title="سؤالات متداول" center />
+        <section className="sec">
+          <SectionHead title="سؤالات متداول" center />
           <ProductFaqList items={view.faq} />
         </section>
       )}
+      </ProductHero>
 
       {/* TRUST STRIP */}
       <section className="wrap product-trust">

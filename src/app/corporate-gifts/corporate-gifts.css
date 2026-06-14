@@ -1,91 +1,29 @@
 /* ============================================================
-   دشت‌زاد — صفحه هدایای سازمانی (Corporate Gifts), scoped under
-   .corporate-gifts-page. Section shells (.sec/.wrap/.sec-head),
-   buttons (.btn/.btn--primary/.btn--ghost/.btn--block), .ph, .num,
-   .muted and .see-all come from dz.css. Everything page-specific —
-   including the form bits (.contact-form/.cf-*), the FAQ accordion
-   (.faq-*), occasion cards (.occ-*), bulk benefits and the gold/
-   outline button variants — is reproduced here scoped, because those
-   helpers are NOT global.
+   دشت‌زاد — صفحه هدایای سازمانی (Corporate Gifts)
+   Page-specific LAYOUT only, scoped under .corporate-gifts-page.
+   All primitives (hero, card, icon-box, chip, badge, btn, price,
+   stat, steps, accordion, field/form, placeholder, avatar) come
+   from dz.css + components/ui. Nothing is re-implemented here.
    ============================================================ */
 
 .corporate-gifts-page {
-  /* ----------------------------------------------------------
-     button variants used on this page (scoped — not in dz.css)
-     ---------------------------------------------------------- */
-  .btn--gold {
-    background: var(--gold);
-    color: var(--ink);
-  }
-  .btn--gold:hover {
-    background: var(--honey);
-  }
-  .btn--outline {
-    background: transparent;
-    color: var(--ink);
-    border: 1.5px solid var(--hair-strong);
-  }
-  .btn--outline:hover {
-    color: var(--green);
-    border-color: var(--green);
-  }
-
-  /* ==========================================================
-     HERO — two-column gift showcase
-     ========================================================== */
-  .cg-hero {
-    position: relative;
-    overflow: hidden;
-    background: var(--green-deep);
-    color: #fff;
-    padding: clamp(3.6rem, 5vw, 6rem) 0 clamp(4rem, 5vw, 6.4rem);
-  }
-  .cg-hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(110% 130% at 100% 0%, oklch(0.55 0.14 150 / 0.55), transparent 56%),
-      radial-gradient(90% 120% at 0% 100%, oklch(0.3 0.05 150 / 0.55), transparent 60%);
-  }
-  .cg-hero__grid {
-    position: relative;
+  /* ---------- HERO: widen + two-column with showcase ---------- */
+  .cg-hero .hero__inner {
+    max-width: var(--maxw);
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    gap: clamp(2.6rem, 4vw, 5rem);
+    column-gap: clamp(2.6rem, 4vw, 5rem);
     align-items: center;
+    align-content: center;
   }
-  .cg-hero__kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    font-weight: 700;
-    font-size: 1.3rem;
-    letter-spacing: 0.04em;
+  /* text flows down column 1; showcase pinned to column 2 across all rows */
+  .cg-hero .hero__inner > .cg-showcase {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    align-self: center;
+  }
+  .cg-accent {
     color: var(--honey);
-  }
-  .cg-hero__kicker i {
-    font-size: 1.4rem;
-  }
-  .cg-hero__title {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: clamp(3.2rem, 5vw, 5.4rem);
-    line-height: 1.08;
-    letter-spacing: -0.02em;
-    margin-top: 1.4rem;
-    text-wrap: balance;
-  }
-  .cg-hero__title .accent {
-    color: var(--honey);
-  }
-  .cg-hero__sub {
-    color: oklch(1 0 0 / 0.84);
-    font-size: clamp(1.5rem, 1.8vw, 1.85rem);
-    line-height: 1.85;
-    margin-top: 1.6rem;
-    max-width: 52rem;
   }
   .cg-hero__cta {
     display: flex;
@@ -93,20 +31,12 @@
     gap: 1.1rem;
     margin-top: 2.6rem;
   }
-  .cg-hero__cta .btn--gold {
-    background: var(--gold);
-    color: var(--ink);
-    box-shadow: 0 8px 22px oklch(0.7 0.16 70 / 0.35);
-  }
-  .cg-hero__cta .btn--gold:hover {
-    background: var(--honey);
-  }
-  .cg-hero__cta .btn--outline {
+  .cg-hero__outline {
     background: oklch(1 0 0 / 0.08);
     color: #fff;
-    border: 1.5px solid oklch(1 0 0 / 0.34);
+    border-color: oklch(1 0 0 / 0.34);
   }
-  .cg-hero__cta .btn--outline:hover {
+  .cg-hero__outline:hover {
     background: oklch(1 0 0 / 0.16);
     color: #fff;
     border-color: oklch(1 0 0 / 0.34);
@@ -114,23 +44,11 @@
   .cg-hero__assure {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.6rem 2.4rem;
-    margin-top: 2.6rem;
-  }
-  .cg-hero__assure span {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    font-size: 1.4rem;
-    color: oklch(1 0 0 / 0.82);
-    font-weight: 600;
-  }
-  .cg-hero__assure i {
-    color: var(--honey);
-    font-size: 1.5rem;
+    gap: 0.9rem;
+    margin-top: 2.4rem;
   }
 
-  /* hero showcase — stacked gift-box placeholders */
+  /* showcase: stacked gift-box placeholders */
   .cg-showcase {
     position: relative;
     display: grid;
@@ -138,22 +56,18 @@
     grid-template-rows: auto auto;
     gap: 1.6rem;
   }
-  .cg-showcase__main {
-    grid-row: span 2;
-  }
   .cg-showcase .ph {
     border-radius: var(--r-lg);
     box-shadow: var(--shadow-lg);
-    min-height: 0;
   }
-  .cg-showcase__main .ph {
-    height: 100%;
+  .cg-showcase__main {
+    grid-row: span 2;
     min-height: 32rem;
   }
-  .cg-showcase__a .ph {
+  .cg-showcase__a {
     height: 17rem;
   }
-  .cg-showcase__b .ph {
+  .cg-showcase__b {
     height: 14.4rem;
   }
   .cg-showcase__tag {
@@ -161,137 +75,40 @@
     inset-block-start: 1.6rem;
     inset-inline-start: 1.6rem;
     z-index: 2;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
-    background: #fff;
-    color: var(--green-deep);
-    border-radius: 999px;
-    padding: 0.7rem 1.4rem;
-    font-weight: 700;
-    font-size: 1.3rem;
-    box-shadow: var(--shadow);
-  }
-  .cg-showcase__tag i {
-    color: var(--clay);
   }
 
-  /* ==========================================================
-     STATS BAR
-     ========================================================== */
+  /* ---------- STATS bar: overlap hero ---------- */
   .cg-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: clamp(1.6rem, 2.4vw, 2.6rem);
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
     box-shadow: var(--shadow);
     padding: clamp(2.4rem, 3vw, 3.4rem);
     margin-top: -4.4rem;
     position: relative;
     z-index: 3;
   }
-  .cg-stat {
-    text-align: center;
-    position: relative;
-  }
-  .cg-stat + .cg-stat::before {
-    content: "";
-    position: absolute;
-    inset-inline-start: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 4.4rem;
-    width: 1px;
-    background: var(--hair);
-  }
-  .cg-stat__n {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: clamp(3rem, 3.6vw, 4rem);
-    color: var(--green-deep);
-    line-height: 1;
-    letter-spacing: -0.01em;
-  }
-  .cg-stat__n .plus {
-    color: var(--gold);
-  }
-  .cg-stat__l {
-    font-size: 1.4rem;
-    color: var(--ink-soft);
-    margin-top: 0.8rem;
-    font-weight: 600;
+  .cg-stats .stat + .stat {
+    border-inline-start: 1px solid var(--hair);
   }
 
-  /* ==========================================================
-     WHY — benefit grid (from the bulk-order design helpers)
-     ========================================================== */
-  .bulk-benefits {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.4rem;
-    margin-top: 0.6rem;
-  }
-  .bulk-benefit {
+  /* ---------- WHY: benefit cards (icon + text row) ---------- */
+  .cg-benefit {
     display: flex;
     gap: 1.2rem;
-    background: var(--surface-warm);
-    border: 1px solid var(--hair);
-    border-radius: var(--r);
-    padding: 1.6rem;
-  }
-  .bulk-benefit i {
-    width: 4rem;
-    height: 4rem;
-    border-radius: var(--r-sm);
-    display: grid;
-    place-items: center;
-    flex: 0 0 auto;
-    background: #fff;
-    border: 1px solid var(--hair);
-    color: var(--green);
-    font-size: 1.7rem;
-  }
-  .bulk-benefit b {
-    display: block;
-    font-size: 1.5rem;
-    color: var(--ink);
-  }
-  .bulk-benefit span {
-    display: block;
-    font-size: 1.3rem;
-    color: var(--ink-soft);
-    margin-top: 0.3rem;
-    line-height: 1.7;
+    align-items: flex-start;
   }
 
-  /* ==========================================================
-     COLLECTIONS — themed gift collections (card grid)
-     ========================================================== */
-  .col-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(1.8rem, 2.4vw, 2.4rem);
+  /* ---------- COLLECTIONS: dark headed link-cards ---------- */
+  .cg-collection {
+    overflow: hidden;
   }
-  .col-card {
+  .cg-collection__link {
     display: flex;
     flex-direction: column;
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    transition:
-      transform 0.18s,
-      box-shadow 0.18s,
-      border-color 0.18s;
+    height: 100%;
   }
-  .col-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-    border-color: color-mix(in oklch, var(--green), transparent 40%);
-  }
-  .col-card__head {
+  .cg-collection__head {
     position: relative;
     overflow: hidden;
     min-height: 13.4rem;
@@ -303,7 +120,7 @@
     color: #fff;
     background: var(--green-deep);
   }
-  .col-card__head::before {
+  .cg-collection__head::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -312,7 +129,7 @@
       radial-gradient(120% 130% at 100% 0%, oklch(1 0 0 / 0.16), transparent 55%),
       radial-gradient(90% 110% at 0% 100%, oklch(0 0 0 / 0.28), transparent 60%);
   }
-  .col-card__wm {
+  .cg-collection__wm {
     position: absolute;
     inset-block-start: -1.4rem;
     inset-inline-start: -1rem;
@@ -321,52 +138,42 @@
     color: oklch(1 0 0 / 0.14);
     transition: transform 0.4s ease;
   }
-  .col-card:hover .col-card__wm {
+  .cg-collection:hover .cg-collection__wm {
     transform: scale(1.08) rotate(-6deg);
   }
-  .col-card__k {
+  .cg-collection__k {
     position: relative;
     font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     color: var(--honey);
   }
-  .col-card__name {
+  .cg-collection__name {
     position: relative;
     font-family: var(--display);
     font-weight: 700;
     font-size: 2.4rem;
-    letter-spacing: -0.01em;
   }
-  .col-card__body {
+  .cg-collection__body {
     padding: 2rem 2.2rem 2.2rem;
     display: flex;
     flex-direction: column;
     gap: 1.4rem;
     flex: 1;
   }
-  .col-card__slogan {
+  .cg-collection__slogan {
     font-size: 1.5rem;
     color: var(--ink);
     line-height: 1.7;
     font-weight: 600;
     flex: 1;
   }
-  .col-card__tags {
+  .cg-collection__tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem;
   }
-  .col-card__tag {
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--ink-soft);
-    background: var(--surface-warm);
-    border: 1px solid var(--hair);
-    border-radius: 999px;
-    padding: 0.45rem 1rem;
-  }
-  .col-card__go {
+  .cg-collection__go {
     display: inline-flex;
     align-items: center;
     gap: 0.7rem;
@@ -375,163 +182,92 @@
     color: var(--green);
     padding-top: 1.4rem;
     border-top: 1px solid var(--hair);
-    transition: gap 0.15s;
   }
-  .col-card:hover .col-card__go {
+  .cg-collection:hover .cg-collection__go {
     gap: 1.1rem;
   }
-  .col-card__go i {
-    font-size: 1.3rem;
-  }
 
-  /* ==========================================================
-     GIFT PACKAGES — curated tiers
-     ========================================================== */
-  .gift-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(1.8rem, 2.4vw, 2.6rem);
+  /* ---------- PACKAGES: media + price + includes ---------- */
+  .cg-packs {
     align-items: start;
   }
-  .gift-card {
+  .cg-pack {
     position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    transition:
-      border-color 0.18s,
-      box-shadow 0.18s,
-      transform 0.18s;
   }
-  .gift-card:hover {
+  .cg-pack--featured {
     border-color: var(--green);
     box-shadow: var(--shadow);
-    transform: translateY(-4px);
   }
-  .gift-card--featured {
-    border-color: var(--green);
-    box-shadow: var(--shadow-lg);
-  }
-  .gift-card--featured::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: var(--r-lg);
-    border: 2px solid var(--green);
-    pointer-events: none;
-    z-index: 2;
-  }
-  .gift-card__ribbon {
+  .cg-pack__ribbon {
     position: absolute;
     inset-block-start: 1.6rem;
     inset-inline-end: 1.6rem;
-    z-index: 3;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--gold);
-    color: var(--ink);
-    border-radius: 999px;
-    padding: 0.5rem 1.2rem;
-    font-weight: 700;
-    font-size: 1.2rem;
-    box-shadow: var(--shadow-sm);
+    z-index: 2;
   }
-  .gift-card__media {
-    position: relative;
-  }
-  .gift-card__media .ph {
+  .cg-pack__media {
     height: 21rem;
   }
-  .gift-card__media .ph__label {
-    position: absolute;
-    top: 1.2rem;
-    inset-inline: 1.2rem;
-    margin: 0 auto;
-    width: fit-content;
-  }
-  .gift-card__body {
+  .cg-pack__body {
     padding: 2.2rem;
     display: flex;
     flex-direction: column;
     gap: 1.4rem;
     flex: 1;
   }
-  .gift-card__name {
+  .cg-pack__name {
     font-family: var(--display);
     font-weight: 700;
     font-size: 2.2rem;
-    letter-spacing: -0.01em;
   }
-  .gift-card__name span {
+  .cg-pack__name span {
     display: block;
     font-size: 1.3rem;
     color: var(--ink-faint);
     font-weight: 600;
     margin-top: 0.3rem;
   }
-  .gift-card__price {
+  .cg-pack__price {
     display: flex;
     align-items: baseline;
-    gap: 0.6rem;
+    gap: 0.5rem;
   }
-  .gift-card__price b {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 2.6rem;
-    color: var(--green-deep);
-  }
-  .gift-card__price .from {
+  .cg-pack__from {
     font-size: 1.3rem;
     color: var(--ink-faint);
     font-weight: 600;
   }
-  .gift-card__price .toman {
-    font-size: 1.3rem;
-    color: var(--ink-faint);
-    font-weight: 600;
-  }
-  .gift-incl {
+  .cg-incl {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     flex: 1;
     padding-top: 1.4rem;
     border-top: 1px solid var(--hair);
-  }
-  .gift-incl li {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
     font-size: 1.45rem;
     color: var(--ink-soft);
     line-height: 1.6;
   }
-  .gift-incl li i {
+  .cg-incl li i {
     color: var(--green);
-    font-size: 1.4rem;
-    margin-top: 0.35rem;
-    flex: 0 0 auto;
+    margin-inline-end: 0.4rem;
   }
-  .gift-incl li.muted i {
+  .cg-incl li.is-off {
+    color: var(--ink-faint);
+  }
+  .cg-incl li.is-off i {
     color: var(--hair-strong);
   }
-  .gift-card .btn {
-    margin-top: 0.4rem;
-  }
 
-  /* ==========================================================
-     OCCASIONS — image-card grid (from blog design helpers)
-     ========================================================== */
-  .occ-grid {
+  /* ---------- OCCASIONS: image cards with scrim ---------- */
+  .cg-occasions {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 1.6rem;
   }
-  .occ-card {
+  .cg-occasion {
     position: relative;
     border-radius: var(--r-lg);
     overflow: hidden;
@@ -539,29 +275,18 @@
     display: flex;
     box-shadow: var(--shadow-sm);
     transition:
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
+      transform 0.2s,
+      box-shadow 0.2s;
   }
-  .occ-card:hover {
+  .cg-occasion:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow);
   }
-  .occ-card .ph {
+  .cg-occasion .ph {
     position: absolute;
     inset: 0;
-    transition: transform 0.4s ease;
   }
-  .occ-card:hover .ph {
-    transform: scale(1.06);
-  }
-  .occ-card .ph__label {
-    position: absolute;
-    top: 1.2rem;
-    inset-inline: 1.2rem;
-    margin: 0 auto;
-    width: fit-content;
-  }
-  .occ-card__scrim {
+  .cg-occasion__scrim {
     position: absolute;
     inset: 0;
     background: linear-gradient(
@@ -571,7 +296,7 @@
       transparent
     );
   }
-  .occ-card__body {
+  .cg-occasion__body {
     position: relative;
     margin-top: auto;
     padding: 1.8rem;
@@ -580,30 +305,22 @@
     flex-direction: column;
     gap: 0.5rem;
   }
-  .occ-card__ic {
-    width: 4rem;
-    height: 4rem;
-    border-radius: 999px;
+  .cg-occasion__ic {
     background: oklch(1 0 0 / 0.18);
-    display: grid;
-    place-items: center;
-    font-size: 1.7rem;
+    color: #fff;
     margin-bottom: 0.6rem;
-    backdrop-filter: blur(4px);
   }
-  .occ-card__t {
+  .cg-occasion__t {
     font-family: var(--display);
     font-weight: 700;
     font-size: 1.9rem;
   }
-  .occ-card__n {
+  .cg-occasion__n {
     font-size: 1.25rem;
     color: oklch(1 0 0 / 0.85);
   }
 
-  /* ==========================================================
-     CUSTOMIZATION — make it yours
-     ========================================================== */
+  /* ---------- CUSTOMIZATION: media + feature rows ---------- */
   .cg-custom {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -622,131 +339,39 @@
     position: absolute;
     inset-block-end: 1.8rem;
     inset-inline-start: 1.8rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    background: #fff;
-    border-radius: var(--r);
-    padding: 1.1rem 1.6rem;
     box-shadow: var(--shadow);
-    font-weight: 700;
-    font-size: 1.4rem;
   }
-  .cg-custom__badge i {
-    color: var(--clay);
-    font-size: 1.7rem;
+  .cg-custom__l .sec-head {
+    margin-bottom: 2rem;
   }
   .cg-custom__list {
     display: flex;
     flex-direction: column;
     gap: 1.4rem;
-    margin-top: 1rem;
   }
-  .cg-feat {
+  .cg-feature {
     display: flex;
     gap: 1.4rem;
   }
-  .cg-feat__ic {
-    width: 5rem;
-    height: 5rem;
-    border-radius: var(--r);
-    display: grid;
-    place-items: center;
-    flex: 0 0 auto;
-    background: var(--green-soft);
-    color: var(--green-deep);
-    font-size: 2rem;
-  }
-  .cg-feat:nth-child(2) .cg-feat__ic {
-    background: var(--clay-soft);
-    color: var(--clay-deep);
-  }
-  .cg-feat:nth-child(3) .cg-feat__ic {
-    background: var(--amber-soft);
-    color: var(--gold-deep);
-  }
-  .cg-feat:nth-child(4) .cg-feat__ic {
-    background: var(--green-soft);
-    color: var(--green-deep);
-  }
-  .cg-feat__t {
+  .cg-feature__t {
     font-weight: 700;
     font-size: 1.7rem;
     color: var(--ink);
   }
-  .cg-feat__d {
+  .cg-feature__d {
     font-size: 1.4rem;
     color: var(--ink-soft);
     margin-top: 0.4rem;
     line-height: 1.8;
   }
 
-  /* ==========================================================
-     PROCESS — numbered steps
-     ========================================================== */
-  .cg-steps {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(1.6rem, 2.2vw, 2.4rem);
-    counter-reset: step;
-  }
-  .cg-step {
-    position: relative;
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
-    padding: 2.6rem 2.2rem 2.4rem;
-    transition:
-      border-color 0.18s,
-      box-shadow 0.18s,
-      transform 0.18s;
-  }
-  .cg-step:hover {
-    border-color: var(--green);
-    box-shadow: var(--shadow);
-    transform: translateY(-3px);
-  }
-  .cg-step__no {
-    counter-increment: step;
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 1.5rem;
-    width: 4.4rem;
-    height: 4.4rem;
-    border-radius: 999px;
-    display: grid;
-    place-items: center;
-    background: var(--green);
-    color: #fff;
-    border: 2px solid var(--gold);
-  }
-  .cg-step__no::before {
-    content: counter(step, decimal);
-  }
-  .cg-step__t {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 1.9rem;
-    margin-top: 1.6rem;
-    letter-spacing: -0.01em;
-  }
-  .cg-step__d {
-    font-size: 1.4rem;
-    color: var(--ink-soft);
-    margin-top: 0.7rem;
-    line-height: 1.8;
-  }
-  .cg-step__ic {
-    position: absolute;
-    inset-block-start: 2.6rem;
-    inset-inline-end: 2.2rem;
-    color: var(--hair-strong);
-    font-size: 2rem;
+  /* ---------- PROCESS: constrain steps ---------- */
+  .cg-process {
+    max-width: 64rem;
+    margin-inline: auto;
   }
 
-  /* ==========================================================
-     TESTIMONIALS — stacked, swipeable deck
-     ========================================================== */
+  /* ---------- TESTIMONIALS: stacked swipeable deck ---------- */
   .cg-deck {
     max-width: 60rem;
     margin-inline: auto;
@@ -757,17 +382,30 @@
     min-height: 30rem;
   }
   .cg-quote {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
     padding: 2.6rem;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow);
+    cursor: grab;
+    user-select: none;
+    transition:
+      transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+      opacity 0.45s ease,
+      box-shadow 0.3s;
+    will-change: transform;
+  }
+  .cg-quote.is-front {
+    box-shadow: var(--shadow-lg);
+  }
+  .cg-quote.is-front:active {
+    cursor: grabbing;
   }
   .cg-quote__mark {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: Georgia, serif;
     font-size: 5rem;
     line-height: 0.4;
     color: var(--green-soft);
@@ -778,6 +416,7 @@
     line-height: 1.95;
     color: var(--ink);
     flex: 1;
+    min-height: 9.6rem;
   }
   .cg-quote__by {
     display: flex;
@@ -786,58 +425,15 @@
     padding-top: 1.6rem;
     border-top: 1px solid var(--hair);
   }
-  .cg-quote__logo {
-    width: 4.8rem;
-    height: 4.8rem;
-    border-radius: var(--r-sm);
-    display: grid;
-    place-items: center;
-    flex: 0 0 auto;
-    background: var(--green-soft);
-    color: var(--green-deep);
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 1.7rem;
-  }
-  .cg-quote:nth-child(2) .cg-quote__logo {
-    background: var(--clay-soft);
-    color: var(--clay-deep);
-  }
-  .cg-quote:nth-child(3) .cg-quote__logo {
-    background: var(--amber-soft);
-    color: var(--gold-deep);
-  }
   .cg-quote__name {
     font-weight: 700;
     font-size: 1.55rem;
   }
   .cg-quote__role {
+    display: block;
     font-size: 1.3rem;
     color: var(--ink-faint);
     margin-top: 0.2rem;
-  }
-  .cg-deck .cg-quote {
-    position: absolute;
-    inset-inline: 0;
-    top: 0;
-    margin: 0;
-    transition:
-      transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
-      opacity 0.45s ease,
-      box-shadow 0.3s;
-    will-change: transform;
-    cursor: grab;
-    user-select: none;
-    box-shadow: var(--shadow);
-  }
-  .cg-deck .cg-quote.is-front {
-    box-shadow: var(--shadow-lg);
-  }
-  .cg-deck .cg-quote.is-front:active {
-    cursor: grabbing;
-  }
-  .cg-deck .cg-quote__t {
-    min-height: 9.6rem;
   }
   .cg-deck__nav {
     display: flex;
@@ -846,26 +442,22 @@
     gap: 1.6rem;
     margin-top: 2.6rem;
   }
-  .cg-deck__prev,
-  .cg-deck__next {
+  .cg-deck__arrow {
     width: 4.8rem;
     height: 4.8rem;
     border-radius: 999px;
     display: grid;
     place-items: center;
-    background: #fff;
+    background: var(--surface);
     border: 1.5px solid var(--hair-strong);
     color: var(--ink);
     font-size: 1.6rem;
     transition: all 0.15s;
-    flex: 0 0 auto;
   }
-  .cg-deck__prev:hover,
-  .cg-deck__next:hover {
+  .cg-deck__arrow:hover {
     border-color: var(--green);
     color: var(--green);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
   }
   .cg-deck__dots {
     display: flex;
@@ -877,31 +469,26 @@
     height: 0.9rem;
     border-radius: 999px;
     background: var(--hair-strong);
-    transition: all 0.2s;
-    padding: 0;
     border: none;
-    cursor: pointer;
+    padding: 0;
+    transition: all 0.2s;
   }
   .cg-dot.is-on {
     background: var(--green);
     width: 2.6rem;
   }
   .cg-deck__hint {
-    width: 100%;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
     font-size: 1.25rem;
     color: var(--ink-faint);
     margin-top: 1.4rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    justify-content: center;
   }
   .cg-deck__hint i {
     color: var(--clay);
   }
-
-  /* trusted-by strip — image logos replaced with text chips */
   .cg-trust {
     display: flex;
     flex-wrap: wrap;
@@ -918,33 +505,13 @@
     color: var(--ink-faint);
   }
   .cg-trust__logo {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     height: 3.4rem;
+    width: auto;
     padding-inline: 1.6rem;
     border-radius: var(--r-sm);
-    background: var(--surface-warm);
-    border: 1px solid var(--hair);
-    opacity: 0.7;
-    transition:
-      opacity 0.15s,
-      border-color 0.15s;
-  }
-  .cg-trust__logo:hover {
-    opacity: 1;
-    border-color: var(--hair-strong);
-  }
-  .cg-trust__logo .ph__label {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--ink-soft);
   }
 
-  /* ==========================================================
-     REQUEST FORM — dark band (reuses the contact-form bits,
-     reproduced scoped below)
-     ========================================================== */
+  /* ---------- REQUEST FORM: dark band + two-column ---------- */
   .cg-form-band {
     position: relative;
     overflow: hidden;
@@ -1003,25 +570,6 @@
     font-size: 1.5rem;
     color: oklch(1 0 0 / 0.9);
   }
-  .cg-form-intro__list i {
-    width: 3.6rem;
-    height: 3.6rem;
-    border-radius: 999px;
-    background: oklch(1 0 0 / 0.12);
-    color: var(--honey);
-    display: grid;
-    place-items: center;
-    font-size: 1.5rem;
-    flex: 0 0 auto;
-  }
-  .cg-form-card {
-    position: relative;
-    background: #fff;
-    color: var(--ink);
-    border-radius: var(--r-lg);
-    padding: clamp(2.4rem, 3vw, 3.4rem);
-    box-shadow: var(--shadow-lg);
-  }
   .cg-form-card__h {
     font-family: var(--display);
     font-weight: 700;
@@ -1032,223 +580,37 @@
     font-size: 1.4rem;
     margin-top: 0.6rem;
   }
-
-  /* ---- form fields (reused from the contact form, scoped) ---- */
-  .contact-form {
+  .cg-form {
     margin-top: 2.2rem;
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
+    align-items: flex-start;
   }
-  .cf-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.6rem;
-  }
-  .cf-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-  }
-  .cf-field label {
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: var(--ink);
-  }
-  .cf-field label .req {
-    color: var(--clay);
-  }
-  .cf-field input,
-  .cf-field select,
-  .cf-field textarea {
-    font-family: inherit;
-    font-size: 1.5rem;
-    color: var(--ink);
-    background: var(--surface-warm);
-    border: 1.5px solid var(--hair-strong);
-    border-radius: var(--r);
-    padding: 1.25rem 1.5rem;
-    outline: none;
-    transition:
-      border-color 0.15s,
-      box-shadow 0.15s,
-      background 0.15s;
+  .cg-form .form-row {
     width: 100%;
   }
-  .cf-field textarea {
-    resize: vertical;
-    min-height: 13rem;
-    line-height: 1.8;
-  }
-  .cf-field input::placeholder,
-  .cf-field textarea::placeholder {
-    color: var(--ink-faint);
-  }
-  .cf-field input:focus,
-  .cf-field select:focus,
-  .cf-field textarea:focus {
-    border-color: var(--green);
-    background: #fff;
-    box-shadow: 0 0 0 4px var(--green-soft);
-  }
-  .cf-field select {
-    appearance: none;
-    -webkit-appearance: none;
-    cursor: pointer;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2378716c' stroke-width='2.5'><path d='M6 9l6 6 6-6'/></svg>");
-    background-repeat: no-repeat;
-    background-position: left 1.5rem center;
-    background-size: 1.6rem;
-    padding-inline-start: 4rem;
-  }
-  .contact-form .btn {
-    align-self: flex-start;
-  }
-  .cf-note {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-size: 1.3rem;
-    color: var(--ink-faint);
-  }
-  .cf-note i {
-    color: var(--green);
-  }
-  .cf-ok {
-    display: none;
-    align-items: center;
-    gap: 1rem;
-    background: var(--green-soft);
-    color: var(--green-deep);
-    border-radius: var(--r);
-    padding: 1.4rem 1.6rem;
-    font-weight: 700;
-    font-size: 1.5rem;
-  }
-  .cf-ok.show {
-    display: flex;
-  }
-  .cf-ok i {
-    font-size: 1.8rem;
+  .cg-form .field {
+    width: 100%;
   }
 
-  /* ==========================================================
-     FAQ — accordion (reused from the faq design helpers, scoped)
-     ========================================================== */
+  /* ---------- FAQ ---------- */
   .cg-faq {
     max-width: 84rem;
     margin-inline: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-  }
-  .faq-item {
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    transition:
-      border-color 0.18s,
-      box-shadow 0.18s;
-  }
-  .faq-item:hover {
-    border-color: var(--hair-strong);
-  }
-  .faq-item.is-open {
-    border-color: var(--green);
-    box-shadow: var(--shadow);
-  }
-  .faq-q {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 1.4rem;
-    text-align: right;
-    padding: 1.9rem 2.2rem;
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: clamp(1.7rem, 2vw, 1.95rem);
-    line-height: 1.5;
-    color: var(--ink);
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  .faq-q__ic {
-    width: 3.2rem;
-    height: 3.2rem;
-    border-radius: 999px;
-    display: grid;
-    place-items: center;
-    flex: 0 0 auto;
-    background: var(--surface-warm);
-    color: var(--ink-faint);
-    font-size: 1.4rem;
-    transition: all 0.2s ease;
-  }
-  .faq-item.is-open .faq-q__ic {
-    background: var(--green);
-    color: #fff;
-    transform: rotate(45deg);
-  }
-  .faq-q__txt {
-    flex: 1;
-  }
-  .faq-a {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.28s ease;
-  }
-  .faq-item.is-open .faq-a {
-    grid-template-rows: 1fr;
-  }
-  .faq-a__inner {
-    overflow: hidden;
-  }
-  .faq-a__body {
-    padding-block: 0 2.2rem;
-    padding-inline: 6rem 2.2rem;
-    color: var(--ink-soft);
-    font-size: 1.5rem;
-    line-height: 1.95;
-  }
-  .faq-a__body p {
-    margin-bottom: 1rem;
-  }
-  .faq-a__body p:last-child {
-    margin-bottom: 0;
-  }
-  .faq-a__body strong {
-    color: var(--ink);
-    font-weight: 700;
   }
 
   /* ==========================================================
      RESPONSIVE
      ========================================================== */
   @media (max-width: 1080px) {
-    .col-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .gift-grid {
-      grid-template-columns: 1fr;
-      max-width: 52rem;
-      margin-inline: auto;
-    }
-    .cg-steps {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .occ-grid {
+    .cg-occasions {
       grid-template-columns: repeat(3, 1fr);
     }
   }
-
   @media (max-width: 900px) {
-    .cg-hero__grid {
+    .cg-hero .hero__inner {
       grid-template-columns: 1fr;
-    }
-    .cg-showcase {
-      max-width: 48rem;
     }
     .cg-custom {
       grid-template-columns: 1fr;
@@ -1263,49 +625,29 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 2.4rem 1.6rem;
     }
-    .cg-stat:nth-child(3)::before,
-    .cg-stat:nth-child(2)::before {
-      display: none;
-    }
-    .cf-row {
-      grid-template-columns: 1fr;
+    .cg-stats .stat:nth-child(odd) {
+      border-inline-start: none;
     }
   }
-
   @media (max-width: 680px) {
-    .col-grid {
-      grid-template-columns: 1fr;
-    }
-    .occ-grid {
+    .cg-occasions {
       grid-template-columns: repeat(2, 1fr);
     }
   }
-
   @media (max-width: 600px) {
-    .bulk-benefits {
-      grid-template-columns: 1fr;
-    }
     .cg-stats {
       grid-template-columns: 1fr;
     }
-    .cg-stat + .cg-stat::before {
-      display: none;
-    }
-    .cg-stat + .cg-stat {
+    .cg-stats .stat + .stat {
+      border-inline-start: none;
       padding-top: 2rem;
       border-top: 1px solid var(--hair);
     }
-    .cg-steps {
+    .cg-occasions {
       grid-template-columns: 1fr;
     }
     .cg-showcase {
       grid-template-columns: 1fr 1fr;
-    }
-    .occ-grid {
-      grid-template-columns: 1fr;
-    }
-    .faq-a__body {
-      padding-inline: 2.2rem;
     }
   }
 }

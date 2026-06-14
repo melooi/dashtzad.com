@@ -1,117 +1,72 @@
 /* ============================================================
-   دشت‌زاد — صفحه پرداخت ناموفق (Payment Failed), scoped under
-   .payment-failed-page. ترجمهٔ <style> درون‌خطی طرح به CSS تو‌در‌تو.
-   توکن‌های مشترک (--ink, --hair, --green …) از dz.css می‌آیند؛
-   توکن‌های مخصوص حالت خطا (umber/cream/amber) این‌جا محلی تعریف شده‌اند.
+   دشت‌زاد — صفحه پرداخت ناموفق (Payment Failed)
+   Page-specific LAYOUT + the warm-umber error palette, scoped
+   under .payment-failed-page. Primitives (hero, card, icon-box,
+   chip, price, ph, btn) come from dz.css / ui.
    ============================================================ */
 
 .payment-failed-page {
-  /* local design tokens not present in dz.css :root */
-  --pf-green-soft: #dff0e2;
-  --pf-gold-deep: #a9781f;
+  /* local error-state tokens (warm umber / clay) not in dz.css :root */
   --pf-clay: #c2410c;
-  --pf-clay-soft: #f7e3d6;
-  --pf-amber-bright: #f0a52e;
+  --pf-amber: #f0a52e;
   --pf-umber-deep: #5a2310;
   --pf-umber-900: #45190a;
   --pf-umber-950: #2e0f05;
   --pf-cream: #f5efe0;
   --pf-cream-soft: rgba(245, 239, 224, 0.74);
-  --pf-paper: #fdfcf9;
-  --pf-paper-2: #f4f1ea;
 
-  background: var(--pf-paper);
+  background: var(--paper);
 
-  .num {
-    font-variant-numeric: tabular-nums;
-  }
-
-  /* ============== HERO (deep umber, full bleed) ============== */
+  /* ---------- HERO: warm-umber override on the shared .hero ---------- */
   .pf-hero {
-    position: relative;
     color: var(--pf-cream);
-    overflow: hidden;
     background:
       radial-gradient(80rem 50rem at 78% -10%, rgba(240, 165, 46, 0.18), transparent 60%),
       radial-gradient(70rem 60rem at 10% 120%, rgba(194, 65, 12, 0.42), transparent 60%),
       linear-gradient(155deg, var(--pf-umber-deep) 0%, var(--pf-umber-900) 55%, var(--pf-umber-950) 100%);
-  }
-  .pf-hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.5;
-    background-image: radial-gradient(rgba(245, 239, 224, 0.05) 1px, transparent 1.4px);
-    background-size: 22px 22px;
-    -webkit-mask: radial-gradient(120rem 60rem at 70% 0%, #000 0%, transparent 75%);
-    mask: radial-gradient(120rem 60rem at 70% 0%, #000 0%, transparent 75%);
-  }
-  .pf-hero__top {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.6rem;
-    padding-block: 2.2rem;
-  }
-
-  /* brandmark (scoped — dark hero variant) */
-  .pf-brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 1.2rem;
-  }
-  .pf-brand__seal {
-    width: 4.6rem;
-    height: 4.6rem;
-    flex: 0 0 auto;
-    border-radius: 999px;
-    background: rgba(245, 239, 224, 0.08);
-    color: var(--pf-cream);
-    display: grid;
-    place-items: center;
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 2.2rem;
-    border: 1.5px solid rgba(240, 165, 46, 0.7);
-  }
-  .pf-brand__name {
-    display: block;
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 2.4rem;
-    line-height: 1;
-    color: var(--pf-cream);
-  }
-  .pf-brand__tag {
-    display: block;
-    color: var(--pf-cream-soft);
-    font-size: 1.1rem;
-    margin-top: 0.35rem;
-    letter-spacing: 0.02em;
-  }
-  .pf-hero__support {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: var(--pf-cream-soft);
-  }
-  .pf-hero__support i {
-    color: var(--pf-amber-bright);
-  }
-
-  .pf-hero__body {
-    position: relative;
-    z-index: 2;
+    padding-bottom: clamp(7rem, 11vw, 12rem);
     text-align: center;
-    padding-block: clamp(1.2rem, 2.4vw, 2.4rem) clamp(7rem, 11vw, 12rem);
+  }
+  .pf-hero::before {
+    display: none;
+  }
+  .pf-hero__inner {
+    max-width: 60rem;
+    margin-inline: auto;
+  }
+  .pf-hero__kicker {
+    justify-content: center;
+    color: var(--pf-amber);
+    letter-spacing: 0.18em;
+  }
+  .pf-hero .hero__title {
+    color: var(--pf-cream);
+  }
+  .pf-hero__em {
+    font-style: normal;
+    color: var(--pf-amber);
+  }
+  .pf-hero .hero__sub {
+    margin-inline: auto;
+  }
+  .pf-hero__chips {
+    margin-top: 2.2rem;
+    display: flex;
+    justify-content: center;
+  }
+  /* safepill — green chip on dark, tuned for the umber hero */
+  .pf-safepill {
+    padding: 0.95rem 1.8rem;
+    font-size: 1.4rem;
+    background: rgba(29, 122, 69, 0.16);
+    border: 1px solid rgba(133, 224, 170, 0.32);
+    color: #bfe9cd;
+  }
+  .pf-safepill i {
+    color: #7fd6a0;
   }
 
-  /* medallion — clay alert seal */
+  /* medallion — clay alert seal (decorative, no shared primitive) */
   .pf-medal {
     position: relative;
     width: 10rem;
@@ -161,15 +116,15 @@
   }
   .pf-bang,
   .pf-bang-dot {
-    stroke: var(--pf-amber-bright);
+    stroke: var(--pf-amber);
     stroke-width: 7;
     stroke-linecap: round;
     opacity: 0;
-    animation: pf-bangIn 0.5s ease-out 2.1s forwards;
+    animation: pf-bang-in 0.5s ease-out 2.1s forwards;
     filter: drop-shadow(0 0 8px rgba(240, 165, 46, 0.5));
   }
   .pf-bang-dot {
-    fill: var(--pf-amber-bright);
+    fill: var(--pf-amber);
     stroke: none;
   }
   @keyframes pf-draw {
@@ -177,7 +132,7 @@
       stroke-dashoffset: 0;
     }
   }
-  @keyframes pf-bangIn {
+  @keyframes pf-bang-in {
     from {
       opacity: 0;
       transform: translateY(-0.4rem);
@@ -202,92 +157,23 @@
     }
   }
 
-  .pf-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    color: var(--pf-amber-bright);
-    margin-bottom: 1.6rem;
-    font-size: 1.2rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    white-space: nowrap;
-  }
-  .pf-eyebrow::before {
-    content: "";
-    width: 2.6rem;
-    height: 1.5px;
-    background: currentColor;
-    opacity: 0.7;
-  }
-  .pf-hero__title {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: clamp(2.6rem, 4.4vw, 4.2rem);
-    line-height: 1.12;
-    letter-spacing: -0.02em;
-    color: var(--pf-cream);
-  }
-  .pf-hero__title em {
-    font-style: normal;
-    color: var(--pf-amber-bright);
-  }
-  .pf-hero__sub {
-    max-width: 54rem;
-    margin: 1.4rem auto 0;
-    color: var(--pf-cream-soft);
-    font-size: clamp(1.4rem, 1.6vw, 1.55rem);
-    line-height: 1.85;
-    text-wrap: pretty;
-  }
-
-  /* reassurance pill — green = safe/no charge */
-  .pf-safepill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.9rem;
-    margin-top: 2.2rem;
-    padding: 0.95rem 1.8rem;
-    background: rgba(29, 122, 69, 0.16);
-    border: 1px solid rgba(133, 224, 170, 0.32);
-    border-radius: 999px;
-    backdrop-filter: blur(4px);
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #bfe9cd;
-  }
-  .pf-safepill i {
-    color: #7fd6a0;
-    font-size: 1.5rem;
-  }
-
-  .pf-hero__wave {
-    position: relative;
-    z-index: 2;
-    display: block;
-    width: 100%;
-    height: clamp(4rem, 7vw, 7rem);
-    margin-bottom: -1px;
-    color: var(--pf-paper);
-  }
-
-  /* ============== STAGE ============== */
+  /* ---------- STAGE ---------- */
   .pf-stage {
-    background: var(--pf-paper);
     padding-bottom: clamp(5rem, 9vw, 9rem);
   }
+  .pf-ok {
+    color: var(--green);
+  }
+
+  /* quick-facts strip (Card) */
   .pf-metastrip {
     position: relative;
     z-index: 5;
     margin-top: clamp(-9rem, -12vw, -6.5rem);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    background: var(--pf-paper);
-    border: 1px solid var(--hair);
-    border-radius: 2rem;
-    box-shadow: 0 3rem 7rem -3rem rgba(90, 35, 16, 0.4);
     overflow: hidden;
+    box-shadow: 0 3rem 7rem -3rem rgba(90, 35, 16, 0.4);
   }
   .pf-metastrip__cell {
     display: flex;
@@ -297,25 +183,6 @@
   }
   .pf-metastrip__cell + .pf-metastrip__cell {
     border-inline-start: 1px solid var(--hair);
-  }
-  .pf-metastrip__ic {
-    width: 4.8rem;
-    height: 4.8rem;
-    flex: 0 0 auto;
-    border-radius: 1.2rem;
-    display: grid;
-    place-items: center;
-    background: var(--pf-clay-soft);
-    color: var(--pf-clay);
-    font-size: 1.9rem;
-  }
-  .pf-metastrip__ic--gold {
-    background: #fbf2dd;
-    color: var(--pf-gold-deep);
-  }
-  .pf-metastrip__ic--green {
-    background: var(--pf-green-soft);
-    color: var(--green-deep);
   }
   .pf-metastrip__k {
     font-size: 1.25rem;
@@ -329,9 +196,6 @@
     margin-top: 0.3rem;
     line-height: 1.35;
   }
-  .pf-ok {
-    color: var(--green);
-  }
   @media (max-width: 760px) {
     .pf-metastrip {
       grid-template-columns: 1fr;
@@ -342,6 +206,7 @@
     }
   }
 
+  /* numbered section label */
   .pf-seclabel {
     display: flex;
     align-items: baseline;
@@ -371,6 +236,7 @@
     align-self: center;
   }
 
+  /* two-column body */
   .pf-cols {
     display: grid;
     grid-template-columns: 1.08fr 0.92fr;
@@ -385,27 +251,11 @@
     }
   }
 
-  /* what happened — simple explanation */
+  /* what-happened explainer (Card + IconBox) */
   .pf-explain {
     display: flex;
     gap: 1.8rem;
-    padding: 2.6rem;
     background: var(--surface-warm);
-    border: 1px solid var(--hair);
-    border-radius: 1.8rem;
-  }
-  .pf-explain__ic {
-    width: 5rem;
-    height: 5rem;
-    flex: 0 0 auto;
-    border-radius: 1.3rem;
-    display: grid;
-    place-items: center;
-    background: #fff;
-    border: 1px solid var(--pf-clay-soft);
-    color: var(--pf-clay);
-    font-size: 2rem;
-    box-shadow: 0 1rem 2.4rem -1.4rem rgba(194, 65, 12, 0.55);
   }
   .pf-explain__t {
     font-size: 1.85rem;
@@ -433,10 +283,8 @@
     font-weight: 700;
   }
 
-  /* likely reasons */
+  /* likely-reasons list (IconBox rows) */
   .pf-reasons {
-    display: flex;
-    flex-direction: column;
     margin-top: 2.6rem;
   }
   .pf-reason {
@@ -450,15 +298,8 @@
     border-bottom: none;
   }
   .pf-reason__ic {
-    width: 3.8rem;
-    height: 3.8rem;
-    flex: 0 0 auto;
-    border-radius: 1rem;
-    display: grid;
-    place-items: center;
-    background: var(--pf-paper-2);
+    background: var(--paper-2);
     color: var(--ink-soft);
-    font-size: 1.5rem;
   }
   .pf-reason__t {
     font-size: 1.6rem;
@@ -472,10 +313,8 @@
     line-height: 1.7;
   }
 
-  /* saved cart side */
+  /* saved-cart card (Card with colored head) */
   .pf-savedcard {
-    border: 1px solid var(--hair);
-    border-radius: 1.8rem;
     overflow: hidden;
     box-shadow: 0 2.4rem 6rem -3rem rgba(20, 83, 45, 0.4);
   }
@@ -504,11 +343,6 @@
   .pf-savedcard__body {
     padding: 0.4rem 2.2rem 2.2rem;
   }
-
-  .pf-lines {
-    display: flex;
-    flex-direction: column;
-  }
   .pf-line {
     display: flex;
     gap: 1.6rem;
@@ -524,15 +358,6 @@
     height: 6.6rem;
     flex: 0 0 auto;
     border-radius: 1.2rem;
-    overflow: hidden;
-  }
-  .pf-line__thumb .ph {
-    width: 100%;
-    height: 100%;
-  }
-  .pf-line__thumb .ph__label {
-    font-size: 1rem;
-    line-height: 1.4;
   }
   .pf-line__body {
     flex: 1;
@@ -564,15 +389,6 @@
     color: var(--ink-faint);
     font-weight: 600;
   }
-  .pf-price {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-weight: 700;
-    font-size: 1.55rem;
-    color: var(--ink);
-  }
-
   .pf-savedtotal {
     display: flex;
     align-items: center;
@@ -581,50 +397,35 @@
     padding: 1.6rem 2rem;
     background: var(--surface-warm);
     border: 1px dashed var(--hair-strong);
-    border-radius: 1.4rem;
+    border-radius: var(--r);
   }
   .pf-savedtotal__k {
     font-size: 1.45rem;
     font-weight: 700;
     color: var(--ink);
   }
-  .pf-savedtotal__v {
-    font-size: 2.1rem;
-    font-weight: 700;
+  .pf-savedtotal__v .price__now {
     color: var(--green-deep);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
   }
 
-  /* تایمر نگه‌داری سبد */
+  /* cart-hold timer (rebuilt on IconBox + chip language) */
   .pf-holdcart {
     display: flex;
     align-items: center;
     gap: 1.3rem;
     margin-top: 1.5rem;
     padding: 1.5rem 1.7rem;
-    background: #fff;
-    border: 1.5px solid var(--pf-clay-soft);
-    border-radius: 1.4rem;
+    background: var(--surface);
+    border: 1.5px solid var(--clay-soft);
+    border-radius: var(--r);
   }
   .pf-holdcart.is-expired {
     border-color: var(--hair-strong);
     background: var(--surface-warm);
   }
-  .pf-holdcart__ic {
-    width: 4.6rem;
-    height: 4.6rem;
-    flex: 0 0 auto;
-    border-radius: 1.2rem;
-    display: grid;
-    place-items: center;
-    background: var(--pf-clay-soft);
-    color: var(--pf-clay);
-    font-size: 2rem;
-  }
+  /* IconBox clay tone already matches the active state; only override expired */
   .pf-holdcart.is-expired .pf-holdcart__ic {
-    background: var(--pf-paper-2);
+    background: var(--paper-2);
     color: var(--ink-faint);
   }
   .pf-holdcart__b {
@@ -655,14 +456,14 @@
     font-size: 2.3rem;
     color: var(--pf-clay);
     font-variant-numeric: tabular-nums;
-    background: var(--pf-clay-soft);
-    border-radius: 1.1rem;
+    background: var(--clay-soft);
+    border-radius: var(--r-sm);
     padding: 0.7rem 1.3rem;
     flex: 0 0 auto;
     letter-spacing: 0.06em;
   }
   .pf-holdcart.is-expired .pf-holdcart__clock {
-    background: var(--pf-paper-2);
+    background: var(--paper-2);
     color: var(--ink-faint);
   }
 
@@ -672,54 +473,16 @@
     gap: 1.4rem;
     margin-top: clamp(4rem, 7vw, 6.4rem);
   }
+  .pf-action {
+    flex: 1;
+  }
   @media (max-width: 560px) {
     .pf-actions {
       flex-direction: column;
     }
   }
-  .pf-btn {
-    flex: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    font-weight: 700;
-    border-radius: 1.5rem;
-    font-size: 1.8rem;
-    padding: 1.9rem 2.4rem;
-    transition:
-      transform 0.12s ease,
-      box-shadow 0.2s ease,
-      background 0.2s ease,
-      border-color 0.15s;
-  }
-  .pf-btn:active {
-    transform: translateY(1px);
-  }
-  .pf-btn--primary {
-    background: var(--pf-clay);
-    color: var(--pf-cream);
-    box-shadow: 0 1.6rem 3.6rem -1.4rem rgba(194, 65, 12, 0.7);
-  }
-  .pf-btn--primary:hover {
-    background: #ab390a;
-  }
-  .pf-btn--primary i {
-    color: #ffd8b0;
-  }
-  .pf-btn--ghost {
-    background: var(--pf-paper);
-    color: var(--ink);
-    border: 1.5px solid var(--hair-strong);
-  }
-  .pf-btn--ghost:hover {
-    color: var(--pf-clay);
-    border-color: var(--pf-clay);
-  }
-  .pf-btn--ghost i {
-    color: var(--pf-clay);
-  }
 
+  /* reassurance strip */
   .pf-reassure {
     display: flex;
     align-items: center;

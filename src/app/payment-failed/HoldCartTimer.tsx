@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { IconBox } from "@/components/ui";
 
 const DUR_MS = 15 * 60 * 1000; // 15 دقیقه
 
@@ -31,9 +32,7 @@ export function HoldCartTimer() {
 
   return (
     <div className={`pf-holdcart${expired ? " is-expired" : ""}`}>
-      <span className="pf-holdcart__ic">
-        <i className="fa-solid fa-clock" aria-hidden />
-      </span>
+      <IconBox icon="fa-clock" tone="clay" className="pf-holdcart__ic" />
       <div className="pf-holdcart__b">
         {expired ? (
           <>
