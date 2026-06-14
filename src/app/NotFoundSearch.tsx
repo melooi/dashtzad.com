@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { Button, FormNote, Input } from "@/components/ui";
 
 export function NotFoundSearch() {
   const [q, setQ] = useState("");
   const [note, setNote] = useState(false);
 
   return (
-    <>
+    <div className="nf-search">
       <form
-        className="nf-search"
+        className="nf-search__bar"
         role="search"
         onSubmit={(e) => {
           e.preventDefault();
@@ -18,21 +19,23 @@ export function NotFoundSearch() {
         }}
       >
         <i className="fa-solid fa-magnifying-glass" aria-hidden />
-        <input
+        <Input
           type="search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="جستجو در محصولات دشت‌زاد…"
           aria-label="جستجو"
+          className="nf-search__input"
         />
-        <button type="submit" className="btn btn--primary nf-search__btn">
+        <Button type="submit" className="nf-search__btn">
           جستجو
-        </button>
+        </Button>
       </form>
-      <p className={`nf-search-note${note ? " show" : ""}`} aria-live="polite">
-        <i className="fa-solid fa-circle-info" aria-hidden /> جستجو در نسخه نمایشی فعال نیست؛ از فهرست
-        محصولات یا دسته‌های پرطرفدار استفاده کنید.
-      </p>
-    </>
+      {note && (
+        <FormNote icon="fa-circle-info" className="nf-search__note">
+          جستجو در نسخه نمایشی فعال نیست؛ از فهرست محصولات یا دسته‌های پرطرفدار استفاده کنید.
+        </FormNote>
+      )}
+    </div>
   );
 }

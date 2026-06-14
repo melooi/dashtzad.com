@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Field, Input, Button, Chip, Steps } from "@/components/ui";
 
 const FA_DIGITS = "۰۱۲۳۴۵۶۷۸۹";
 
@@ -22,7 +23,7 @@ export function TrackForm() {
   return (
     <>
       <form
-        className="track-form"
+        className="track-order-lookup"
         onSubmit={(e) => {
           e.preventDefault();
           const input = e.currentTarget.elements.namedItem("trackInput") as HTMLInputElement | null;
@@ -32,68 +33,63 @@ export function TrackForm() {
           setShown(true);
         }}
       >
-        <input
-          type="text"
-          name="trackInput"
-          placeholder="شماره سفارش یا شماره موبایل"
-          aria-label="شماره سفارش یا موبایل"
-        />
-        <button className="btn btn--primary" type="submit">
+        <Field label="شماره سفارش یا موبایل" htmlFor="trackInput" className="track-order-lookup__field">
+          <Input
+            id="trackInput"
+            name="trackInput"
+            type="text"
+            placeholder="شماره سفارش یا شماره موبایل"
+            aria-label="شماره سفارش یا موبایل"
+          />
+        </Field>
+        <Button type="submit" variant="primary">
           <i className="fa-solid fa-magnifying-glass" aria-hidden /> پیگیری
-        </button>
+        </Button>
       </form>
 
-      <div className={`track-result${shown ? " show" : ""}`}>
-        <div className="track-meta">
-          <span className="faq-fact">
-            <i className="fa-solid fa-receipt" aria-hidden /> شماره سفارش: <b>{orderId}</b>
-          </span>
-          <span className="faq-fact">
-            <i className="fa-solid fa-box" aria-hidden /> ۳ قلم کالا
-          </span>
-          <span className="faq-fact">
-            <i className="fa-solid fa-location-dot" aria-hidden /> تهران
-          </span>
+      {shown && (
+        <div className="track-order-result">
+          <div className="track-order-meta">
+            <Chip tone="green" icon="fa-receipt">
+              شماره سفارش: <b className="num">{orderId}</b>
+            </Chip>
+            <Chip tone="green" icon="fa-box">
+              ۳ قلم کالا
+            </Chip>
+            <Chip tone="green" icon="fa-location-dot">
+              تهران
+            </Chip>
+          </div>
+
+          <Steps
+            items={[
+              {
+                num: <i className="fa-solid fa-check" aria-hidden />,
+                title: "سفارش ثبت و تأیید شد",
+                desc: "۱۲ خرداد ۱۴۰۵ — ۱۰:۲۴",
+                state: "done",
+              },
+              {
+                num: <i className="fa-solid fa-check" aria-hidden />,
+                title: "در حال بسته‌بندی",
+                desc: "۱۲ خرداد ۱۴۰۵ — ۱۳:۱۰",
+                state: "done",
+              },
+              {
+                num: <i className="fa-solid fa-truck" aria-hidden />,
+                title: "تحویل پست/پیک شد",
+                desc: "کد رهگیری برای شما پیامک شد — در مسیر تحویل",
+              },
+              {
+                num: <i className="fa-solid fa-house" aria-hidden />,
+                title: "تحویل به شما",
+                desc: "برآورد: ۱ تا ۲ روز کاری",
+                state: "pending",
+              },
+            ]}
+          />
         </div>
-        <ul className="track-timeline">
-          <li className="track-step is-done">
-            <span className="track-step__dot">
-              <i className="fa-solid fa-check" aria-hidden />
-            </span>
-            <div className="track-step__b">
-              <div className="track-step__t">سفارش ثبت و تأیید شد</div>
-              <div className="track-step__d">۱۲ خرداد ۱۴۰۵ — ۱۰:۲۴</div>
-            </div>
-          </li>
-          <li className="track-step is-done">
-            <span className="track-step__dot">
-              <i className="fa-solid fa-check" aria-hidden />
-            </span>
-            <div className="track-step__b">
-              <div className="track-step__t">در حال بسته‌بندی</div>
-              <div className="track-step__d">۱۲ خرداد ۱۴۰۵ — ۱۳:۱۰</div>
-            </div>
-          </li>
-          <li className="track-step is-current">
-            <span className="track-step__dot">
-              <i className="fa-solid fa-truck" aria-hidden />
-            </span>
-            <div className="track-step__b">
-              <div className="track-step__t">تحویل پست/پیک شد</div>
-              <div className="track-step__d">کد رهگیری برای شما پیامک شد — در مسیر تحویل</div>
-            </div>
-          </li>
-          <li className="track-step is-pending">
-            <span className="track-step__dot">
-              <i className="fa-solid fa-house" aria-hidden />
-            </span>
-            <div className="track-step__b">
-              <div className="track-step__t">تحویل به شما</div>
-              <div className="track-step__d">برآورد: ۱ تا ۲ روز کاری</div>
-            </div>
-          </li>
-        </ul>
-      </div>
+      )}
     </>
   );
 }

@@ -1,270 +1,85 @@
 /* ============================================================
-   دشت‌زاد — صفحه پیگیری سفارش (Track Order), scoped under .track-order-page.
-   Hero (.faq-hero) + link-card come from dz.css; the support/track/faq-*
-   helper classes below are page-local (from the design's faq.css/contact.css).
+   دشت‌زاد — صفحه پیگیری سفارش (Track Order).
+   Page-specific LAYOUT only, scoped under .track-order-page.
+   All primitives (hero, card, icon-box, field/input, button, steps,
+   note, chip, link-card) come from dz.css / ui components.
    ============================================================ */
 
 .track-order-page {
-  /* shared: centered single-column support layout */
-  .support-wrap {
+  /* centered single-column support layout */
+  .track-order-body {
+    display: grid;
+    gap: 2rem;
     max-width: 86rem;
-    margin-inline: auto;
-    margin-top: 0;
     position: relative;
     z-index: 2;
     padding-top: clamp(3rem, 4vw, 4.4rem);
     padding-bottom: clamp(4rem, 6vw, 7rem);
   }
-  .support-card {
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
-    padding: clamp(2.2rem, 3.4vw, 3.4rem);
-    box-shadow: var(--shadow);
-  }
-  .support-card + .support-card {
-    margin-top: 2rem;
-  }
-  .support-card__h {
+
+  /* card header row (icon + title/desc) */
+  .track-order-card-head {
     display: flex;
     align-items: center;
     gap: 1.2rem;
     margin-bottom: 1.8rem;
   }
-  .support-card__ic {
-    width: 5rem;
-    height: 5rem;
-    border-radius: var(--r);
-    display: grid;
-    place-items: center;
-    flex: 0 0 auto;
-    background: var(--green-soft);
-    color: var(--green-deep);
-    font-size: 2rem;
-  }
-  .support-card__ic--clay {
-    background: var(--clay-soft);
-    color: var(--clay-deep);
-  }
-  .support-card__t {
+  .track-order-card-head__t {
     font-family: var(--display);
     font-weight: 700;
     font-size: clamp(2rem, 2.6vw, 2.4rem);
     letter-spacing: -0.01em;
   }
-  .support-card__n {
+  .track-order-card-head__n {
     font-size: 1.35rem;
     color: var(--ink-faint);
     margin-top: 0.2rem;
   }
 
-  /* tracking form (inline) */
-  .track-form {
+  /* lookup form: field grows, button sits inline; stacks on mobile */
+  .track-order-lookup {
     display: flex;
-    gap: 1rem;
-    background: var(--surface-warm);
-    border: 1.5px solid var(--hair-strong);
-    border-radius: var(--r);
-    padding: 0.7rem;
+    align-items: flex-end;
+    gap: 1.2rem;
   }
-  .track-form input {
+  .track-order-lookup__field {
     flex: 1;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: inherit;
-    font-size: 1.5rem;
-    color: var(--ink);
-    padding: 1.1rem 1.4rem;
     min-width: 0;
   }
-  .track-form input::placeholder {
-    color: var(--ink-faint);
-  }
 
-  /* status timeline */
-  .track-result {
-    display: none;
+  /* result block (order meta + status timeline) */
+  .track-order-result {
     margin-top: 2.2rem;
   }
-  .track-result.show {
-    display: block;
-  }
-  .track-meta {
+  .track-order-meta {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 2rem;
   }
-  .track-timeline {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-  }
-  .track-step {
-    display: flex;
-    gap: 1.4rem;
-    padding-bottom: 2.4rem;
-    position: relative;
-  }
-  .track-step:last-child {
-    padding-bottom: 0;
-  }
-  .track-step::before {
-    content: "";
-    position: absolute;
-    inset-inline-start: 1.85rem;
-    top: 3.8rem;
-    bottom: 0;
-    width: 2px;
-    background: var(--hair);
-  }
-  .track-step:last-child::before {
-    display: none;
-  }
-  .track-step__dot {
-    width: 3.8rem;
-    height: 3.8rem;
-    border-radius: 999px;
-    display: grid;
-    place-items: center;
-    flex: 0 0 auto;
-    background: var(--surface-warm);
-    border: 2px solid var(--hair-strong);
-    color: var(--ink-faint);
-    font-size: 1.5rem;
-    z-index: 1;
-  }
-  .track-step.is-done .track-step__dot {
-    background: var(--green);
-    border-color: var(--green);
-    color: #fff;
-  }
-  .track-step.is-current .track-step__dot {
-    background: var(--clay);
-    border-color: var(--clay);
-    color: #fff;
-    animation: track-pulse 1.8s ease-in-out infinite;
-  }
-  .track-step__b {
-    padding-top: 0.4rem;
-  }
-  .track-step__t {
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: var(--ink);
-  }
-  .track-step.is-pending .track-step__t {
-    color: var(--ink-faint);
-  }
-  .track-step__d {
-    font-size: 1.35rem;
-    color: var(--ink-soft);
-    margin-top: 0.3rem;
-  }
 
-  /* inline facts (order meta chips) */
-  .faq-fact {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    background: var(--surface-warm);
-    border: 1px solid var(--hair);
-    border-radius: 999px;
-    padding: 0.8rem 1.4rem;
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .faq-fact i {
-    color: var(--green);
-    font-size: 1.35rem;
-  }
-  .faq-fact b {
-    direction: ltr;
-    unicode-bidi: plaintext;
-  }
-
-  /* numbered steps inside the help card */
-  .faq-steps {
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
-    margin: 1.2rem 0 0.2rem;
-  }
-  .faq-steps li {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.1rem;
-    font-size: 1.45rem;
-    line-height: 1.85;
-    color: var(--ink-soft);
-  }
-  .faq-steps li b {
-    width: 2.6rem;
-    height: 2.6rem;
-    border-radius: 999px;
-    background: var(--green);
-    color: #fff;
-    display: grid;
-    place-items: center;
-    font-size: 1.3rem;
-    font-weight: 700;
-    flex: 0 0 auto;
-    margin-top: 0.2rem;
-  }
-  .faq-steps a {
-    color: var(--green);
-    font-weight: 700;
-  }
-
-  /* inline note / callout */
-  .faq-note {
-    display: flex;
-    gap: 1rem;
-    background: var(--green-soft);
-    border-radius: var(--r);
-    padding: 1.3rem 1.5rem;
+  .track-order-help-note {
     margin-top: 1.6rem;
-    color: var(--green-deep);
-    font-size: 1.4rem;
-    line-height: 1.75;
   }
-  .faq-note i {
-    font-size: 1.6rem;
-    margin-top: 0.2rem;
-    flex: 0 0 auto;
-  }
-  .faq-note a {
+  .track-order-help-note a {
     color: inherit;
     font-weight: 700;
     text-decoration: underline;
     text-underline-offset: 3px;
   }
 
-  /* help / contact CTA link-cards (global .link-card) spacing */
-  .track-cta {
+  /* help / contact CTA link-cards */
+  .track-order-cta {
     display: grid;
     gap: 1.6rem;
-    margin-top: 2rem;
-  }
-
-  @keyframes track-pulse {
-    0%,
-    100% {
-      box-shadow: 0 0 0 0 color-mix(in oklch, var(--clay), transparent 60%);
-    }
-    50% {
-      box-shadow: 0 0 0 0.8rem color-mix(in oklch, var(--clay), transparent 100%);
-    }
   }
 
   @media (max-width: 600px) {
-    .track-form {
+    .track-order-lookup {
       flex-direction: column;
+      align-items: stretch;
     }
-    .track-form .btn {
+    .track-order-lookup .btn {
       justify-content: center;
     }
   }

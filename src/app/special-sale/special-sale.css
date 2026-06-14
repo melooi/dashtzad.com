@@ -1,72 +1,17 @@
 /* ============================================================
-   دشت‌زاد — صفحه فروش ویژه (special sale), scoped under .special-sale-page.
-   تکیه بر توکن‌ها و primitiveهای dz.css (به‌صورت سراسری لود می‌شود).
-   .pcard اینجا کپی شده چون نسخهٔ home زیر .home-page اسکوپ است.
+   دشت‌زاد — صفحه فروش ویژه (special sale).
+   فقط چیدمان مخصوص این صفحه + فلیپ‌کلاک شمارش معکوس.
+   primitiveها از dz.css و src/components/ui می‌آیند.
    ============================================================ */
 
 .special-sale-page {
-  /* ---------- بنر فروش ویژه ---------- */
-  .sale-hero {
-    position: relative;
-    overflow: hidden;
-    color: #fff;
-    background:
-      radial-gradient(70% 90% at 90% 0%, oklch(0.62 0.17 50 / 0.55), transparent 60%),
-      radial-gradient(60% 80% at 0% 100%, oklch(0.5 0.12 60 / 0.5), transparent 60%),
-      linear-gradient(150deg, var(--clay-deep) 0%, var(--clay) 55%, #8a2f08 100%);
-  }
-  .sale-hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.5;
-    background-image: radial-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1.4px);
-    background-size: 22px 22px;
-  }
-  .sale-hero__inner {
-    position: relative;
-    z-index: 2;
-    padding: clamp(3.4rem, 6vw, 6rem) 0 clamp(3.6rem, 6vw, 6rem);
-    text-align: center;
-  }
-  .sale-hero__kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    font-weight: 700;
-    font-size: 1.3rem;
-    letter-spacing: 0.05em;
-    color: #fff;
-    background: rgb(255 255 255 / 0.14);
-    border: 1px solid rgb(255 255 255 / 0.3);
-    border-radius: 999px;
-    padding: 0.7rem 1.6rem;
-  }
-  .sale-hero__kicker i {
-    color: var(--honey);
-  }
-  .sale-hero__title {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: clamp(3.4rem, 5.6vw, 5.6rem);
-    line-height: 1.08;
-    margin-top: 1.8rem;
-    letter-spacing: -0.02em;
-  }
-  .sale-hero__title em {
+  /* لهجهٔ عسلی روی بخش دوم تیتر hero (مطابق نمونه) */
+  .hero__title em {
     font-style: normal;
     color: var(--honey);
   }
-  .sale-hero__sub {
-    color: oklch(1 0 0 / 0.9);
-    font-size: clamp(1.5rem, 1.9vw, 1.8rem);
-    line-height: 1.8;
-    margin: 1.4rem auto 0;
-    max-width: 54rem;
-  }
 
-  /* ---------- شمارش معکوس — فلیپ‌کلاک ---------- */
+  /* ---------- شمارش معکوس داخل hero (فلیپ‌کلاک) ---------- */
   .countdown {
     --fcw: clamp(5.6rem, 8vw, 8.4rem);
     --fch: clamp(7rem, 9.4vw, 9.4rem);
@@ -146,11 +91,9 @@
     transform-origin: top center;
     transform: rotateX(90deg);
   }
-  .flip.is-flipping .flip__leaf--top,
   .flip__card.is-flipping .flip__leaf--top {
     animation: dz-flip-top 0.3s ease-in forwards;
   }
-  .flip.is-flipping .flip__leaf--bot,
   .flip__card.is-flipping .flip__leaf--bot {
     animation: dz-flip-bot 0.3s ease-out 0.3s forwards;
   }
@@ -209,47 +152,43 @@
     }
   }
 
-  /* ---------- product card (کپی از home، اسکوپ‌شده) ---------- */
-  .pcard {
-    position: relative;
+  /* ---------- شبکه و شمارنده تخفیف ---------- */
+  .sale-count {
+    font-size: 1.5rem;
+    color: var(--ink-soft);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .sale-count b {
+    color: var(--clay-deep);
+  }
+  .sale-grid {
+    gap: clamp(1.8rem, 2.4vw, 2.6rem);
+  }
+
+  /* ---------- کارت محصول تخفیف‌دار (چیدمان روی Card) ---------- */
+  .sale-card {
     display: flex;
     flex-direction: column;
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
     overflow: hidden;
-    transition:
-      border-color 0.18s,
-      box-shadow 0.18s,
-      transform 0.18s;
   }
-  .pcard:hover {
-    border-color: var(--green);
-    box-shadow: var(--shadow);
-    transform: translateY(-4px);
-  }
-  .pcard.is-out {
+  .sale-card.is-out {
     opacity: 0.78;
   }
-  .pcard.is-out:hover {
-    border-color: var(--hair);
-    box-shadow: none;
-    transform: none;
-  }
-  .pcard__media {
+  .sale-card__media {
     position: relative;
   }
-  .pcard__media .ph {
+  .sale-card__media .ph {
     height: 21rem;
   }
-  .pcard__media .ph__label {
+  .sale-card__media .ph__label {
     position: absolute;
     inset-inline: 1.2rem;
     bottom: 1.2rem;
     margin: 0 auto;
     width: fit-content;
   }
-  .pcard__flags {
+  .sale-card__flags {
     position: absolute;
     inset-block-start: 1.3rem;
     inset-inline-start: 1.3rem;
@@ -258,12 +197,10 @@
     gap: 0.6rem;
     align-items: flex-start;
   }
-  .pcard__bm {
+  .sale-card__bm {
     position: absolute;
     inset-block-start: 1.3rem;
     inset-inline-end: 1.3rem;
-  }
-  .bookmark {
     width: 3.8rem;
     height: 3.8rem;
     border-radius: 999px;
@@ -273,74 +210,36 @@
     border: 1.5px solid var(--hair);
     background: rgb(255 255 255 / 0.92);
     backdrop-filter: blur(4px);
-    flex: 0 0 auto;
     transition: all 0.15s;
   }
-  .bookmark:hover {
+  .sale-card__bm:hover {
     color: var(--clay);
     border-color: var(--clay);
   }
-  .pcard__body {
+  .sale-card__body {
     padding: 1.8rem 1.8rem 2rem;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 1rem;
     flex: 1;
   }
-  .pcard__name {
+  .sale-card__name {
     font-family: var(--display);
     font-weight: 700;
     font-size: 1.8rem;
     line-height: 1.45;
   }
-  .pcard:hover .pcard__name {
-    color: var(--green-deep);
-  }
-  .pcard__rate {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 700;
-    font-size: 1.3rem;
-    color: var(--gold-deep);
-  }
-  .pcard__rate i {
-    color: var(--gold);
-    font-size: 1.3rem;
-  }
-  .pcard__rate span {
-    color: var(--ink-faint);
-    font-weight: 600;
-  }
-  .pcard__meta {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  .sale-card__weight {
     font-size: 1.25rem;
     color: var(--ink-faint);
     font-weight: 600;
   }
-  .pcard__meta i {
-    color: var(--ink-faint);
+  .sale-card__weight i {
     margin-inline-end: 0.4rem;
   }
-  .pcard__stockline {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-size: 1.25rem;
-    font-weight: 700;
-  }
-  .pcard__stockline.in {
-    color: var(--green);
-  }
-  .pcard__stockline.low {
-    color: var(--clay);
-  }
-  .pcard__stockline.out {
-    color: var(--ink-faint);
-  }
-  .pcard__foot {
+  .sale-card__foot {
+    width: 100%;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -349,31 +248,7 @@
     padding-top: 1.2rem;
     border-top: 1px solid var(--hair);
   }
-  .pcard__price {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-  .pcard__old {
-    font-size: 1.25rem;
-    color: var(--ink-faint);
-    text-decoration: line-through;
-  }
-  .pcard__now {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.4rem;
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 2rem;
-    color: var(--ink);
-  }
-  .pcard__now .toman {
-    font-size: 1.15rem;
-    color: var(--ink-faint);
-    font-weight: 600;
-  }
-  .pcard__add {
+  .sale-card__add {
     width: 4.6rem;
     height: 4.6rem;
     border-radius: var(--r);
@@ -388,68 +263,25 @@
       background 0.15s,
       transform 0.12s;
   }
-  .pcard__add:hover {
+  .sale-card__add:hover {
     background: var(--green-deep);
   }
-  .pcard__add:active {
+  .sale-card__add:active {
     transform: translateY(1px);
   }
-  .pcard__add--off {
+  .sale-card__add--off {
     background: var(--paper-2);
     color: var(--ink-faint);
     box-shadow: none;
     cursor: not-allowed;
   }
-  .pcard__add--off:hover {
-    background: var(--paper-2);
-  }
-
-  /* ---------- شبکهٔ تخفیف ---------- */
-  .sale-count {
-    font-size: 1.5rem;
-    color: var(--ink-soft);
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .sale-count b {
-    color: var(--clay-deep);
-    font-weight: 700;
-  }
-  .sale-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(1.8rem, 2.4vw, 2.6rem);
-  }
 
   /* ---------- شرایط فروش ویژه ---------- */
-  .sale-terms {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(1.6rem, 2vw, 2.2rem);
-  }
-  .sale-term {
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
-    padding: 2.4rem 2rem;
-    box-shadow: var(--shadow-sm);
-  }
-  .sale-term__ic {
-    width: 5.4rem;
-    height: 5.4rem;
-    border-radius: var(--r);
-    display: grid;
-    place-items: center;
-    background: var(--clay-soft);
-    color: var(--clay-deep);
-    font-size: 2.2rem;
-    margin-bottom: 1.4rem;
-  }
   .sale-term__t {
     font-family: var(--display);
     font-weight: 700;
     font-size: 1.7rem;
-    margin-bottom: 0.7rem;
+    margin: 1.4rem 0 0.7rem;
   }
   .sale-term__d {
     color: var(--ink-soft);
@@ -471,21 +303,6 @@
     border-radius: var(--r-xl);
     padding: clamp(2.6rem, 3.4vw, 4rem);
     overflow: hidden;
-  }
-  .sale-cta__tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-weight: 700;
-    font-size: 1.3rem;
-    color: #fff;
-    background: rgb(255 255 255 / 0.16);
-    border: 1px solid rgb(255 255 255 / 0.3);
-    border-radius: 999px;
-    padding: 0.6rem 1.4rem;
-  }
-  .sale-cta__tag i {
-    color: var(--honey);
   }
   .sale-cta__t {
     font-family: var(--display);
@@ -516,33 +333,13 @@
     background: rgb(255 255 255 / 0.22);
   }
 
-  /* ---------- responsive ---------- */
-  @media (max-width: 1100px) {
-    .sale-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    .sale-terms {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
   @media (max-width: 820px) {
-    .sale-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
     .sale-cta {
       grid-template-columns: 1fr;
     }
     .sale-cta__btns {
       flex-direction: row;
       flex-wrap: wrap;
-    }
-  }
-  @media (max-width: 520px) {
-    .sale-grid {
-      grid-template-columns: 1fr;
-    }
-    .sale-terms {
-      grid-template-columns: 1fr;
     }
   }
 }

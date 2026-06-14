@@ -2,6 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/jsonld";
+import {
+  Hero,
+  SectionHead,
+  Card,
+  IconBox,
+  Chip,
+  Badge,
+  ButtonLink,
+  Price,
+  Stat,
+  Steps,
+  Placeholder,
+} from "@/components/ui";
 import { GiftForm } from "./GiftForm";
 import { GiftFaq } from "./GiftFaq";
 import { GiftDeck } from "./GiftDeck";
@@ -13,6 +26,52 @@ export const metadata: Metadata = {
     "پک‌های هدیه سازمانی دشت‌زاد برای نوروز، یلدا و قدردانی از کارکنان و مشتریان — با بسته‌بندی اختصاصی، درج لوگو، فاکتور رسمی و توزیع سراسری.",
   alternates: { canonical: "/corporate-gifts" },
 };
+
+const STATS = [
+  { num: "۸۵۰+", label: "سازمان و برند همراه" },
+  { num: "۴۲٬۰۰۰+", label: "پک هدیه تحویل‌شده" },
+  { num: "۹۸٪", label: "رضایت از کیفیت و ارسال" },
+  { num: "۴", label: "نسل تجربه از سال ۱۳۰۵" },
+];
+
+const BENEFITS: { icon: string; tone: "green" | "clay" | "gold"; title: string; text: string }[] = [
+  {
+    icon: "fa-leaf",
+    tone: "green",
+    title: "محصول طبیعی و مرغوب",
+    text: "خشکبار و میوه خشک مستقیم از باغ‌های دماوند؛ بدون شکر و نگهدارنده.",
+  },
+  {
+    icon: "fa-stamp",
+    tone: "clay",
+    title: "بسته‌بندی اختصاصی برند",
+    text: "درج لوگو، رنگ سازمانی، کارت و پیام تبریک مخصوص شما.",
+  },
+  {
+    icon: "fa-tags",
+    tone: "gold",
+    title: "قیمت پلکانی سازمانی",
+    text: "هرچه تعداد بیشتر، قیمت هر پک کمتر؛ شفاف و بدون واسطه.",
+  },
+  {
+    icon: "fa-file-invoice-dollar",
+    tone: "green",
+    title: "فاکتور رسمی",
+    text: "صدور فاکتور رسمی با اطلاعات حقوقی و مالیات ارزش‌افزوده.",
+  },
+  {
+    icon: "fa-truck-ramp-box",
+    tone: "clay",
+    title: "توزیع هماهنگ",
+    text: "تحویل یک‌جا به سازمان یا ارسال خانه‌به‌خانه به گیرندگان در سراسر کشور.",
+  },
+  {
+    icon: "fa-headset",
+    tone: "gold",
+    title: "کارشناس اختصاصی",
+    text: "یک نفر از ابتدا تا تحویل، کنار شما برای چیدمان بهترین سبد.",
+  },
+];
 
 const COLLECTIONS = [
   {
@@ -35,6 +94,128 @@ const COLLECTIONS = [
   },
 ];
 
+const PACKAGES: {
+  ph: string;
+  name: string;
+  tagline: string;
+  from: number;
+  featured?: boolean;
+  variant: "primary" | "ghost";
+  incl: { text: string; off?: boolean }[];
+}[] = [
+  {
+    ph: "عکس پک دلگرمی — زیپ‌کیپ کرافت در جعبه ساده",
+    name: "پک «دلگرمی»",
+    tagline: "هدیه جمع‌وجور و باکیفیت",
+    from: 350000,
+    variant: "ghost",
+    incl: [
+      { text: "برگه گلابی و زردآلوی خشک ممتاز" },
+      { text: "آجیل مخصوص دشت‌زاد" },
+      { text: "جعبه کرافت با روبان" },
+      { text: "کارت تبریک با نام برند شما" },
+      { text: "جعبه چوبی لوکس", off: true },
+    ],
+  },
+  {
+    ph: "عکس پک مهرورزی — قوطی هدیه و چیدمان متنوع",
+    name: "پک «مهرورزی»",
+    tagline: "انتخابِ متعادل و شیک",
+    from: 690000,
+    featured: true,
+    variant: "primary",
+    incl: [
+      { text: "تشکیله میوه خشک و خشکبار اعلا" },
+      { text: "قوطی هدیه فلزی درب‌دار" },
+      { text: "چای یا دمنوش هدیه" },
+      { text: "درج لوگو روی جعبه و کارت اختصاصی" },
+      { text: "روبان و بسته‌بندی هدیه" },
+    ],
+  },
+  {
+    ph: "عکس پک سپاس — جعبه چوبی لوکس با محتویات کامل",
+    name: "پک «سپاس»",
+    tagline: "هدیه لوکس و کامل",
+    from: 1250000,
+    variant: "ghost",
+    incl: [
+      { text: "تنوع کامل خشکبار، میوه خشک و خرما" },
+      { text: "جعبه چوبی لوکس قابل نگهداری" },
+      { text: "عسل طبیعی و زعفران هدیه" },
+      { text: "پلاک یا حکاکی لوگوی برند" },
+      { text: "کارت دست‌ساز و بسته‌بندی پارچه‌ای" },
+    ],
+  },
+];
+
+const OCCASIONS = [
+  { icon: "fa-seedling", title: "هدایای نوروز", note: "پک‌های بهاری و سبز", ph: "سفره نوروزی و سبزه" },
+  { icon: "fa-moon", title: "شب یلدا", note: "سبدهای زمستانی", ph: "شب یلدا، انار و آجیل" },
+  {
+    icon: "fa-users",
+    title: "قدردانی از کارکنان",
+    note: "روز کارمند و پاداش",
+    ph: "جمع کارکنان یک شرکت",
+  },
+  {
+    icon: "fa-handshake",
+    title: "تقدیر از مشتریان",
+    note: "حفظ ارتباط بلندمدت",
+    ph: "دست‌دادن دو همکار تجاری",
+  },
+  { icon: "fa-cake-candles", title: "سالگرد تأسیس", note: "جشن و رویداد برند", ph: "کیک سالگرد و بادکنک" },
+];
+
+const CUSTOM: { icon: string; tone: "green" | "clay" | "gold"; title: string; text: string }[] = [
+  {
+    icon: "fa-stamp",
+    tone: "green",
+    title: "درج لوگو و رنگ سازمانی",
+    text: "چاپ، حکاکی یا پلاک فلزی لوگوی شما روی جعبه و بسته‌بندی.",
+  },
+  {
+    icon: "fa-envelope-open-text",
+    tone: "clay",
+    title: "کارت و پیام اختصاصی",
+    text: "متن تبریک یا قدردانی شما روی کارت چاپی یا دست‌نویس.",
+  },
+  {
+    icon: "fa-boxes-stacked",
+    tone: "gold",
+    title: "انتخاب محتویات",
+    text: "ترکیب دلخواه از خشکبار، میوه خشک، خرما، عسل و زعفران.",
+  },
+  {
+    icon: "fa-ribbon",
+    tone: "green",
+    title: "جعبه، روبان و تزئین",
+    text: "از کرافت ساده تا جعبه چوبی لوکس، با روبان و بسته‌بندی پارچه‌ای.",
+  },
+];
+
+const PROCESS = [
+  {
+    num: "۱",
+    title: "مشاوره رایگان",
+    desc: "درباره مناسبت، تعداد، بودجه و سلیقه برندتان با کارشناس ما گفت‌وگو می‌کنید.",
+  },
+  {
+    num: "۲",
+    title: "انتخاب و سفارشی‌سازی",
+    desc: "پک، محتویات، جعبه و طرح لوگو و کارت را نهایی می‌کنیم و پیش‌فاکتور می‌دهیم.",
+  },
+  {
+    num: "۳",
+    title: "تأیید نمونه و تولید",
+    desc: "نمونه بسته را تأیید می‌کنید؛ سپس با کیفیت یکدست تولید و بسته‌بندی می‌شود.",
+  },
+  {
+    num: "۴",
+    title: "ارسال و توزیع",
+    desc: "تحویل یک‌جا به سازمان یا ارسال خانه‌به‌خانه به گیرندگان در سراسر کشور.",
+  },
+];
+
 export default function CorporateGiftsPage() {
   return (
     <div className="corporate-gifts-page dz">
@@ -46,152 +227,76 @@ export default function CorporateGiftsPage() {
       />
 
       {/* HERO */}
-      <section className="cg-hero">
-        <div className="wrap">
-          <div className="cg-hero__grid">
-            <div className="cg-hero__l">
-              <span className="cg-hero__kicker">
-                <i className="fa-solid fa-handshake-angle" aria-hidden /> راهکار هدیه سازمان‌ها
-              </span>
-              <h1 className="cg-hero__title">
-                هدیه‌ای از <span className="accent">دلِ طبیعت</span>
-                <br />
-                به نامِ برند شما
-              </h1>
-              <p className="cg-hero__sub">
-                پک‌های هدیه سازمانی دشت‌زاد، خشکبار و میوه خشکِ مرغوبِ باغ‌های دماوند را در بسته‌بندی
-                شیک و اختصاصی به دست کارکنان و مشتریان شما می‌رساند — هدیه‌ای سالم، اصیل و به‌یادماندنی
-                برای نوروز، یلدا و هر مناسبت.
-              </p>
-              <div className="cg-hero__cta">
-                <a className="btn btn--gold" href="#request">
-                  <i className="fa-solid fa-paper-plane" aria-hidden /> دریافت پیش‌فاکتور رایگان
-                </a>
-                <a className="btn btn--outline" href="#packages">
-                  <i className="fa-solid fa-box-open" aria-hidden /> مشاهده پک‌ها
-                </a>
-              </div>
-              <div className="cg-hero__assure">
-                <span>
-                  <i className="fa-solid fa-stamp" aria-hidden /> درج لوگو و کارت اختصاصی
-                </span>
-                <span>
-                  <i className="fa-solid fa-file-invoice" aria-hidden /> فاکتور رسمی و ارزش‌افزوده
-                </span>
-                <span>
-                  <i className="fa-solid fa-truck-fast" aria-hidden /> توزیع سراسری
-                </span>
-              </div>
-            </div>
-            <div className="cg-hero__r">
-              <div className="cg-showcase">
-                <span className="cg-showcase__tag">
-                  <i className="fa-solid fa-award" aria-hidden /> پک ویژه سازمانی
-                </span>
-                <div className="cg-showcase__main">
-                  <div className="ph">
-                    <span className="ph__label">
-                      عکس جعبه هدیه سازمانی لوکس با روبان و کارت برند
-                    </span>
-                  </div>
-                </div>
-                <div className="cg-showcase__a">
-                  <div className="ph">
-                    <span className="ph__label">نمای محتویات: خشکبار و میوه خشک</span>
-                  </div>
-                </div>
-                <div className="cg-showcase__b">
-                  <div className="ph">
-                    <span className="ph__label">جزئیات لوگوی برند روی درب جعبه</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <Hero
+        className="cg-hero"
+        kicker={
+          <>
+            <i className="fa-solid fa-handshake-angle" aria-hidden /> راهکار هدیه سازمان‌ها
+          </>
+        }
+        title={
+          <>
+            هدیه‌ای از <span className="cg-accent">دلِ طبیعت</span>
+            <br />
+            به نامِ برند شما
+          </>
+        }
+        sub="پک‌های هدیه سازمانی دشت‌زاد، خشکبار و میوه خشکِ مرغوبِ باغ‌های دماوند را در بسته‌بندی شیک و اختصاصی به دست کارکنان و مشتریان شما می‌رساند — هدیه‌ای سالم، اصیل و به‌یادماندنی برای نوروز، یلدا و هر مناسبت."
+      >
+        <div className="cg-hero__cta">
+          <ButtonLink href="#request" variant="primary">
+            <i className="fa-solid fa-paper-plane" aria-hidden /> دریافت پیش‌فاکتور رایگان
+          </ButtonLink>
+          <a className="btn btn--ghost cg-hero__outline" href="#packages">
+            <i className="fa-solid fa-box-open" aria-hidden /> مشاهده پک‌ها
+          </a>
         </div>
-      </section>
+        <div className="cg-hero__assure">
+          <Chip icon="fa-stamp">درج لوگو و کارت اختصاصی</Chip>
+          <Chip icon="fa-file-invoice">فاکتور رسمی و ارزش‌افزوده</Chip>
+          <Chip icon="fa-truck-fast">توزیع سراسری</Chip>
+        </div>
+
+        <div className="cg-showcase">
+          <Badge tone="gold" icon="fa-award" className="cg-showcase__tag">
+            پک ویژه سازمانی
+          </Badge>
+          <Placeholder
+            className="cg-showcase__main"
+            label="عکس جعبه هدیه سازمانی لوکس با روبان و کارت برند"
+          />
+          <Placeholder className="cg-showcase__a" label="نمای محتویات: خشکبار و میوه خشک" />
+          <Placeholder className="cg-showcase__b" label="جزئیات لوگوی برند روی درب جعبه" />
+        </div>
+      </Hero>
 
       {/* STATS */}
-      <section className="wrap">
-        <div className="cg-stats">
-          <div className="cg-stat">
-            <div className="cg-stat__n num">
-              ۸۵۰<span className="plus">+</span>
-            </div>
-            <div className="cg-stat__l">سازمان و برند همراه</div>
-          </div>
-          <div className="cg-stat">
-            <div className="cg-stat__n num">
-              ۴۲٬۰۰۰<span className="plus">+</span>
-            </div>
-            <div className="cg-stat__l">پک هدیه تحویل‌شده</div>
-          </div>
-          <div className="cg-stat">
-            <div className="cg-stat__n num">۹۸٪</div>
-            <div className="cg-stat__l">رضایت از کیفیت و ارسال</div>
-          </div>
-          <div className="cg-stat">
-            <div className="cg-stat__n num">۴</div>
-            <div className="cg-stat__l">نسل تجربه از سال ۱۳۰۵</div>
-          </div>
+      <div className="wrap">
+        <div className="cg-stats card">
+          {STATS.map((s) => (
+            <Stat key={s.label} num={s.num} label={s.label} />
+          ))}
         </div>
-      </section>
+      </div>
 
       {/* WHY */}
       <section className="sec">
         <div className="wrap">
-          <div className="sec-head">
-            <div className="sec-head__l">
-              <span className="sec__kicker">چرا دشت‌زاد؟</span>
-              <h2 className="sec__title">هدیه‌ای که هم سالم است، هم خاص</h2>
-              <p className="sec__sub">
-                از تأمین و چیدمان تا چاپ و توزیع، همه مراحل را یک‌جا و بدون دغدغه به ما بسپارید.
-              </p>
-            </div>
-          </div>
-          <div className="bulk-benefits">
-            <div className="bulk-benefit">
-              <i className="fa-solid fa-leaf" aria-hidden />
-              <div>
-                <b>محصول طبیعی و مرغوب</b>
-                <span>خشکبار و میوه خشک مستقیم از باغ‌های دماوند؛ بدون شکر و نگهدارنده.</span>
-              </div>
-            </div>
-            <div className="bulk-benefit">
-              <i className="fa-solid fa-stamp" aria-hidden />
-              <div>
-                <b>بسته‌بندی اختصاصی برند</b>
-                <span>درج لوگو، رنگ سازمانی، کارت و پیام تبریک مخصوص شما.</span>
-              </div>
-            </div>
-            <div className="bulk-benefit">
-              <i className="fa-solid fa-tags" aria-hidden />
-              <div>
-                <b>قیمت پلکانی سازمانی</b>
-                <span>هرچه تعداد بیشتر، قیمت هر پک کمتر؛ شفاف و بدون واسطه.</span>
-              </div>
-            </div>
-            <div className="bulk-benefit">
-              <i className="fa-solid fa-file-invoice-dollar" aria-hidden />
-              <div>
-                <b>فاکتور رسمی</b>
-                <span>صدور فاکتور رسمی با اطلاعات حقوقی و مالیات ارزش‌افزوده.</span>
-              </div>
-            </div>
-            <div className="bulk-benefit">
-              <i className="fa-solid fa-truck-ramp-box" aria-hidden />
-              <div>
-                <b>توزیع هماهنگ</b>
-                <span>تحویل یک‌جا به سازمان یا ارسال خانه‌به‌خانه به گیرندگان در سراسر کشور.</span>
-              </div>
-            </div>
-            <div className="bulk-benefit">
-              <i className="fa-solid fa-headset" aria-hidden />
-              <div>
-                <b>کارشناس اختصاصی</b>
-                <span>یک نفر از ابتدا تا تحویل، کنار شما برای چیدمان بهترین سبد.</span>
-              </div>
-            </div>
+          <SectionHead
+            kicker="چرا دشت‌زاد؟"
+            title="هدیه‌ای که هم سالم است، هم خاص"
+            sub="از تأمین و چیدمان تا چاپ و توزیع، همه مراحل را یک‌جا و بدون دغدغه به ما بسپارید."
+          />
+          <div className="grid--3 cg-benefits">
+            {BENEFITS.map((b) => (
+              <Card key={b.title} pad className="cg-benefit">
+                <IconBox icon={b.icon} tone={b.tone} />
+                <div>
+                  <div className="card__title">{b.title}</div>
+                  <p className="card__text">{b.text}</p>
+                </div>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -199,38 +304,33 @@ export default function CorporateGiftsPage() {
       {/* COLLECTIONS */}
       <section className="sec" id="collections">
         <div className="wrap">
-          <div className="sec-head">
-            <div className="sec-head__l">
-              <span className="sec__kicker">کالکشن‌های دشت‌زاد</span>
-              <h2 className="sec__title">برای هر حال‌وهوا، یک کالکشن</h2>
-              <p className="sec__sub">
-                هر کالکشن یک روایت است؛ ترکیبی از محصول، رنگ و حس. روی هرکدام بزنید تا دنیای آن را
-                ببینید و آن را به‌عنوان هدیه سازمانی سفارش دهید.
-              </p>
-            </div>
-          </div>
-          <div className="col-grid">
+          <SectionHead
+            kicker="کالکشن‌های دشت‌زاد"
+            title="برای هر حال‌وهوا، یک کالکشن"
+            sub="هر کالکشن یک روایت است؛ ترکیبی از محصول، رنگ و حس. روی هرکدام بزنید تا دنیای آن را ببینید و آن را به‌عنوان هدیه سازمانی سفارش دهید."
+          />
+          <div className="grid--3">
             {COLLECTIONS.map((c) => (
-              <Link className="col-card" href="/products" key={c.name}>
-                <div className="col-card__head">
-                  <i className={`col-card__wm fa-solid ${c.icon}`} aria-hidden />
-                  <span className="col-card__k">کالکشن دشت‌زاد</span>
-                  <span className="col-card__name">{c.name}</span>
-                </div>
-                <div className="col-card__body">
-                  <p className="col-card__slogan">«{c.slogan}»</p>
-                  <div className="col-card__tags">
-                    {c.tags.map((t) => (
-                      <span className="col-card__tag" key={t}>
-                        {t}
-                      </span>
-                    ))}
+              <Card as="article" hover key={c.name} className="cg-collection">
+                <Link href="/products" className="cg-collection__link">
+                  <div className="cg-collection__head">
+                    <i className={`cg-collection__wm fa-solid ${c.icon}`} aria-hidden />
+                    <span className="cg-collection__k">کالکشن دشت‌زاد</span>
+                    <span className="cg-collection__name">{c.name}</span>
                   </div>
-                  <span className="col-card__go">
-                    مشاهده کالکشن <i className="fa-solid fa-arrow-left" aria-hidden />
-                  </span>
-                </div>
-              </Link>
+                  <div className="cg-collection__body">
+                    <p className="cg-collection__slogan">«{c.slogan}»</p>
+                    <div className="cg-collection__tags">
+                      {c.tags.map((t) => (
+                        <Chip key={t}>{t}</Chip>
+                      ))}
+                    </div>
+                    <span className="cg-collection__go">
+                      مشاهده کالکشن <i className="fa-solid fa-arrow-left" aria-hidden />
+                    </span>
+                  </div>
+                </Link>
+              </Card>
             ))}
           </div>
         </div>
@@ -239,137 +339,56 @@ export default function CorporateGiftsPage() {
       {/* PACKAGES */}
       <section className="sec sec--warm" id="packages">
         <div className="wrap">
-          <div className="sec-head">
-            <div className="sec-head__l">
-              <span className="sec__kicker">پک‌های آماده</span>
-              <h2 className="sec__title">سبدهای هدیه سازمانی</h2>
-              <p className="sec__sub">
-                سه سطح آماده سفارش — همه قابل سفارشی‌سازی با لوگو و محتویات دلخواه شما. قیمت‌ها برای
-                سفارش‌های عمده پلکانی است.
-              </p>
-            </div>
-            <a className="see-all" href="#request">
-              سفارش سبد دلخواه <i className="fa-solid fa-arrow-left" aria-hidden />
-            </a>
-          </div>
-
-          <div className="gift-grid">
-            {/* tier 1 */}
-            <article className="gift-card">
-              <div className="gift-card__media">
-                <div className="ph">
-                  <span className="ph__label">عکس پک دلگرمی — زیپ‌کیپ کرافت در جعبه ساده</span>
+          <SectionHead
+            kicker="پک‌های آماده"
+            title="سبدهای هدیه سازمانی"
+            sub="سه سطح آماده سفارش — همه قابل سفارشی‌سازی با لوگو و محتویات دلخواه شما. قیمت‌ها برای سفارش‌های عمده پلکانی است."
+            action={
+              <a className="see-all" href="#request">
+                سفارش سبد دلخواه <i className="fa-solid fa-arrow-left" aria-hidden />
+              </a>
+            }
+          />
+          <div className="grid--3 cg-packs">
+            {PACKAGES.map((p) => (
+              <Card
+                as="article"
+                hover
+                key={p.name}
+                className={`cg-pack${p.featured ? " cg-pack--featured" : ""}`}
+              >
+                {p.featured && (
+                  <Badge tone="gold" icon="fa-star" className="cg-pack__ribbon">
+                    پرطرفدار
+                  </Badge>
+                )}
+                <Placeholder className="cg-pack__media" label={p.ph} />
+                <div className="cg-pack__body">
+                  <div className="cg-pack__name">
+                    {p.name} <span>{p.tagline}</span>
+                  </div>
+                  <div className="cg-pack__price">
+                    <span className="cg-pack__from">از</span>
+                    <Price now={p.from} size="lg" />
+                    <span className="price__unit">/ پک</span>
+                  </div>
+                  <ul className="cg-incl">
+                    {p.incl.map((it) => (
+                      <li key={it.text} className={it.off ? "is-off" : undefined}>
+                        <i
+                          className={`fa-solid ${it.off ? "fa-xmark" : "fa-check"}`}
+                          aria-hidden
+                        />{" "}
+                        {it.text}
+                      </li>
+                    ))}
+                  </ul>
+                  <a className={`btn btn--${p.variant} btn--block`} href="#request">
+                    <i className="fa-solid fa-paper-plane" aria-hidden /> درخواست این پک
+                  </a>
                 </div>
-              </div>
-              <div className="gift-card__body">
-                <div className="gift-card__name">
-                  پک «دلگرمی» <span>هدیه جمع‌وجور و باکیفیت</span>
-                </div>
-                <div className="gift-card__price">
-                  <span className="from">از</span> <b className="num">۳۵۰٬۰۰۰</b>{" "}
-                  <span className="toman">تومان / پک</span>
-                </div>
-                <ul className="gift-incl">
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> برگه گلابی و زردآلوی خشک ممتاز
-                  </li>
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> آجیل مخصوص دشت‌زاد
-                  </li>
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> جعبه کرافت با روبان
-                  </li>
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> کارت تبریک با نام برند شما
-                  </li>
-                  <li className="muted">
-                    <i className="fa-solid fa-xmark" aria-hidden /> جعبه چوبی لوکس
-                  </li>
-                </ul>
-                <a className="btn btn--ghost btn--block" href="#request">
-                  <i className="fa-solid fa-paper-plane" aria-hidden /> درخواست این پک
-                </a>
-              </div>
-            </article>
-
-            {/* tier 2 (featured) */}
-            <article className="gift-card gift-card--featured">
-              <span className="gift-card__ribbon">
-                <i className="fa-solid fa-star" aria-hidden /> پرطرفدار
-              </span>
-              <div className="gift-card__media">
-                <div className="ph">
-                  <span className="ph__label">عکس پک مهرورزی — قوطی هدیه و چیدمان متنوع</span>
-                </div>
-              </div>
-              <div className="gift-card__body">
-                <div className="gift-card__name">
-                  پک «مهرورزی» <span>انتخابِ متعادل و شیک</span>
-                </div>
-                <div className="gift-card__price">
-                  <span className="from">از</span> <b className="num">۶۹۰٬۰۰۰</b>{" "}
-                  <span className="toman">تومان / پک</span>
-                </div>
-                <ul className="gift-incl">
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> تشکیله میوه خشک و خشکبار اعلا
-                  </li>
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> قوطی هدیه فلزی درب‌دار
-                  </li>
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> چای یا دمنوش هدیه
-                  </li>
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> درج لوگو روی جعبه و کارت اختصاصی
-                  </li>
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> روبان و بسته‌بندی هدیه
-                  </li>
-                </ul>
-                <a className="btn btn--primary btn--block" href="#request">
-                  <i className="fa-solid fa-paper-plane" aria-hidden /> درخواست این پک
-                </a>
-              </div>
-            </article>
-
-            {/* tier 3 */}
-            <article className="gift-card">
-              <div className="gift-card__media">
-                <div className="ph">
-                  <span className="ph__label">عکس پک سپاس — جعبه چوبی لوکس با محتویات کامل</span>
-                </div>
-              </div>
-              <div className="gift-card__body">
-                <div className="gift-card__name">
-                  پک «سپاس» <span>هدیه لوکس و کامل</span>
-                </div>
-                <div className="gift-card__price">
-                  <span className="from">از</span> <b className="num">۱٬۲۵۰٬۰۰۰</b>{" "}
-                  <span className="toman">تومان / پک</span>
-                </div>
-                <ul className="gift-incl">
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> تنوع کامل خشکبار، میوه خشک و خرما
-                  </li>
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> جعبه چوبی لوکس قابل نگهداری
-                  </li>
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> عسل طبیعی و زعفران هدیه
-                  </li>
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> پلاک یا حکاکی لوگوی برند
-                  </li>
-                  <li>
-                    <i className="fa-solid fa-check" aria-hidden /> کارت دست‌ساز و بسته‌بندی پارچه‌ای
-                  </li>
-                </ul>
-                <a className="btn btn--ghost btn--block" href="#request">
-                  <i className="fa-solid fa-paper-plane" aria-hidden /> درخواست این پک
-                </a>
-              </div>
-            </article>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -377,82 +396,23 @@ export default function CorporateGiftsPage() {
       {/* OCCASIONS */}
       <section className="sec">
         <div className="wrap">
-          <div className="sec-head">
-            <div className="sec-head__l">
-              <span className="sec__kicker">مناسبت‌ها</span>
-              <h2 className="sec__title">برای هر بهانه قدردانی</h2>
-              <p className="sec__sub">
-                از نوروز و یلدا تا سالگرد تأسیس و تقدیر از مشتریان — هدیه را با مناسبت شما هماهنگ
-                می‌کنیم.
-              </p>
-            </div>
-          </div>
-          <div className="occ-grid">
-            <a className="occ-card" href="#request">
-              <div className="ph">
-                <span className="ph__label">سفره نوروزی و سبزه</span>
-              </div>
-              <div className="occ-card__scrim" />
-              <div className="occ-card__body">
-                <span className="occ-card__ic">
-                  <i className="fa-solid fa-seedling" aria-hidden />
-                </span>
-                <span className="occ-card__t">هدایای نوروز</span>
-                <span className="occ-card__n">پک‌های بهاری و سبز</span>
-              </div>
-            </a>
-            <a className="occ-card" href="#request">
-              <div className="ph">
-                <span className="ph__label">شب یلدا، انار و آجیل</span>
-              </div>
-              <div className="occ-card__scrim" />
-              <div className="occ-card__body">
-                <span className="occ-card__ic">
-                  <i className="fa-solid fa-moon" aria-hidden />
-                </span>
-                <span className="occ-card__t">شب یلدا</span>
-                <span className="occ-card__n">سبدهای زمستانی</span>
-              </div>
-            </a>
-            <a className="occ-card" href="#request">
-              <div className="ph">
-                <span className="ph__label">جمع کارکنان یک شرکت</span>
-              </div>
-              <div className="occ-card__scrim" />
-              <div className="occ-card__body">
-                <span className="occ-card__ic">
-                  <i className="fa-solid fa-users" aria-hidden />
-                </span>
-                <span className="occ-card__t">قدردانی از کارکنان</span>
-                <span className="occ-card__n">روز کارمند و پاداش</span>
-              </div>
-            </a>
-            <a className="occ-card" href="#request">
-              <div className="ph">
-                <span className="ph__label">دست‌دادن دو همکار تجاری</span>
-              </div>
-              <div className="occ-card__scrim" />
-              <div className="occ-card__body">
-                <span className="occ-card__ic">
-                  <i className="fa-solid fa-handshake" aria-hidden />
-                </span>
-                <span className="occ-card__t">تقدیر از مشتریان</span>
-                <span className="occ-card__n">حفظ ارتباط بلندمدت</span>
-              </div>
-            </a>
-            <a className="occ-card" href="#request">
-              <div className="ph">
-                <span className="ph__label">کیک سالگرد و بادکنک</span>
-              </div>
-              <div className="occ-card__scrim" />
-              <div className="occ-card__body">
-                <span className="occ-card__ic">
-                  <i className="fa-solid fa-cake-candles" aria-hidden />
-                </span>
-                <span className="occ-card__t">سالگرد تأسیس</span>
-                <span className="occ-card__n">جشن و رویداد برند</span>
-              </div>
-            </a>
+          <SectionHead
+            kicker="مناسبت‌ها"
+            title="برای هر بهانه قدردانی"
+            sub="از نوروز و یلدا تا سالگرد تأسیس و تقدیر از مشتریان — هدیه را با مناسبت شما هماهنگ می‌کنیم."
+          />
+          <div className="cg-occasions">
+            {OCCASIONS.map((o) => (
+              <a className="cg-occasion" href="#request" key={o.title}>
+                <Placeholder label={o.ph} />
+                <div className="cg-occasion__scrim" />
+                <div className="cg-occasion__body">
+                  <IconBox icon={o.icon} round className="cg-occasion__ic" />
+                  <span className="cg-occasion__t">{o.title}</span>
+                  <span className="cg-occasion__n">{o.note}</span>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </section>
@@ -462,67 +422,27 @@ export default function CorporateGiftsPage() {
         <div className="wrap">
           <div className="cg-custom">
             <div className="cg-custom__media">
-              <div className="ph">
-                <span className="ph__label">
-                  عکس نزدیک از جعبه با لوگوی حکاکی‌شده برند و کارت دست‌نویس
-                </span>
-              </div>
-              <span className="cg-custom__badge">
-                <i className="fa-solid fa-wand-magic-sparkles" aria-hidden /> اختصاصی‌سازی کامل
-              </span>
+              <Placeholder label="عکس نزدیک از جعبه با لوگوی حکاکی‌شده برند و کارت دست‌نویس" />
+              <Badge icon="fa-wand-magic-sparkles" className="cg-custom__badge">
+                اختصاصی‌سازی کامل
+              </Badge>
             </div>
             <div className="cg-custom__l">
-              <span className="sec__kicker">به نامِ برند شما</span>
-              <h2 className="sec__title">هر جعبه، سفیرِ برند شماست</h2>
-              <p className="sec__sub">
-                جزئیات را شما انتخاب می‌کنید؛ ما با وسواس آن را می‌سازیم تا گیرنده، نام شما را به‌خاطر
-                بسپارد.
-              </p>
+              <SectionHead
+                kicker="به نامِ برند شما"
+                title="هر جعبه، سفیرِ برند شماست"
+                sub="جزئیات را شما انتخاب می‌کنید؛ ما با وسواس آن را می‌سازیم تا گیرنده، نام شما را به‌خاطر بسپارد."
+              />
               <div className="cg-custom__list">
-                <div className="cg-feat">
-                  <span className="cg-feat__ic">
-                    <i className="fa-solid fa-stamp" aria-hidden />
-                  </span>
-                  <div>
-                    <div className="cg-feat__t">درج لوگو و رنگ سازمانی</div>
-                    <div className="cg-feat__d">
-                      چاپ، حکاکی یا پلاک فلزی لوگوی شما روی جعبه و بسته‌بندی.
+                {CUSTOM.map((f) => (
+                  <div className="cg-feature" key={f.title}>
+                    <IconBox icon={f.icon} tone={f.tone} size="lg" />
+                    <div>
+                      <div className="cg-feature__t">{f.title}</div>
+                      <p className="cg-feature__d">{f.text}</p>
                     </div>
                   </div>
-                </div>
-                <div className="cg-feat">
-                  <span className="cg-feat__ic">
-                    <i className="fa-solid fa-envelope-open-text" aria-hidden />
-                  </span>
-                  <div>
-                    <div className="cg-feat__t">کارت و پیام اختصاصی</div>
-                    <div className="cg-feat__d">
-                      متن تبریک یا قدردانی شما روی کارت چاپی یا دست‌نویس.
-                    </div>
-                  </div>
-                </div>
-                <div className="cg-feat">
-                  <span className="cg-feat__ic">
-                    <i className="fa-solid fa-boxes-stacked" aria-hidden />
-                  </span>
-                  <div>
-                    <div className="cg-feat__t">انتخاب محتویات</div>
-                    <div className="cg-feat__d">
-                      ترکیب دلخواه از خشکبار، میوه خشک، خرما، عسل و زعفران.
-                    </div>
-                  </div>
-                </div>
-                <div className="cg-feat">
-                  <span className="cg-feat__ic">
-                    <i className="fa-solid fa-ribbon" aria-hidden />
-                  </span>
-                  <div>
-                    <div className="cg-feat__t">جعبه، روبان و تزئین</div>
-                    <div className="cg-feat__d">
-                      از کرافت ساده تا جعبه چوبی لوکس، با روبان و بسته‌بندی پارچه‌ای.
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -532,46 +452,13 @@ export default function CorporateGiftsPage() {
       {/* PROCESS */}
       <section className="sec">
         <div className="wrap">
-          <div className="sec-head">
-            <div className="sec-head__l">
-              <span className="sec__kicker">روند کار</span>
-              <h2 className="sec__title">از مشاوره تا تحویل، در ۴ گام</h2>
-              <p className="sec__sub">ساده، شفاف و بدون دغدغه؛ شما تصمیم می‌گیرید، ما اجرا می‌کنیم.</p>
-            </div>
-          </div>
-          <div className="cg-steps">
-            <div className="cg-step">
-              <span className="cg-step__no" />
-              <i className="cg-step__ic fa-solid fa-comments" aria-hidden />
-              <div className="cg-step__t">مشاوره رایگان</div>
-              <div className="cg-step__d">
-                درباره مناسبت، تعداد، بودجه و سلیقه برندتان با کارشناس ما گفت‌وگو می‌کنید.
-              </div>
-            </div>
-            <div className="cg-step">
-              <span className="cg-step__no" />
-              <i className="cg-step__ic fa-solid fa-sliders" aria-hidden />
-              <div className="cg-step__t">انتخاب و سفارشی‌سازی</div>
-              <div className="cg-step__d">
-                پک، محتویات، جعبه و طرح لوگو و کارت را نهایی می‌کنیم و پیش‌فاکتور می‌دهیم.
-              </div>
-            </div>
-            <div className="cg-step">
-              <span className="cg-step__no" />
-              <i className="cg-step__ic fa-solid fa-box-open" aria-hidden />
-              <div className="cg-step__t">تأیید نمونه و تولید</div>
-              <div className="cg-step__d">
-                نمونه بسته را تأیید می‌کنید؛ سپس با کیفیت یکدست تولید و بسته‌بندی می‌شود.
-              </div>
-            </div>
-            <div className="cg-step">
-              <span className="cg-step__no" />
-              <i className="cg-step__ic fa-solid fa-truck-fast" aria-hidden />
-              <div className="cg-step__t">ارسال و توزیع</div>
-              <div className="cg-step__d">
-                تحویل یک‌جا به سازمان یا ارسال خانه‌به‌خانه به گیرندگان در سراسر کشور.
-              </div>
-            </div>
+          <SectionHead
+            kicker="روند کار"
+            title="از مشاوره تا تحویل، در ۴ گام"
+            sub="ساده، شفاف و بدون دغدغه؛ شما تصمیم می‌گیرید، ما اجرا می‌کنیم."
+          />
+          <div className="cg-process">
+            <Steps items={PROCESS} />
           </div>
         </div>
       </section>
@@ -579,27 +466,17 @@ export default function CorporateGiftsPage() {
       {/* TESTIMONIALS */}
       <section className="sec sec--warm">
         <div className="wrap">
-          <div className="sec-head">
-            <div className="sec-head__l">
-              <span className="sec__kicker">تجربه مشتریان سازمانی</span>
-              <h2 className="sec__title">برندهایی که به ما اعتماد کردند</h2>
-              <p className="sec__sub">
-                از استارتاپ تا شرکت‌های بزرگ، هدیه پایان‌سال‌شان را به دشت‌زاد سپردند.
-              </p>
-            </div>
-          </div>
+          <SectionHead
+            kicker="تجربه مشتریان سازمانی"
+            title="برندهایی که به ما اعتماد کردند"
+            sub="از استارتاپ تا شرکت‌های بزرگ، هدیه پایان‌سال‌شان را به دشت‌زاد سپردند."
+          />
           <GiftDeck />
           <div className="cg-trust">
             <span className="cg-trust__lbl">همکاری با تیم‌های فروش و بازرگانیِ:</span>
-            <span className="cg-trust__logo">
-              <span className="ph__label">دیجی‌کالا</span>
-            </span>
-            <span className="cg-trust__logo">
-              <span className="ph__label">باسلام</span>
-            </span>
-            <span className="cg-trust__logo">
-              <span className="ph__label">تپسی‌شاپ</span>
-            </span>
+            <Placeholder className="cg-trust__logo" label="دیجی‌کالا" />
+            <Placeholder className="cg-trust__logo" label="باسلام" />
+            <Placeholder className="cg-trust__logo" label="تپسی‌شاپ" />
           </div>
         </div>
       </section>
@@ -619,13 +496,16 @@ export default function CorporateGiftsPage() {
               </p>
               <ul className="cg-form-intro__list">
                 <li>
-                  <i className="fa-solid fa-bolt" aria-hidden /> پاسخ‌گویی در کمتر از ۲۴ ساعت کاری
+                  <IconBox icon="fa-bolt" tone="ink" size="sm" round /> پاسخ‌گویی در کمتر از ۲۴ ساعت
+                  کاری
                 </li>
                 <li>
-                  <i className="fa-solid fa-comments-dollar" aria-hidden /> مشاوره و چیدمان سبد، رایگان
+                  <IconBox icon="fa-comments-dollar" tone="ink" size="sm" round /> مشاوره و چیدمان
+                  سبد، رایگان
                 </li>
                 <li>
-                  <i className="fa-solid fa-lock" aria-hidden /> اطلاعات شما کاملاً محفوظ می‌ماند
+                  <IconBox icon="fa-lock" tone="ink" size="sm" round /> اطلاعات شما کاملاً محفوظ
+                  می‌ماند
                 </li>
               </ul>
             </div>
@@ -638,13 +518,10 @@ export default function CorporateGiftsPage() {
       {/* FAQ */}
       <section className="sec">
         <div className="wrap">
-          <div className="sec-head">
-            <div className="sec-head__l">
-              <span className="sec__kicker">پرسش‌های متداول</span>
-              <h2 className="sec__title">سؤالی درباره سفارش سازمانی دارید؟</h2>
-            </div>
+          <SectionHead kicker="پرسش‌های متداول" title="سؤالی درباره سفارش سازمانی دارید؟" />
+          <div className="cg-faq">
+            <GiftFaq />
           </div>
-          <GiftFaq />
         </div>
       </section>
     </div>

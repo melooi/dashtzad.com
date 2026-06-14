@@ -1,7 +1,19 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import {
+  ButtonLink,
+  Card,
+  Chip,
+  Hero,
+  IconBox,
+  Placeholder,
+  Price,
+  Steps,
+  type StepItem,
+} from "@/components/ui";
 import { OrderNumberCopy } from "./OrderNumberCopy";
 import "./payment-success.css";
+
+// Font Awesome is loaded site-wide in app/layout.tsx.
 
 export const metadata: Metadata = {
   title: "پرداخت موفق",
@@ -10,262 +22,192 @@ export const metadata: Metadata = {
   alternates: { canonical: "/payment-success" },
 };
 
+// Static demo data (no backend).
+const TRACK: StepItem[] = [
+  {
+    num: <i className="fa-solid fa-check" aria-hidden />,
+    title: "سفارش ثبت شد",
+    desc: (
+      <>
+        امروز · <span className="num">۱۰:۲۴</span>
+      </>
+    ),
+    state: "done",
+  },
+  {
+    num: <i className="fa-solid fa-box-open" aria-hidden />,
+    title: "در حال آماده‌سازی",
+    desc: (
+      <>
+        <b>هم‌اکنون</b> · بسته‌بندی در انبار دماوند
+      </>
+    ),
+  },
+  {
+    num: <i className="fa-solid fa-truck" aria-hidden />,
+    title: "تحویل به پیک",
+    desc: "۱ تیر",
+    state: "pending",
+  },
+  {
+    num: <i className="fa-solid fa-house" aria-hidden />,
+    title: "تحویل به شما",
+    desc: "۲ تیر",
+    state: "pending",
+  },
+];
+
 export default function PaymentSuccessPage() {
   return (
     <div className="payment-success-page dz">
       {/* ============== HERO ============== */}
-      <header className="hero">
-        <div className="wrap">
-          <div className="hero__body">
-            <div className="medal">
-              <span className="medal__halo" />
-              <svg className="medal__svg" viewBox="0 0 130 130" aria-hidden="true">
-                <defs>
-                  <linearGradient id="goldgrad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stopColor="#f0c252" />
-                    <stop offset="1" stopColor="#a9781f" />
-                  </linearGradient>
-                </defs>
-                <circle className="ring-bg" cx="65" cy="65" r="60" />
-                <circle className="ring-gold" cx="65" cy="65" r="60" />
-                <path className="tick" d="M45 66 L59 80 L86 49" />
-              </svg>
-              <i className="fa-solid fa-star medal__pip" aria-hidden />
-              <i className="fa-solid fa-star medal__pip" aria-hidden />
-              <i className="fa-solid fa-star medal__pip" aria-hidden />
-            </div>
-
-            <div className="eyebrow hero__eyebrow rise" data-d="1">
-              پرداخت با موفقیت تأیید شد
-            </div>
-            <h1 className="hero__title rise" data-d="2">
-              سپاس از خرید شما،
-              <br />
-              <em>مریم عزیز</em>
-            </h1>
-            <p className="hero__sub rise" data-d="3">
-              سفارشتان ثبت و پرداخت تأیید شد. همین حالا برگه‌های گلابیِ دماوند را برایتان بسته‌بندی
-              می‌کنیم؛ هر مرحله از مسیر را با پیامک به شما خبر می‌دهیم.
-            </p>
-
-            <OrderNumberCopy orderNumber="DZ-۱۴۰۵۰۳۲۹" />
-          </div>
-        </div>
-
-        <svg
-          className="hero__wave"
-          viewBox="0 0 1440 80"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path
-            fill="currentColor"
-            d="M0,80 L0,40 C240,72 480,80 720,72 C960,64 1200,32 1440,44 L1440,80 Z"
-          />
-        </svg>
-      </header>
+      <Hero
+        kicker={
+          <>
+            <i className="fa-solid fa-circle-check" aria-hidden /> پرداخت با موفقیت تأیید شد
+          </>
+        }
+        title={
+          <>
+            سپاس از خرید شما،
+            <br />
+            <em>مریم عزیز</em>
+          </>
+        }
+        sub="سفارشتان ثبت و پرداخت تأیید شد. همین حالا برگه‌های گلابیِ دماوند را برایتان بسته‌بندی می‌کنیم؛ هر مرحله از مسیر را با پیامک به شما خبر می‌دهیم."
+      >
+        <span className="ps-seal" aria-hidden>
+          <i className="fa-solid fa-check" />
+        </span>
+        <OrderNumberCopy orderNumber="DZ-۱۴۰۵۰۳۲۹" />
+      </Hero>
 
       {/* ============== STAGE ============== */}
-      <main className="stage">
+      <main className="ps-stage">
         <div className="wrap">
           {/* floating quick-facts */}
-          <div className="metastrip">
-            <div className="metastrip__cell">
-              <div className="metastrip__ic metastrip__ic--gold">
-                <i className="fa-solid fa-truck-fast" aria-hidden />
-              </div>
+          <Card className="ps-metastrip">
+            <div className="ps-meta-cell">
+              <IconBox icon="fa-truck-fast" tone="gold" />
               <div>
-                <div className="metastrip__k">زمان تقریبی ارسال</div>
-                <div className="metastrip__v">۲۴ تا ۴۸ ساعت آینده</div>
+                <div className="ps-meta-k">زمان تقریبی ارسال</div>
+                <div className="ps-meta-v">۲۴ تا ۴۸ ساعت آینده</div>
               </div>
             </div>
-            <div className="metastrip__cell">
-              <div className="metastrip__ic">
-                <i className="fa-solid fa-wallet" aria-hidden />
-              </div>
+            <div className="ps-meta-cell">
+              <IconBox icon="fa-wallet" tone="green" />
               <div>
-                <div className="metastrip__k">مبلغ پرداخت‌شده</div>
-                <div className="metastrip__v">
+                <div className="ps-meta-k">مبلغ پرداخت‌شده</div>
+                <div className="ps-meta-v">
                   <span className="num">۹۹۰٬۰۰۰</span> تومان · پرداخت اینترنتی
                 </div>
               </div>
             </div>
-            <div className="metastrip__cell">
-              <div className="metastrip__ic">
-                <i className="fa-solid fa-location-dot" aria-hidden />
-              </div>
+            <div className="ps-meta-cell">
+              <IconBox icon="fa-location-dot" tone="green" />
               <div>
-                <div className="metastrip__k">مقصد</div>
-                <div className="metastrip__v">تهران، سعادت‌آباد</div>
+                <div className="ps-meta-k">مقصد</div>
+                <div className="ps-meta-v">تهران، سعادت‌آباد</div>
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className="cols">
+          <div className="ps-cols">
             {/* خلاصه خرید */}
             <section>
-              <div className="seclabel">
-                <span className="seclabel__no num">۰۱</span>
-                <h2 className="seclabel__t">خلاصه خرید</h2>
-                <span className="seclabel__line" />
-                <span className="seclabel__aside num">۲ کالا</span>
+              <div className="ps-seclabel">
+                <span className="ps-seclabel__no num">۰۱</span>
+                <h2 className="ps-seclabel__t">خلاصه خرید</h2>
+                <span className="ps-seclabel__line" />
+                <span className="ps-seclabel__aside num">۲ کالا</span>
               </div>
 
-              <div className="lines">
-                <div className="line">
-                  <div className="line__thumb">
-                    <div className="ph">
-                      <span className="ph__label">برگه گلابی خشک</span>
+              <div>
+                <div className="ps-line">
+                  <Placeholder className="ps-line__thumb" label="برگه گلابی خشک" />
+                  <div className="ps-line__body">
+                    <div className="ps-line__name">برگه گلابی خشک ممتاز</div>
+                    <div className="ps-line__meta">
+                      <Chip icon="fa-weight-hanging">۵۰۰ گرم</Chip>
+                      <Chip icon="fa-box">زیپ‌کیپ کرافت</Chip>
                     </div>
                   </div>
-                  <div className="line__body">
-                    <div className="line__name">برگه گلابی خشک ممتاز</div>
-                    <div className="line__meta">
-                      <span className="chip">
-                        <i className="fa-solid fa-weight-hanging" aria-hidden /> ۵۰۰ گرم
-                      </span>
-                      <span className="chip">
-                        <i className="fa-solid fa-box" aria-hidden /> زیپ‌کیپ کرافت
-                      </span>
-                    </div>
-                  </div>
-                  <div className="line__end">
-                    <span className="line__qty num">۲ عدد</span>
-                    <span className="price num">
-                      ۷۴۴٬۰۰۰ <span className="price__unit">تومان</span>
-                    </span>
-                    <span className="price--strike num">۹۲۰٬۰۰۰</span>
+                  <div className="ps-line__end">
+                    <span className="ps-line__qty num">۲ عدد</span>
+                    <Price now={744000} old={920000} />
                   </div>
                 </div>
 
-                <div className="line">
-                  <div className="line__thumb">
-                    <div className="ph">
-                      <span className="ph__label">برگه زردآلو</span>
+                <div className="ps-line">
+                  <Placeholder className="ps-line__thumb" label="برگه زردآلو" />
+                  <div className="ps-line__body">
+                    <div className="ps-line__name">برگه زردآلوی طلایی</div>
+                    <div className="ps-line__meta">
+                      <Chip icon="fa-weight-hanging">۲۵۰ گرم</Chip>
+                      <Chip icon="fa-box">زیپ‌کیپ کرافت</Chip>
                     </div>
                   </div>
-                  <div className="line__body">
-                    <div className="line__name">برگه زردآلوی طلایی</div>
-                    <div className="line__meta">
-                      <span className="chip">
-                        <i className="fa-solid fa-weight-hanging" aria-hidden /> ۲۵۰ گرم
-                      </span>
-                      <span className="chip">
-                        <i className="fa-solid fa-box" aria-hidden /> زیپ‌کیپ کرافت
-                      </span>
-                    </div>
-                  </div>
-                  <div className="line__end">
-                    <span className="line__qty num">۱ عدد</span>
-                    <span className="price num">
-                      ۲۴۶٬۰۰۰ <span className="price__unit">تومان</span>
-                    </span>
+                  <div className="ps-line__end">
+                    <span className="ps-line__qty num">۱ عدد</span>
+                    <Price now={246000} />
                   </div>
                 </div>
               </div>
 
-              <div className="ledger">
-                <div className="ledger__row">
+              <div className="ps-ledger">
+                <div className="ps-ledger__row">
                   <span className="k">مجموع قیمت کالاها</span>
-                  <span className="v num">
-                    ۱٬۱۶۶٬۰۰۰ <span className="price__unit">تومان</span>
-                  </span>
+                  <span className="v num">۱٬۱۶۶٬۰۰۰ تومان</span>
                 </div>
-                <div className="ledger__row ledger__row--save">
+                <div className="ps-ledger__row ps-ledger__row--save">
                   <span className="k">سود شما از این خرید</span>
-                  <span className="v num">
-                    −۱۷۶٬۰۰۰ <span className="price__unit">تومان</span>
-                  </span>
+                  <span className="v num">−۱۷۶٬۰۰۰ تومان</span>
                 </div>
-                <div className="ledger__row">
+                <div className="ps-ledger__row">
                   <span className="k">هزینه ارسال</span>
-                  <span className="ledger__free">
-                    <i className="fa-solid fa-truck-fast" aria-hidden /> رایگان
-                  </span>
+                  <Chip tone="green" icon="fa-truck-fast">
+                    رایگان
+                  </Chip>
                 </div>
-                <div className="ledger__grand">
+                <div className="ps-ledger__grand">
                   <span className="k">مبلغ پرداخت‌شده</span>
-                  <span className="v num">
-                    ۹۹۰٬۰۰۰ <span className="price__unit">تومان</span>
-                  </span>
+                  <span className="v num">۹۹۰٬۰۰۰ تومان</span>
                 </div>
               </div>
-              <div className="paidnote">
+              <p className="ps-paidnote faint">
                 <i className="fa-solid fa-circle-check" aria-hidden /> کارت ****۶۲۷۱ · کد پیگیری
-                تراکنش <span className="num paidnote__code">۸۲۴۵۱۹۰۳</span>
-              </div>
+                تراکنش <span className="num">۸۲۴۵۱۹۰۳</span>
+              </p>
             </section>
 
-            {/* اطلاعات ارسال */}
+            {/* مسیر سفارش */}
             <section>
-              <div className="seclabel">
-                <span className="seclabel__no num">۰۲</span>
-                <h2 className="seclabel__t">مسیر سفارش</h2>
-                <span className="seclabel__line" />
+              <div className="ps-seclabel">
+                <span className="ps-seclabel__no num">۰۲</span>
+                <h2 className="ps-seclabel__t">مسیر سفارش</h2>
+                <span className="ps-seclabel__line" />
               </div>
 
-              <div className="eta">
-                <div className="eta__big">تحویل تا دوشنبه ۲ تیر</div>
-              </div>
-              <div className="eta eta--note">
-                <div className="eta__small">
-                  ارسال با پیک اختصاصی دشت‌زاد در تهران — <b>۲۴ تا ۴۸ ساعت</b> پس از آماده‌سازی.
-                </div>
-              </div>
+              <div className="ps-eta">تحویل تا دوشنبه ۲ تیر</div>
+              <p className="ps-eta__small">
+                ارسال با پیک اختصاصی دشت‌زاد در تهران — <b>۲۴ تا ۴۸ ساعت</b> پس از آماده‌سازی.
+              </p>
 
-              <div className="track">
-                <span className="track__fill" />
-                <div className="tnode" data-done="true">
-                  <span className="tnode__dot">
-                    <i className="fa-solid fa-check" aria-hidden />
-                  </span>
-                  <div className="tnode__t">سفارش ثبت شد</div>
-                  <div className="tnode__d">
-                    امروز · <span className="num">۱۰:۲۴</span>
-                  </div>
-                </div>
-                <div className="tnode" data-current="true">
-                  <span className="tnode__dot">
-                    <i className="fa-solid fa-box-open" aria-hidden />
-                  </span>
-                  <div className="tnode__t">در حال آماده‌سازی</div>
-                  <div className="tnode__d">
-                    <b>هم‌اکنون</b> · بسته‌بندی در انبار دماوند
-                  </div>
-                </div>
-                <div className="tnode" data-upcoming="true">
-                  <span className="tnode__dot">
-                    <i className="fa-solid fa-truck" aria-hidden />
-                  </span>
-                  <div className="tnode__t">تحویل به پیک</div>
-                  <div className="tnode__d">۱ تیر</div>
-                </div>
-                <div className="tnode" data-upcoming="true">
-                  <span className="tnode__dot">
-                    <i className="fa-solid fa-house" aria-hidden />
-                  </span>
-                  <div className="tnode__t">تحویل به شما</div>
-                  <div className="tnode__d">۲ تیر</div>
-                </div>
-              </div>
+              <Steps items={TRACK} />
 
-              <div className="addr">
-                <div className="addr__row">
-                  <div className="addr__ic">
-                    <i className="fa-solid fa-user" aria-hidden />
-                  </div>
+              <div className="ps-addr">
+                <div className="ps-addr__row">
+                  <IconBox icon="fa-user" tone="green" size="sm" />
                   <div>
-                    <div className="addr__k">گیرنده</div>
-                    <div className="addr__v num">مریم احمدی · ۰۹۱۲ ۳۴۵ ۶۷۸۹</div>
+                    <div className="ps-addr__k">گیرنده</div>
+                    <div className="ps-addr__v num">مریم احمدی · ۰۹۱۲ ۳۴۵ ۶۷۸۹</div>
                   </div>
                 </div>
-                <div className="addr__row">
-                  <div className="addr__ic">
-                    <i className="fa-solid fa-map-location-dot" aria-hidden />
-                  </div>
+                <div className="ps-addr__row">
+                  <IconBox icon="fa-map-location-dot" tone="green" size="sm" />
                   <div>
-                    <div className="addr__k">نشانی تحویل</div>
-                    <div className="addr__v">
+                    <div className="ps-addr__k">نشانی تحویل</div>
+                    <div className="ps-addr__v">
                       تهران، سعادت‌آباد، خیابان علامه طباطبایی شمالی، کوچه ۱۸ شرقی، پلاک ۱۲، واحد ۴ —{" "}
                       <span className="num">کد پستی ۱۹۹۷۸۵۴۳۲۱</span>
                     </div>
@@ -276,26 +218,24 @@ export default function PaymentSuccessPage() {
           </div>
 
           {/* actions */}
-          <div className="actions">
-            <Link className="btn btn--primary" href="/account">
+          <div className="ps-actions">
+            <ButtonLink href="/account" variant="primary" size="lg">
               <i className="fa-solid fa-location-crosshairs" aria-hidden /> مشاهده سفارش‌ها
-            </Link>
-            <Link className="btn btn--ghost" href="/products">
+            </ButtonLink>
+            <ButtonLink href="/products" variant="ghost" size="lg">
               <i className="fa-solid fa-arrow-right-long" aria-hidden /> بازگشت به فروشگاه
-            </Link>
+            </ButtonLink>
           </div>
 
-          <div className="reassure">
-            <span className="reassure__item">
+          <div className="ps-reassure">
+            <span>
               <i className="fa-solid fa-shield-halved" aria-hidden /> ضمانت اصالت و{" "}
               <b>بازگشت ۷ روزه</b>
             </span>
-            <span className="reassure__sep" />
-            <span className="reassure__item">
+            <span>
               <i className="fa-solid fa-receipt" aria-hidden /> فاکتور به ایمیل شما ارسال شد
             </span>
-            <span className="reassure__sep" />
-            <span className="reassure__item">
+            <span>
               <i className="fa-solid fa-headset" aria-hidden /> پشتیبانی <b>۹ تا ۲۱</b> همه‌روزه
             </span>
           </div>

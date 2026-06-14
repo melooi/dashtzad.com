@@ -1,313 +1,54 @@
 /* ============================================================
    دشت‌زاد — صفحه «درباره ما»
-   Recreated from the Claude Design handoff (about.css + blog.css tokens).
-   Everything is scoped under .about-page so nothing leaks globally.
-   Tokens are also scoped here; --display/--body map to the site font.
-   rem base: html = 62.5% (1rem = 10px) — set globally in globals.css.
+   Page-specific LAYOUT only. All primitives (hero, section heads,
+   cards, icon-boxes, buttons, placeholder) come from the design
+   system (src/components/ui + src/styles/dz.css). Everything here
+   is scoped under .about-page so nothing leaks globally.
    ============================================================ */
 
 .about-page {
-  /* warm stone neutrals */
-  --paper: #ffffff;
-  --paper-2: #f5f5f4;
-  --surface: #ffffff;
-  --surface-warm: #fafaf9;
-  --ink: #292524;
-  --ink-soft: #57534e;
-  --ink-faint: #78716c;
-  --hair: #e7e5e4;
-  --hair-strong: #d6d3d1;
-  /* brand accents */
-  --green: #15803d;
-  --green-deep: #166534;
-  --green-soft: #dcfce7;
-  --clay: #c2410c;
-  --clay-deep: #9a3412;
-  --clay-soft: #ffedd5;
-  --gold: #f59e0b;
-  --gold-deep: #b45309;
-  --honey: #fbbf24;
-  --amber-soft: #fef3c7;
-  --amber-50: #fffbeb;
-  /* radii */
-  --r-sm: 0.8rem;
-  --r: 1.4rem;
-  --r-lg: 2.2rem;
-  --r-xl: 3rem;
-  /* shadows */
-  --shadow-sm: 0 1px 2px oklch(0.3 0.02 60 / 0.06), 0 2px 6px oklch(0.3 0.02 60 / 0.05);
-  --shadow: 0 2px 6px oklch(0.3 0.02 60 / 0.06), 0 14px 34px oklch(0.3 0.02 60 / 0.09);
-  --shadow-lg: 0 8px 20px oklch(0.3 0.02 60 / 0.08), 0 30px 70px oklch(0.3 0.02 60 / 0.14);
-  /* type — mapped to the site's IRANYekanX (loaded via next/font) */
-  --display: var(--font-iranyekan), ui-sans-serif, system-ui, sans-serif;
-  --maxw: 124rem;
-
-  color: var(--ink);
-  background: var(--paper);
-
-  /* Font Awesome glyphs (loaded via CDN) are sized by font-size on their context. */
-
-  /* ---------- layout primitives ---------- */
-  .wrap {
-    margin-inline: auto;
-    max-width: var(--maxw);
-    padding-inline: clamp(1.6rem, 4vw, 4rem);
-  }
-  .sec {
-    padding: clamp(4rem, 6vw, 7rem) 0;
-  }
-  .sec--warm {
-    background: var(--surface-warm);
-    border-block: 1px solid var(--hair);
-  }
-
-  /* ---------- buttons ---------- */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.9rem;
-    font-weight: 700;
-    border-radius: var(--r);
-    font-size: 1.6rem;
-    padding: 1.35rem 2.2rem;
-    text-decoration: none;
-    cursor: pointer;
-    transition:
-      transform 0.12s ease,
-      box-shadow 0.2s ease,
-      background 0.2s ease,
-      color 0.2s,
-      border-color 0.2s;
-  }
-  .btn:active {
-    transform: translateY(1px);
-  }
-  .btn--primary {
-    background: var(--green);
-    color: #fff;
-    box-shadow: 0 6px 18px color-mix(in oklch, var(--green), transparent 72%);
-  }
-  .btn--primary:hover {
-    background: var(--green-deep);
-  }
-  .btn--ghost {
-    background: var(--surface);
-    color: var(--ink);
-    border: 1.5px solid var(--hair-strong);
-  }
-  .btn--ghost:hover {
-    color: var(--green);
-    border-color: var(--green);
-  }
-  .btn--lg {
-    padding: 1.7rem 3rem;
-    font-size: 1.75rem;
-  }
-
-  /* ---------- shared section intro ---------- */
-  .ab-intro {
-    max-width: 64rem;
-  }
-  .ab-intro__kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.9rem;
-    font-weight: 700;
-    color: var(--clay);
-    font-size: 1.3rem;
-    letter-spacing: 0.05em;
-  }
-  .ab-intro__kicker::before {
-    content: "";
-    width: 2.4rem;
-    height: 0.25rem;
-    background: var(--gold);
-    border-radius: 0.2rem;
-  }
-  .ab-intro__title {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: clamp(2.8rem, 4vw, 4.4rem);
-    letter-spacing: -0.015em;
-    line-height: 1.16;
-    margin-top: 1.4rem;
-    text-wrap: balance;
-  }
-  .ab-intro__title .accent {
+  /* shared inline accents reused across section heads */
+  .about-accent {
     color: var(--green);
   }
-  .ab-intro__lead {
-    color: var(--ink-soft);
-    font-size: clamp(1.55rem, 1.8vw, 1.8rem);
-    line-height: 1.95;
-    margin-top: 1.6rem;
-  }
 
-  /* ---------- image placeholder (until real photos are uploaded) ---------- */
-  .ph {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.4rem;
-    text-align: center;
-    padding: 2.4rem;
-    background: linear-gradient(150deg, var(--green-soft), var(--amber-soft));
-  }
-  .ph__ic {
-    width: 6rem;
-    height: 6rem;
-    border-radius: 999px;
-    display: grid;
-    place-items: center;
-    background: #fff;
-    color: var(--green-deep);
-    font-size: 2.6rem;
-    box-shadow: var(--shadow-sm);
-  }
-  .ph__cap {
-    font-size: 1.35rem;
-    line-height: 1.75;
-    color: var(--ink-faint);
-    font-weight: 600;
-    max-width: 24rem;
-  }
-
-  /* ============================================================
-     HERO — cinematic dark band (photo slot is a gradient for now)
-     ============================================================ */
-  .about-hero {
-    position: relative;
-    overflow: hidden;
-    min-height: clamp(52rem, 74vh, 68rem);
-    display: flex;
-    align-items: flex-end;
-    background: #0c1322;
-  }
-  .about-hero__media {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(120% 90% at 82% 8%, oklch(0.42 0.09 150 / 0.55), transparent 55%),
-      radial-gradient(100% 80% at 0% 100%, oklch(0.45 0.08 70 / 0.4), transparent 60%),
-      linear-gradient(135deg, #0c1322, #112619 58%, #0c1322);
-  }
-  .about-hero__scrim {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      oklch(0.16 0.03 255 / 0.94) 4%,
-      oklch(0.18 0.03 255 / 0.62) 38%,
-      oklch(0.2 0.03 255 / 0.15) 72%,
-      transparent
-    );
-  }
-  .about-hero__inner {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    padding-block: clamp(3.6rem, 6vw, 6rem);
-  }
-  .about-hero__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.9rem;
-    font-weight: 700;
-    font-size: 1.35rem;
-    letter-spacing: 0.06em;
-    color: var(--honey);
-  }
-  .about-hero__eyebrow::before {
-    content: "";
-    width: 2.6rem;
-    height: 0.25rem;
-    background: var(--honey);
-    border-radius: 0.2rem;
-  }
-  .about-hero__title {
-    font-family: var(--display);
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.02em;
-    font-size: clamp(3.6rem, 6.4vw, 6.8rem);
+  /* ---------- HERO (uses .hero; only stacked-title tweak) ---------- */
+  .about-hero .hero__title {
+    font-size: clamp(3.6rem, 6.4vw, 6.4rem);
     line-height: 1.08;
-    margin-top: 1.8rem;
-    text-wrap: balance;
   }
-  .about-hero__title .soft {
+  .about-hero__soft {
     color: oklch(1 0 0 / 0.62);
   }
-  .about-hero__lead {
-    color: oklch(1 0 0 / 0.86);
-    font-size: clamp(1.6rem, 2vw, 2rem);
-    line-height: 1.85;
-    max-width: 58rem;
-    margin-top: 1.8rem;
-  }
-  .about-hero__stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 2.8rem;
-  }
-  .ab-stat {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.9rem;
-    padding: 1rem 1.7rem;
-    border-radius: 999px;
-    background: oklch(1 0 0 / 0.1);
-    border: 1.5px solid oklch(1 0 0 / 0.24);
-    color: #fff;
-    font-weight: 700;
-    font-size: 1.4rem;
-    backdrop-filter: blur(6px);
-  }
-  .ab-stat i {
-    color: var(--honey);
-    font-size: 1.5rem;
-  }
-  .ab-stat b {
-    font-family: var(--display);
-    font-size: 1.7rem;
-  }
 
-  /* ============================================================
-     STORY — editorial split (family roots)
-     ============================================================ */
+  /* ---------- STORY — editorial split ---------- */
   .about-story {
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
     gap: clamp(3rem, 5vw, 6rem);
     align-items: center;
   }
-  .about-story__body p {
+  .about-prose {
     color: var(--ink-soft);
     font-size: 1.6rem;
     line-height: 2;
     margin-top: 1.6rem;
   }
-  .about-story__body p:first-of-type {
-    margin-top: 1.8rem;
-  }
-  .about-story__body strong {
+  .about-prose strong {
     color: var(--ink);
-    font-weight: 700;
   }
   .about-story__media {
     position: relative;
   }
   .about-story__frame {
-    position: relative;
     border-radius: var(--r-lg);
     overflow: hidden;
     box-shadow: var(--shadow-lg);
     aspect-ratio: 4 / 5;
-    background: var(--surface-warm);
+  }
+  .about-story__frame .ph {
+    position: absolute;
+    inset: 0;
   }
   .about-story__seal {
     position: absolute;
@@ -339,24 +80,22 @@
     letter-spacing: 0.04em;
   }
 
-  /* pull-quote */
-  .pullquote {
-    margin-top: 2.8rem;
+  /* pull-quote (no shared primitive) */
+  .about-quote {
+    margin: 2.8rem 0 0;
     padding: 2rem 2.4rem;
     border-inline-start: 0.4rem solid var(--gold);
     background: var(--amber-50);
     border-radius: 0 var(--r) var(--r) 0;
   }
-  .pullquote p {
+  .about-quote p {
     font-family: var(--display);
     font-weight: 700;
     font-size: clamp(1.9rem, 2.4vw, 2.4rem);
     line-height: 1.55;
     color: var(--ink);
-    margin: 0;
-    letter-spacing: -0.01em;
   }
-  .pullquote cite {
+  .about-quote cite {
     display: block;
     margin-top: 1.1rem;
     font-style: normal;
@@ -365,17 +104,15 @@
     color: var(--clay);
   }
 
-  /* ============================================================
-     MEANING — «زادهٔ دشت» dark band, triptych
-     ============================================================ */
-  .meaning {
+  /* ---------- MEANING — dark green full-bleed band ---------- */
+  .about-band {
     position: relative;
     overflow: hidden;
     background: var(--green-deep);
     color: #fff;
     padding: clamp(4.4rem, 6vw, 7.2rem) 0;
   }
-  .meaning::before {
+  .about-band::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -384,11 +121,11 @@
       radial-gradient(120% 130% at 100% 0%, oklch(0.55 0.14 150 / 0.5), transparent 56%),
       radial-gradient(90% 110% at 0% 100%, oklch(0.28 0.05 150 / 0.6), transparent 60%);
   }
-  .meaning__head {
+  .about-band__head {
     position: relative;
     max-width: 70rem;
   }
-  .meaning__kicker {
+  .about-band__kicker {
     display: inline-flex;
     align-items: center;
     gap: 0.8rem;
@@ -397,32 +134,31 @@
     letter-spacing: 0.05em;
     color: var(--honey);
   }
-  .meaning__title {
+  .about-band__title {
     font-family: var(--display);
-    font-weight: 700;
     font-size: clamp(2.8rem, 4vw, 4.4rem);
     line-height: 1.18;
     margin-top: 1.4rem;
     letter-spacing: -0.01em;
   }
-  .meaning__title .honey {
+  .about-honey {
     color: var(--honey);
   }
-  .meaning__sub {
+  .about-band__sub {
     color: oklch(1 0 0 / 0.82);
     font-size: 1.6rem;
     line-height: 1.9;
     margin-top: 1.4rem;
     max-width: 60rem;
   }
-  .meaning__grid {
+  .about-band__grid {
     position: relative;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: clamp(1.6rem, 2.4vw, 2.4rem);
     margin-top: clamp(3rem, 4vw, 4.4rem);
   }
-  .mcard {
+  .about-band__card {
     background: oklch(1 0 0 / 0.06);
     border: 1.5px solid oklch(1 0 0 / 0.14);
     border-radius: var(--r-lg);
@@ -435,42 +171,28 @@
       border-color 0.2s,
       background 0.2s;
   }
-  .mcard:hover {
+  .about-band__card:hover {
     transform: translateY(-4px);
     border-color: oklch(1 0 0 / 0.34);
     background: oklch(1 0 0 / 0.1);
   }
-  .mcard__ic {
-    width: 5.4rem;
-    height: 5.4rem;
-    border-radius: var(--r);
-    display: grid;
-    place-items: center;
-    background: oklch(1 0 0 / 0.12);
-    color: var(--honey);
-    font-size: 2.2rem;
-  }
-  .mcard__t {
+  .about-band__ct {
     font-family: var(--display);
-    font-weight: 700;
     font-size: 2.1rem;
   }
-  .mcard__d {
+  .about-band__cd {
     color: oklch(1 0 0 / 0.8);
     font-size: 1.45rem;
     line-height: 1.85;
   }
 
-  /* ============================================================
-     GALLERY — دشت · کشاورز · محصول سالم
-     ============================================================ */
-  .gallery-grid {
+  /* ---------- GALLERY — image media-cards with overlay text ---------- */
+  .about-gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: clamp(1.6rem, 2.4vw, 2.4rem);
-    margin-top: clamp(2.8rem, 3.6vw, 3.6rem);
   }
-  .gcard {
+  .about-gcard {
     position: relative;
     border-radius: var(--r-lg);
     overflow: hidden;
@@ -478,26 +200,22 @@
     display: flex;
     box-shadow: var(--shadow);
   }
-  .gcard__media {
-    position: absolute;
-    inset: 0;
-  }
-  .gcard--dasht .gcard__media {
+  .about-gcard--dasht {
     background:
       radial-gradient(90% 70% at 70% 15%, oklch(0.5 0.1 150 / 0.5), transparent 60%),
       linear-gradient(160deg, #1b3a26, #0f1f16);
   }
-  .gcard--farmer .gcard__media {
+  .about-gcard--farmer {
     background:
       radial-gradient(90% 70% at 70% 15%, oklch(0.5 0.11 70 / 0.45), transparent 60%),
       linear-gradient(160deg, #3a2410, #1c1209);
   }
-  .gcard--product .gcard__media {
+  .about-gcard--product {
     background:
       radial-gradient(90% 70% at 70% 15%, oklch(0.55 0.12 90 / 0.4), transparent 60%),
       linear-gradient(160deg, #2a3210, #14180a);
   }
-  .gcard__scrim {
+  .about-gcard__scrim {
     position: absolute;
     inset: 0;
     background: linear-gradient(
@@ -507,7 +225,7 @@
       transparent 78%
     );
   }
-  .gcard__body {
+  .about-gcard__body {
     position: relative;
     margin-top: auto;
     padding: 2.4rem;
@@ -517,244 +235,168 @@
     gap: 0.7rem;
     z-index: 2;
   }
-  .gcard__ic {
-    width: 4.4rem;
-    height: 4.4rem;
-    border-radius: 999px;
+  .about-gcard__ic.icon-box {
     background: oklch(1 0 0 / 0.18);
-    backdrop-filter: blur(4px);
-    display: grid;
-    place-items: center;
-    font-size: 1.9rem;
-    margin-bottom: 0.4rem;
     color: var(--honey);
+    backdrop-filter: blur(4px);
+    margin-bottom: 0.4rem;
   }
-  .gcard__t {
+  .about-gcard__t {
     font-family: var(--display);
-    font-weight: 700;
     font-size: 2.2rem;
   }
-  .gcard__d {
+  .about-gcard__d {
     color: oklch(1 0 0 / 0.85);
     font-size: 1.4rem;
     line-height: 1.7;
   }
 
-  /* ============================================================
-     CONTRAST — تفاوت با فروشگاه بی‌روح
-     ============================================================ */
-  .contrast-grid {
+  /* ---------- CONTRAST — two panels ---------- */
+  .about-contrast {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(1.6rem, 2.6vw, 2.6rem);
-    margin-top: clamp(2.8rem, 3.6vw, 3.6rem);
     align-items: stretch;
   }
-  .cpanel {
-    border-radius: var(--r-lg);
-    padding: clamp(2.4rem, 3vw, 3.4rem);
+  .about-panel {
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
   }
-  .cpanel__head {
+  .about-panel__head {
     display: flex;
     align-items: center;
     gap: 1.2rem;
   }
-  .cpanel__badge {
-    width: 4.6rem;
-    height: 4.6rem;
-    border-radius: var(--r);
-    display: grid;
-    place-items: center;
-    font-size: 2rem;
-    flex: 0 0 auto;
-  }
-  .cpanel__t {
+  .about-panel__t {
     font-family: var(--display);
-    font-weight: 700;
     font-size: 2.2rem;
     line-height: 1.25;
   }
-  .cpanel__n {
+  .about-panel__n {
     font-size: 1.3rem;
     margin-top: 0.2rem;
+    color: var(--ink-faint);
   }
-  .clist {
+  .about-clist {
     display: flex;
     flex-direction: column;
     gap: 1.1rem;
   }
-  .cli {
+  .about-cli {
     display: flex;
     align-items: flex-start;
     gap: 1.1rem;
     font-size: 1.5rem;
     line-height: 1.7;
   }
-  .cli i {
-    font-size: 1.5rem;
+  .about-cli i {
     margin-top: 0.35rem;
     flex: 0 0 auto;
   }
-  .cpanel--dull {
-    background: var(--surface-warm);
-    border: 1.5px solid var(--hair);
-  }
-  .cpanel--dull .cpanel__badge {
-    background: #ece9e6;
-    color: var(--ink-faint);
-  }
-  .cpanel--dull .cpanel__t {
+  .about-panel--dull .about-panel__t {
     color: var(--ink-soft);
   }
-  .cpanel--dull .cpanel__n {
-    color: var(--ink-faint);
-  }
-  .cpanel--dull .cli {
+  .about-cli--no {
     color: var(--ink-soft);
   }
-  .cpanel--dull .cli i {
+  .about-cli--no i {
     color: var(--hair-strong);
   }
-  .cpanel--us {
+  /* the "us" panel is a dark surface, so it overrides the white Card look */
+  .about-panel--us {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r-lg);
+    padding: clamp(2.4rem, 3vw, 3.4rem);
     background: var(--green-deep);
     color: #fff;
     box-shadow: var(--shadow-lg);
-    position: relative;
-    overflow: hidden;
   }
-  .cpanel--us::before {
+  .about-panel--us::before {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
     background: radial-gradient(120% 120% at 100% 0%, oklch(0.55 0.14 150 / 0.45), transparent 58%);
   }
-  .cpanel--us > * {
+  .about-panel--us > * {
     position: relative;
   }
-  .cpanel--us .cpanel__badge {
+  .about-panel__badge--us {
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: var(--r-sm);
+    display: grid;
+    place-items: center;
+    font-size: 2rem;
+    flex: 0 0 auto;
     background: oklch(1 0 0 / 0.14);
     color: var(--honey);
   }
-  .cpanel--us .cpanel__n {
+  .about-panel--us .about-panel__n {
     color: oklch(1 0 0 / 0.72);
   }
-  .cpanel--us .cli {
+  .about-cli--yes {
     color: oklch(1 0 0 / 0.92);
   }
-  .cpanel--us .cli i {
+  .about-cli--yes i {
     color: var(--honey);
   }
 
-  /* ============================================================
-     VALUES — ارزش‌های دشت‌زاد
-     ============================================================ */
-  .values-grid {
+  /* ---------- VALUES — five-up card grid ---------- */
+  .about-values-head {
+    margin-top: clamp(4rem, 6vw, 6.4rem);
+  }
+  .about-values {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: clamp(1.4rem, 2vw, 2rem);
-    margin-top: clamp(2.8rem, 3.6vw, 3.6rem);
   }
-  .value {
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
-    padding: 2.4rem 2rem;
+  .about-value {
     display: flex;
     flex-direction: column;
     gap: 1.1rem;
-    transition:
-      border-color 0.18s,
-      box-shadow 0.18s,
-      transform 0.18s;
   }
-  .value:hover {
-    border-color: var(--green);
-    box-shadow: var(--shadow);
-    transform: translateY(-4px);
-  }
-  .value__ic {
-    width: 5rem;
-    height: 5rem;
-    border-radius: var(--r);
-    display: grid;
-    place-items: center;
-    background: var(--green-soft);
-    color: var(--green-deep);
-    font-size: 2rem;
-  }
-  .value__t {
+  .about-value__t {
     font-family: var(--display);
-    font-weight: 700;
     font-size: 1.85rem;
   }
-  .value__d {
+  .about-value__d {
     color: var(--ink-soft);
     font-size: 1.4rem;
     line-height: 1.8;
   }
-  .value:nth-child(5n + 2) .value__ic {
-    background: var(--clay-soft);
-    color: var(--clay-deep);
-  }
-  .value:nth-child(5n + 3) .value__ic {
-    background: var(--amber-soft);
-    color: var(--gold-deep);
-  }
-  .value:nth-child(5n + 4) .value__ic {
-    background: var(--green-soft);
-    color: var(--green-deep);
-  }
-  .value:nth-child(5n + 5) .value__ic {
-    background: var(--clay-soft);
-    color: var(--clay-deep);
-  }
 
-  /* ============================================================
-     PROMISE — قول برند به مشتری
-     ============================================================ */
-  .promise {
+  /* ---------- PROMISE — split: list + dark CTA card ---------- */
+  .about-promise {
     display: grid;
     grid-template-columns: 0.9fr 1.1fr;
     gap: clamp(3rem, 5vw, 6rem);
     align-items: center;
   }
-  .promise__list {
+  .about-promise__list {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.2rem 2rem;
     margin-top: 2.4rem;
   }
-  .pli {
+  .about-pli {
     display: flex;
     align-items: flex-start;
     gap: 1.1rem;
   }
-  .pli__ic {
-    width: 3.4rem;
-    height: 3.4rem;
-    border-radius: 999px;
-    background: var(--green-soft);
-    color: var(--green-deep);
-    display: grid;
-    place-items: center;
-    font-size: 1.4rem;
-    flex: 0 0 auto;
-  }
-  .pli__t {
+  .about-pli__t {
     font-size: 1.5rem;
     line-height: 1.6;
     color: var(--ink-soft);
     padding-top: 0.3rem;
   }
-  .pli__t b {
+  .about-pli__t b {
     color: var(--ink);
-    font-weight: 700;
   }
-  .promise__card {
+
+  .about-cta {
     position: relative;
     overflow: hidden;
     border-radius: var(--r-xl);
@@ -765,7 +407,7 @@
     flex-direction: column;
     gap: 1.8rem;
   }
-  .promise__card::before {
+  .about-cta::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -774,8 +416,10 @@
       radial-gradient(90% 120% at 100% 0%, oklch(0.45 0.12 150 / 0.5), transparent 56%),
       radial-gradient(70% 100% at 0% 100%, oklch(0.55 0.12 70 / 0.3), transparent 58%);
   }
-  .promise__seal {
+  .about-cta > * {
     position: relative;
+  }
+  .about-cta__seal {
     width: 6.4rem;
     height: 6.4rem;
     border-radius: 999px;
@@ -788,54 +432,55 @@
     font-size: 3rem;
     font-weight: 700;
   }
-  .promise__msg {
-    position: relative;
+  .about-cta__msg {
     font-family: var(--display);
     font-weight: 700;
     font-size: clamp(2.4rem, 3.2vw, 3.4rem);
     line-height: 1.3;
   }
-  .promise__msg .green {
+  .about-cta__green {
     color: #5fd38b;
   }
-  .promise__sub {
-    position: relative;
+  .about-cta__sub {
     color: oklch(1 0 0 / 0.82);
     font-size: 1.55rem;
     line-height: 1.9;
   }
-  .promise__cta {
-    position: relative;
+  .about-cta__actions {
     display: flex;
     flex-wrap: wrap;
     gap: 1.2rem;
-    margin-top: 0.6rem;
   }
-  .promise__sign {
-    position: relative;
+  .about-cta__ghost {
+    background: transparent;
+    color: #fff;
+    border-color: oklch(1 0 0 / 0.3);
+  }
+  .about-cta__ghost:hover {
+    color: #fff;
+    border-color: #fff;
+  }
+  .about-cta__sign {
     display: flex;
     align-items: center;
     gap: 0.9rem;
-    margin-top: 0.4rem;
     color: var(--honey);
     font-weight: 700;
     font-size: 1.4rem;
   }
 
-  /* ============================================================
-     RESPONSIVE
-     ============================================================ */
+  /* ---------- RESPONSIVE ---------- */
   @media (max-width: 1080px) {
-    .meaning__grid {
+    .about-band__grid {
       grid-template-columns: 1fr;
     }
-    .values-grid {
+    .about-values {
       grid-template-columns: repeat(3, 1fr);
     }
-    .gallery-grid {
+    .about-gallery {
       grid-template-columns: 1fr;
     }
-    .gcard {
+    .about-gcard {
       min-height: 30rem;
     }
   }
@@ -847,22 +492,19 @@
       order: -1;
       max-width: 42rem;
     }
-    .contrast-grid {
+    .about-contrast {
       grid-template-columns: 1fr;
     }
-    .promise {
+    .about-promise {
       grid-template-columns: 1fr;
     }
-    .promise__list {
+    .about-promise__list {
       grid-template-columns: 1fr;
     }
   }
   @media (max-width: 600px) {
-    .values-grid {
+    .about-values {
       grid-template-columns: 1fr 1fr;
-    }
-    .about-hero__stats .ab-stat {
-      font-size: 1.3rem;
     }
     .about-story__seal {
       width: 10.5rem;

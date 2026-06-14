@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/jsonld";
+import { Card, Hero, IconBox, Placeholder } from "@/components/ui";
 import { ContactForm } from "./ContactForm";
 import "./contact.css";
+
+// Font Awesome is loaded site-wide in app/layout.tsx.
 
 export const metadata: Metadata = {
   title: "تماس با ما",
@@ -11,6 +14,39 @@ export const metadata: Metadata = {
     "راه‌های ارتباط با دشت‌زاد — تلفن، ایمیل، شبکه‌های اجتماعی و فرم تماس. برای پیگیری سفارش، مشاوره خرید، خرید عمده و همکاری در کنار شما هستیم.",
   alternates: { canonical: "/contact" },
 };
+
+const METHODS = [
+  {
+    href: "tel:02192002661",
+    icon: "fa-phone",
+    tone: "green" as const,
+    label: "تلفن تماس",
+    value: "۰۲۱-۹۲۰۰۲۶۶۱",
+  },
+  {
+    href: "mailto:info@dashtzad.com",
+    icon: "fa-envelope",
+    tone: "clay" as const,
+    label: "ایمیل",
+    value: "info@dashtzad.com",
+  },
+  {
+    href: "https://dashtzad.com",
+    icon: "fa-globe",
+    tone: "gold" as const,
+    label: "وب‌سایت",
+    value: "dashtzad.com",
+    external: true,
+  },
+];
+
+const SOCIALS = [
+  { id: "telegram", label: "تلگرام", icon: "fa-brands fa-telegram", glyph: null },
+  { id: "eitaa", label: "ایتا", icon: null, glyph: "ا" },
+  { id: "bale", label: "بله", icon: null, glyph: "ب" },
+  { id: "rubika", label: "روبیکا", icon: null, glyph: "ر" },
+  { id: "instagram", label: "اینستاگرام", icon: "fa-brands fa-instagram", glyph: null },
+];
 
 export default function ContactPage() {
   return (
@@ -22,117 +58,102 @@ export default function ContactPage() {
         ])}
       />
 
-      {/* HERO */}
-      <section className="faq-hero">
-        <div className="wrap">
-          <div className="faq-hero__inner">
-            <span className="faq-hero__kicker">
-              <i className="fa-solid fa-headset" aria-hidden /> همیشه کنار شما
-            </span>
-            <h1 className="faq-hero__title">تماس با دشت‌زاد</h1>
-            <p className="faq-hero__sub">
-              برای پیگیری سفارش، مشاوره خرید، خرید عمده یا همکاری با دشت‌زاد، از راه‌های زیر با ما در
-              ارتباط باشید. تلاش می‌کنیم در کوتاه‌ترین زمان پاسخ‌گوی شما باشیم.
-            </p>
-            <div className="faq-hero__chips">
-              <a className="faq-chip" href="tel:02192002661">
-                <i className="fa-solid fa-phone" aria-hidden /> ۰۲۱-۹۲۰۰۲۶۶۱
-              </a>
-              <a className="faq-chip" href="mailto:info@dashtzad.com">
-                <i className="fa-solid fa-envelope" aria-hidden /> info@dashtzad.com
-              </a>
-              <Link className="faq-chip" href="/faq">
-                <i className="fa-solid fa-circle-question" aria-hidden /> پرسش‌های متداول
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero
+        kicker={
+          <>
+            <i className="fa-solid fa-headset" aria-hidden /> همیشه کنار شما
+          </>
+        }
+        title="تماس با دشت‌زاد"
+        sub="برای پیگیری سفارش، مشاوره خرید، خرید عمده یا همکاری با دشت‌زاد، از راه‌های زیر با ما در ارتباط باشید. تلاش می‌کنیم در کوتاه‌ترین زمان پاسخ‌گوی شما باشیم."
+        chips={
+          <>
+            <a className="hero__chip" href="tel:02192002661">
+              <i className="fa-solid fa-phone" aria-hidden /> ۰۲۱-۹۲۰۰۲۶۶۱
+            </a>
+            <a className="hero__chip" href="mailto:info@dashtzad.com">
+              <i className="fa-solid fa-envelope" aria-hidden /> info@dashtzad.com
+            </a>
+            <Link className="hero__chip" href="/faq">
+              <i className="fa-solid fa-circle-question" aria-hidden /> پرسش‌های متداول
+            </Link>
+          </>
+        }
+      />
 
-      {/* BODY */}
       <div className="wrap">
         <div className="contact-layout">
           <ContactForm />
 
           <aside className="contact-aside">
+            {/* contact methods */}
             <div className="contact-methods">
-              <a className="contact-method" href="tel:02192002661">
-                <span className="contact-method__ic">
-                  <i className="fa-solid fa-phone" aria-hidden />
-                </span>
-                <span>
-                  <span className="contact-method__l">تلفن تماس</span>
-                  <span className="contact-method__v">۰۲۱-۹۲۰۰۲۶۶۱</span>
-                </span>
-              </a>
-              <a className="contact-method" href="mailto:info@dashtzad.com">
-                <span className="contact-method__ic">
-                  <i className="fa-solid fa-envelope" aria-hidden />
-                </span>
-                <span>
-                  <span className="contact-method__l">ایمیل</span>
-                  <span className="contact-method__v">info@dashtzad.com</span>
-                </span>
-              </a>
-              <a className="contact-method" href="https://dashtzad.com" rel="nofollow">
-                <span className="contact-method__ic">
-                  <i className="fa-solid fa-globe" aria-hidden />
-                </span>
-                <span>
-                  <span className="contact-method__l">وب‌سایت</span>
-                  <span className="contact-method__v">dashtzad.com</span>
-                </span>
-              </a>
+              {METHODS.map((m) => (
+                <Card
+                  as="article"
+                  pad
+                  hover
+                  key={m.href}
+                  className="contact-method"
+                >
+                  <a
+                    className="contact-method__link"
+                    href={m.href}
+                    {...(m.external ? { rel: "nofollow" } : {})}
+                  >
+                    <IconBox icon={m.icon} tone={m.tone} />
+                    <span className="contact-method__b">
+                      <span className="muted contact-method__l">{m.label}</span>
+                      <span className="num contact-method__v">{m.value}</span>
+                    </span>
+                  </a>
+                </Card>
+              ))}
             </div>
 
-            <div className="contact-social">
+            {/* social networks */}
+            <Card pad className="contact-social">
               <div className="contact-social__h">
                 <i className="fa-solid fa-share-nodes" aria-hidden /> ما را در شبکه‌های اجتماعی دنبال
                 کنید
               </div>
               <div className="contact-social__grid">
-                <a className="social-chip" href="#" rel="nofollow">
-                  <span className="social-chip__ic">
-                    <i className="fa-brands fa-telegram" aria-hidden />
-                  </span>{" "}
-                  تلگرام
-                </a>
-                <a className="social-chip" href="#" rel="nofollow">
-                  <span className="social-chip__ic">ا</span> ایتا
-                </a>
-                <a className="social-chip" href="#" rel="nofollow">
-                  <span className="social-chip__ic">ب</span> بله
-                </a>
-                <a className="social-chip" href="#" rel="nofollow">
-                  <span className="social-chip__ic">ر</span> روبیکا
-                </a>
-                <a className="social-chip" href="#" rel="nofollow">
-                  <span className="social-chip__ic">
-                    <i className="fa-brands fa-instagram" aria-hidden />
-                  </span>{" "}
-                  اینستاگرام
-                </a>
+                {SOCIALS.map((s) => (
+                  <a
+                    className={`social-chip social-chip--${s.id}`}
+                    href="#"
+                    rel="nofollow"
+                    key={s.id}
+                  >
+                    <span className="avatar avatar--sm social-chip__ic">
+                      {s.icon ? <i className={s.icon} aria-hidden /> : s.glyph}
+                    </span>
+                    {s.label}
+                  </a>
+                ))}
               </div>
-              <p className="contact-social__id">
+              <p className="muted contact-social__id">
                 شناسه ما در همه شبکه‌ها: <b>@dashtzad</b>
               </p>
-            </div>
+            </Card>
 
-            <div className="contact-info-card">
+            {/* address + hours + map */}
+            <Card pad className="contact-info-card">
               <div className="contact-info-card__h">
                 <i className="fa-solid fa-location-dot" aria-hidden /> آدرس دشت‌زاد
               </div>
-              <p>تهران، پیروزی، خیابان نبرد شمالی، کوچه خزایی، پلاک ۱، واحد ۶</p>
+              <p className="muted">
+                تهران، پیروزی، خیابان نبرد شمالی، کوچه خزایی، پلاک ۱، واحد ۶
+              </p>
               <div className="contact-hours">
                 <i className="fa-regular fa-clock" aria-hidden /> ساعت پاسخ‌گویی: شنبه تا پنج‌شنبه، ۹
                 تا ۲۱
               </div>
-              <div className="contact-map">
-                <div className="ph">
-                  <span className="ph__label">نقشه موقعیت دشت‌زاد — این‌جا قرار می‌گیرد</span>
-                </div>
-              </div>
-            </div>
+              <Placeholder
+                className="contact-map"
+                label="نقشه موقعیت دشت‌زاد — این‌جا قرار می‌گیرد"
+              />
+            </Card>
 
             <Link className="link-card" href="/track-order">
               <span className="link-card__ic">

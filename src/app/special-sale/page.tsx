@@ -1,7 +1,19 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import {
+  Badge,
+  ButtonLink,
+  Card,
+  Chip,
+  Hero,
+  IconBox,
+  Placeholder,
+  Price,
+  RatingChip,
+  SectionHead,
+} from "@/components/ui";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/jsonld";
+import { toFaDigits } from "@/lib/utils";
 import { SaleCountdown } from "./SaleCountdown";
 import "./special-sale.css";
 
@@ -12,17 +24,17 @@ export const metadata: Metadata = {
   alternates: { canonical: "/special-sale" },
 };
 
-type Tone = "" | "clay" | "gold";
+type Tone = "green" | "clay" | "gold";
 
 interface SaleProd {
   name: string;
   cat: string;
   catIcon: string;
   tone: Tone;
-  rate: string;
-  count: string;
-  now: string;
-  old: string;
+  rate: number;
+  count: number;
+  now: number;
+  old: number;
   discount: number;
   weight: string;
   hot?: boolean;
@@ -36,10 +48,10 @@ const SALE: SaleProd[] = [
     cat: "خشکبار",
     catIcon: "fa-bowl-food",
     tone: "clay",
-    rate: "۴٫۸",
-    count: "۱۲۴",
-    now: "۱۸۵٬۰۰۰",
-    old: "۲۶۴٬۰۰۰",
+    rate: 4.8,
+    count: 124,
+    now: 185000,
+    old: 264000,
     discount: 30,
     weight: "۷۰۰ گرم",
     hot: true,
@@ -51,10 +63,10 @@ const SALE: SaleProd[] = [
     cat: "خشکبار",
     catIcon: "fa-apple-whole",
     tone: "clay",
-    rate: "۴٫۸",
-    count: "۱۳۹",
-    now: "۲۷۵٬۰۰۰",
-    old: "۳۸۰٬۰۰۰",
+    rate: 4.8,
+    count: 139,
+    now: 275000,
+    old: 380000,
     discount: 28,
     weight: "۵۰۰ گرم",
     hot: true,
@@ -66,10 +78,10 @@ const SALE: SaleProd[] = [
     cat: "آجیل",
     catIcon: "fa-bowl-food",
     tone: "clay",
-    rate: "۴٫۹",
-    count: "۳۱۸",
-    now: "۵۵۰٬۰۰۰",
-    old: "۷۳۳٬۰۰۰",
+    rate: 4.9,
+    count: 318,
+    now: 550000,
+    old: 733000,
     discount: 25,
     weight: "۵۰۰ گرم",
     hot: true,
@@ -81,10 +93,10 @@ const SALE: SaleProd[] = [
     cat: "آجیل",
     catIcon: "fa-bowl-food",
     tone: "clay",
-    rate: "۴٫۹",
-    count: "۳۱۸",
-    now: "۵۲۰٬۰۰۰",
-    old: "۶۸۴٬۰۰۰",
+    rate: 4.9,
+    count: 318,
+    now: 520000,
+    old: 684000,
     discount: 24,
     weight: "۵۰۰ گرم",
     hot: true,
@@ -96,10 +108,10 @@ const SALE: SaleProd[] = [
     cat: "چای",
     catIcon: "fa-mug-hot",
     tone: "gold",
-    rate: "۴٫۷",
-    count: "۸۹",
-    now: "۲۶۰٬۰۰۰",
-    old: "۳۳۳٬۰۰۰",
+    rate: 4.7,
+    count: 89,
+    now: 260000,
+    old: 333000,
     discount: 22,
     weight: "۴۵۰ گرم",
     inStock: true,
@@ -110,10 +122,10 @@ const SALE: SaleProd[] = [
     cat: "ادویه",
     catIcon: "fa-mortar-pestle",
     tone: "clay",
-    rate: "۴٫۸",
-    count: "۱۴۲",
-    now: "۴۹۰٬۰۰۰",
-    old: "۶۱۲٬۰۰۰",
+    rate: 4.8,
+    count: 142,
+    now: 490000,
+    old: 612000,
     discount: 20,
     weight: "۴٫۶ گرم",
     inStock: true,
@@ -123,11 +135,11 @@ const SALE: SaleProd[] = [
     name: "برنج دم‌سیاه معطر اصیل",
     cat: "برنج",
     catIcon: "fa-bowl-rice",
-    tone: "",
-    rate: "۴٫۹",
-    count: "۷۶",
-    now: "۴۷۰٬۰۰۰",
-    old: "۵۸۰٬۰۰۰",
+    tone: "green",
+    rate: 4.9,
+    count: 76,
+    now: 470000,
+    old: 580000,
     discount: 19,
     weight: "۵ کیلوگرم",
     inStock: true,
@@ -137,11 +149,11 @@ const SALE: SaleProd[] = [
     name: "برنج هاشمی ممتاز معطر",
     cat: "برنج",
     catIcon: "fa-bowl-rice",
-    tone: "",
-    rate: "۴٫۹",
-    count: "۳۱۲",
-    now: "۴۲۰٬۰۰۰",
-    old: "۵۰۶٬۰۰۰",
+    tone: "green",
+    rate: 4.9,
+    count: 312,
+    now: 420000,
+    old: 506000,
     discount: 17,
     weight: "۵ کیلوگرم",
     hot: true,
@@ -153,10 +165,10 @@ const SALE: SaleProd[] = [
     cat: "خشکبار",
     catIcon: "fa-apple-whole",
     tone: "clay",
-    rate: "۴٫۸",
-    count: "۱۳۹",
-    now: "۳۸۰٬۰۰۰",
-    old: "۴۵۲٬۰۰۰",
+    rate: 4.8,
+    count: 139,
+    now: 380000,
+    old: 452000,
     discount: 16,
     weight: "۵۰۰ گرم",
     inStock: true,
@@ -166,11 +178,11 @@ const SALE: SaleProd[] = [
     name: "لوبیا چیتی درشت درجه‌یک",
     cat: "حبوبات",
     catIcon: "fa-seedling",
-    tone: "",
-    rate: "۴٫۶",
-    count: "۲۰۷",
-    now: "۹۵٬۰۰۰",
-    old: "۱۱۲٬۰۰۰",
+    tone: "green",
+    rate: 4.6,
+    count: 207,
+    now: 95000,
+    old: 112000,
     discount: 15,
     weight: "۹۰۰ گرم",
     inStock: false,
@@ -180,10 +192,10 @@ const SALE: SaleProd[] = [
     cat: "خشکبار",
     catIcon: "fa-bowl-food",
     tone: "clay",
-    rate: "۴٫۷",
-    count: "۶۴",
-    now: "۲۱۰٬۰۰۰",
-    old: "۲۴۷٬۰۰۰",
+    rate: 4.7,
+    count: 64,
+    now: 210000,
+    old: 247000,
     discount: 15,
     weight: "۴۰۰ گرم",
     inStock: true,
@@ -194,10 +206,10 @@ const SALE: SaleProd[] = [
     cat: "چای",
     catIcon: "fa-mug-hot",
     tone: "gold",
-    rate: "۴٫۶",
-    count: "۵۸",
-    now: "۲۳۰٬۰۰۰",
-    old: "۲۶۴٬۰۰۰",
+    rate: 4.6,
+    count: 58,
+    now: 230000,
+    old: 264000,
     discount: 13,
     weight: "۴۵۰ گرم",
     inStock: true,
@@ -205,73 +217,70 @@ const SALE: SaleProd[] = [
   },
 ];
 
+function StockLine({ p }: { p: SaleProd }) {
+  if (!p.inStock) {
+    return (
+      <Chip icon="fa-circle-xmark">ناموجود</Chip>
+    );
+  }
+  const lowStock = (p.stock ?? 99) <= 5;
+  return lowStock ? (
+    <Chip tone="clay" icon="fa-bolt">
+      تنها {toFaDigits(p.stock ?? 0)} عدد باقی مانده
+    </Chip>
+  ) : (
+    <Chip tone="green" icon="fa-circle-check">
+      موجود در انبار
+    </Chip>
+  );
+}
+
 function SaleCard({ p }: { p: SaleProd }) {
-  const catClass = p.tone ? `cat-label cat-label--${p.tone}` : "cat-label";
-  const lowStock = p.inStock && (p.stock ?? 99) <= 5;
   return (
-    <article className={`pcard${p.inStock ? "" : " is-out"}`}>
-      <div className="pcard__media">
-        <div className="ph">
-          <span className="ph__label">عکس {p.name}</span>
-        </div>
-        <div className="pcard__flags">
-          <span className="badge badge--clay">
-            <i className="fa-solid fa-tag" aria-hidden /> ٪{toFa(p.discount)} تخفیف
-          </span>
+    <Card as="article" hover className={`sale-card${p.inStock ? "" : " is-out"}`}>
+      <div className="sale-card__media">
+        <Placeholder label={`عکس ${p.name}`} />
+        <div className="sale-card__flags">
+          <Badge tone="clay" icon="fa-tag">
+            ٪{toFaDigits(p.discount)} تخفیف
+          </Badge>
           {p.hot && (
-            <span className="badge badge--gold">
-              <i className="fa-solid fa-fire" aria-hidden /> پرفروش
-            </span>
+            <Badge tone="gold" icon="fa-fire">
+              پرفروش
+            </Badge>
           )}
         </div>
-        <div className="pcard__bm">
-          <button className="bookmark" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
-            <i className="fa-regular fa-heart" aria-hidden />
-          </button>
-        </div>
+        <button
+          className="sale-card__bm"
+          type="button"
+          aria-label="افزودن به علاقه‌مندی‌ها"
+        >
+          <i className="fa-regular fa-heart" aria-hidden />
+        </button>
       </div>
-      <div className="pcard__body">
-        <span className={catClass}>
-          <i className={`fa-solid ${p.catIcon}`} aria-hidden /> {p.cat}
+      <div className="sale-card__body">
+        <Chip tone={p.tone} icon={p.catIcon}>
+          {p.cat}
+        </Chip>
+        <h3 className="sale-card__name">{p.name}</h3>
+        <RatingChip value={p.rate} count={p.count} />
+        <span className="sale-card__weight">
+          <i className="fa-solid fa-weight-hanging" aria-hidden /> {p.weight}
         </span>
-        <h3 className="pcard__name">{p.name}</h3>
-        <span className="pcard__rate">
-          <i className="fa-solid fa-star" aria-hidden /> {p.rate} <span>({p.count})</span>
-        </span>
-        <div className="pcard__meta">
-          <span>
-            <i className="fa-solid fa-weight-hanging" aria-hidden /> {p.weight}
-          </span>
-        </div>
-        {p.inStock ? (
-          lowStock ? (
-            <span className="pcard__stockline low">
-              <i className="fa-solid fa-bolt" aria-hidden /> تنها {toFa(p.stock ?? 0)} عدد باقی مانده
-            </span>
-          ) : (
-            <span className="pcard__stockline in">
-              <i className="fa-solid fa-circle-check" aria-hidden /> موجود در انبار
-            </span>
-          )
-        ) : (
-          <span className="pcard__stockline out">
-            <i className="fa-solid fa-circle-xmark" aria-hidden /> ناموجود
-          </span>
-        )}
-        <div className="pcard__foot">
-          <div className="pcard__price">
-            <span className="pcard__old num">{p.old}</span>
-            <span className="pcard__now num">
-              {p.now} <span className="toman">تومان</span>
-            </span>
-          </div>
+        <StockLine p={p} />
+        <div className="sale-card__foot">
+          <Price now={p.now} old={p.old} size="sm" />
           {p.inStock ? (
-            <button className="pcard__add" type="button" aria-label="افزودن به سبد">
+            <button
+              className="sale-card__add"
+              type="button"
+              aria-label="افزودن به سبد"
+            >
               <i className="fa-solid fa-plus" aria-hidden />
             </button>
           ) : (
             <button
-              className="pcard__add pcard__add--off"
+              className="sale-card__add sale-card__add--off"
               type="button"
               disabled
               aria-label="اطلاع از موجودی"
@@ -281,16 +290,8 @@ function SaleCard({ p }: { p: SaleProd }) {
           )}
         </div>
       </div>
-    </article>
+    </Card>
   );
-}
-
-const FA_DIGITS = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-function toFa(n: number): string {
-  return String(n)
-    .split("")
-    .map((c) => (c >= "0" && c <= "9" ? FA_DIGITS[Number(c)] : c))
-    .join("");
 }
 
 const TERMS = [
@@ -331,89 +332,75 @@ export default function SpecialSalePage() {
       />
 
       {/* HERO + COUNTDOWN */}
-      <section className="sale-hero">
-        <div className="wrap">
-          <div className="sale-hero__inner">
-            <span className="sale-hero__kicker">
-              <i className="fa-solid fa-bolt" aria-hidden /> پیشنهاد شگفت‌انگیز دشت‌زاد
-            </span>
-            <h1 className="sale-hero__title">
-              فروش ویژه،
-              <br />
-              <em>تا پایان فرصت</em>
-            </h1>
-            <p className="sale-hero__sub">
-              گزیده‌ای از محصولات مرغوب دشت‌زاد با تخفیف‌های مدت‌دار. تا پایان شمارش معکوس، با بهترین
-              قیمت سفارش دهید.
-            </p>
-            <SaleCountdown />
-          </div>
-        </div>
-      </section>
+      <Hero
+        tone="clay"
+        kicker={
+          <>
+            <i className="fa-solid fa-bolt" aria-hidden /> پیشنهاد شگفت‌انگیز دشت‌زاد
+          </>
+        }
+        title={
+          <>
+            فروش ویژه،
+            <br />
+            <em>تا پایان فرصت</em>
+          </>
+        }
+        sub="گزیده‌ای از محصولات مرغوب دشت‌زاد با تخفیف‌های مدت‌دار. تا پایان شمارش معکوس، با بهترین قیمت سفارش دهید."
+      >
+        <SaleCountdown />
+      </Hero>
 
       {/* PRODUCTS */}
-      <section className="sec">
-        <div className="wrap">
-          <div className="sec-head">
-            <div className="sec-head__l">
-              <span className="sec__kicker">سبد تخفیف‌ها</span>
-              <h2 className="sec__title">محصولات فروش ویژه</h2>
-              <p className="sec__sub">
-                همه کالاهای تخفیف‌دار دشت‌زاد، مرتب‌شده بر اساس بیشترین درصد تخفیف.
-              </p>
-            </div>
+      <section className="wrap sec">
+        <SectionHead
+          kicker="سبد تخفیف‌ها"
+          title="محصولات فروش ویژه"
+          sub="همه کالاهای تخفیف‌دار دشت‌زاد، مرتب‌شده بر اساس بیشترین درصد تخفیف."
+          action={
             <span className="sale-count">
-              <b className="num">{toFa(saleSorted.length)}</b> پیشنهاد ویژه
+              <b className="num">{toFaDigits(saleSorted.length)}</b> پیشنهاد ویژه
             </span>
-          </div>
-          <div className="sale-grid">
-            {saleSorted.map((p) => (
-              <SaleCard key={p.name} p={p} />
-            ))}
-          </div>
+          }
+        />
+        <div className="sale-grid grid--4">
+          {saleSorted.map((p) => (
+            <SaleCard key={p.name} p={p} />
+          ))}
         </div>
       </section>
 
-      {/* TERMS / ENDS SOON STRIP */}
-      <section className="sec sec--warm">
-        <div className="wrap">
-          <div className="sec-head">
-            <div className="sec-head__l">
-              <span className="sec__kicker">قبل از خرید بدانید</span>
-              <h2 className="sec__title">شرایط فروش ویژه</h2>
-            </div>
-          </div>
-          <div className="sale-terms">
-            {TERMS.map((t) => (
-              <div key={t.t} className="sale-term">
-                <span className="sale-term__ic">
-                  <i className={`fa-solid ${t.icon}`} aria-hidden />
-                </span>
-                <h3 className="sale-term__t">{t.t}</h3>
-                <p className="sale-term__d">{t.d}</p>
-              </div>
-            ))}
-          </div>
+      {/* TERMS + CTA */}
+      <section className="wrap sec sec--warm">
+        <SectionHead kicker="قبل از خرید بدانید" title="شرایط فروش ویژه" />
+        <div className="sale-terms grid--4">
+          {TERMS.map((t) => (
+            <Card key={t.t} pad>
+              <IconBox tone="clay" size="lg" icon={t.icon} />
+              <h3 className="sale-term__t">{t.t}</h3>
+              <p className="sale-term__d">{t.d}</p>
+            </Card>
+          ))}
+        </div>
 
-          <div className="sale-cta">
-            <div className="sale-cta__l">
-              <span className="sale-cta__tag">
-                <i className="fa-solid fa-bolt" aria-hidden /> فرصت محدود
-              </span>
-              <h3 className="sale-cta__t">تخفیف‌ها با پایان زمان حذف می‌شوند</h3>
-              <p className="sale-cta__d">
-                پیش از پایان شمارش معکوس، سبد خود را تکمیل کنید. برای خرید عمده با قیمت پلکانی هم می‌توانید
-                درخواست استعلام ثبت کنید.
-              </p>
-            </div>
-            <div className="sale-cta__btns">
-              <Link className="btn btn--primary btn--lg" href="/products">
-                <i className="fa-solid fa-bag-shopping" aria-hidden /> مشاهده همه محصولات
-              </Link>
-              <Link className="btn btn--ghost btn--lg" href="/bulk-order">
-                <i className="fa-solid fa-box-open" aria-hidden /> استعلام قیمت عمده
-              </Link>
-            </div>
+        <div className="sale-cta">
+          <div className="sale-cta__l">
+            <Badge tone="clay" icon="fa-bolt">
+              فرصت محدود
+            </Badge>
+            <h3 className="sale-cta__t">تخفیف‌ها با پایان زمان حذف می‌شوند</h3>
+            <p className="sale-cta__d">
+              پیش از پایان شمارش معکوس، سبد خود را تکمیل کنید. برای خرید عمده با قیمت
+              پلکانی هم می‌توانید درخواست استعلام ثبت کنید.
+            </p>
+          </div>
+          <div className="sale-cta__btns">
+            <ButtonLink href="/products" variant="primary" size="lg">
+              <i className="fa-solid fa-bag-shopping" aria-hidden /> مشاهده همه محصولات
+            </ButtonLink>
+            <ButtonLink href="/bulk-order" variant="ghost" size="lg">
+              <i className="fa-solid fa-box-open" aria-hidden /> استعلام قیمت عمده
+            </ButtonLink>
           </div>
         </div>
       </section>

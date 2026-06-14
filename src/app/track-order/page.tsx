@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/jsonld";
+import { Card, IconBox, Hero, Steps, Note } from "@/components/ui";
 import { TrackForm } from "./TrackForm";
 import "./track-order.css";
 
@@ -23,76 +24,64 @@ export default function TrackOrderPage() {
       />
 
       {/* HERO */}
-      <section className="faq-hero">
-        <div className="wrap">
-          <div className="faq-hero__inner">
-            <span className="faq-hero__kicker">
-              <i className="fa-solid fa-truck-fast" aria-hidden /> از انبار تا درِ خانه شما
-            </span>
-            <h1 className="faq-hero__title">پیگیری سفارش</h1>
-            <p className="faq-hero__sub">
-              شماره سفارش یا شماره موبایلِ ثبت‌شده را وارد کنید تا وضعیت لحظه‌ایِ سفارش‌تان را ببینید.
-              برای دیدن تاریخچه کامل، وارد حساب کاربری شوید.
-            </p>
-          </div>
-        </div>
-      </section>
+      <Hero
+        kicker={
+          <>
+            <i className="fa-solid fa-truck-fast" aria-hidden /> از انبار تا درِ خانه شما
+          </>
+        }
+        title="پیگیری سفارش"
+        sub="شماره سفارش یا شماره موبایلِ ثبت‌شده را وارد کنید تا وضعیت لحظه‌ایِ سفارش‌تان را ببینید. برای دیدن تاریخچه کامل، وارد حساب کاربری شوید."
+      />
 
       {/* BODY */}
-      <main className="support-wrap wrap">
-        <div className="support-card">
-          <div className="support-card__h">
-            <span className="support-card__ic">
-              <i className="fa-solid fa-magnifying-glass-location" aria-hidden />
-            </span>
+      <main className="wrap track-order-body">
+        <Card pad>
+          <div className="track-order-card-head">
+            <IconBox icon="fa-magnifying-glass-location" tone="green" size="lg" />
             <div>
-              <h2 className="support-card__t">وضعیت سفارش را ببینید</h2>
-              <p className="support-card__n">
+              <h2 className="track-order-card-head__t">وضعیت سفارش را ببینید</h2>
+              <p className="track-order-card-head__n">
                 شماره سفارش (مثلاً DZ-104592) یا شماره موبایل خود را وارد کنید
               </p>
             </div>
           </div>
 
           <TrackForm />
-        </div>
+        </Card>
 
-        <div className="support-card">
-          <div className="support-card__h">
-            <span className="support-card__ic support-card__ic--clay">
-              <i className="fa-solid fa-circle-question" aria-hidden />
-            </span>
+        <Card pad>
+          <div className="track-order-card-head">
+            <IconBox icon="fa-circle-question" tone="clay" size="lg" />
             <div>
-              <h2 className="support-card__t">چطور سفارشم را پیگیری کنم؟</h2>
-              <p className="support-card__n">دو راه ساده برای دنبال‌کردن مرسوله</p>
+              <h2 className="track-order-card-head__t">چطور سفارشم را پیگیری کنم؟</h2>
+              <p className="track-order-card-head__n">دو راه ساده برای دنبال‌کردن مرسوله</p>
             </div>
           </div>
-          <ul className="faq-steps">
-            <li>
-              <b>۱</b>
-              <span>
-                وارد حساب کاربری شوید و به بخش سفارش‌های من بروید تا وضعیت مرحله‌به‌مرحله را ببینید.
-              </span>
-            </li>
-            <li>
-              <b>۲</b>
-              <span>
-                کد رهگیریِ پیامک‌شده را در سامانه شرکت پست/پیک وارد کنید تا موقعیت دقیق مرسوله را دنبال
-                کنید.
-              </span>
-            </li>
-          </ul>
-          <div className="faq-note">
-            <i className="fa-solid fa-bell" aria-hidden />
-            <span>
-              در هر مرحله — تأیید، بسته‌بندی، ارسال و تحویل — یک پیامک به‌روزرسانی دریافت می‌کنید. اگر
-              پیگیری به نتیجه نرسید، با{" "}
-              <Link href="/contact">پشتیبانی</Link> تماس بگیرید.
-            </span>
-          </div>
-        </div>
+
+          <Steps
+            items={[
+              {
+                num: "۱",
+                title:
+                  "وارد حساب کاربری شوید و به بخش سفارش‌های من بروید تا وضعیت مرحله‌به‌مرحله را ببینید.",
+              },
+              {
+                num: "۲",
+                title:
+                  "کد رهگیریِ پیامک‌شده را در سامانه شرکت پست/پیک وارد کنید تا موقعیت دقیق مرسوله را دنبال کنید.",
+              },
+            ]}
+          />
+
+          <Note tone="green" icon="fa-bell" className="track-order-help-note">
+            در هر مرحله — تأیید، بسته‌بندی، ارسال و تحویل — یک پیامک به‌روزرسانی دریافت می‌کنید. اگر
+            پیگیری به نتیجه نرسید، با <Link href="/contact">پشتیبانی</Link> تماس بگیرید.
+          </Note>
+        </Card>
 
         {/* HELP / CONTACT CTA */}
-        <div className="track-cta">
+        <div className="track-order-cta">
           <Link className="link-card" href="/contact">
             <span className="link-card__ic">
               <i className="fa-solid fa-headset" aria-hidden />

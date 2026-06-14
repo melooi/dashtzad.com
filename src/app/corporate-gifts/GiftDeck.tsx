@@ -48,7 +48,7 @@ export function GiftDeck() {
               };
           return (
             <figure
-              className={`cg-quote${isFront ? " is-front" : ""}`}
+              className={`card cg-quote${isFront ? " is-front" : ""}`}
               key={q.name}
               style={style}
               onClick={isFront ? () => go(1) : undefined}
@@ -56,7 +56,7 @@ export function GiftDeck() {
               <div className="cg-quote__mark">&rdquo;</div>
               <blockquote className="cg-quote__t">{q.text}</blockquote>
               <figcaption className="cg-quote__by">
-                <span className="cg-quote__logo">{q.logo}</span>
+                <span className="avatar avatar--green">{q.logo}</span>
                 <span>
                   <span className="cg-quote__name">{q.name}</span>
                   <span className="cg-quote__role">{q.role}</span>
@@ -68,7 +68,7 @@ export function GiftDeck() {
       </div>
       <div className="cg-deck__nav">
         <button
-          className="cg-deck__prev"
+          className="cg-deck__arrow"
           type="button"
           aria-label="نظر قبلی"
           onClick={() => go(-1)}
@@ -87,7 +87,7 @@ export function GiftDeck() {
           ))}
         </div>
         <button
-          className="cg-deck__next"
+          className="cg-deck__arrow"
           type="button"
           aria-label="نظر بعدی"
           onClick={() => go(1)}

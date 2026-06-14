@@ -1,28 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
+import { Badge, Button, Chip, IconBox, Price } from "@/components/ui";
 import { useCart } from "@/store/cart";
-import { toFaDigits } from "@/lib/utils";
+import { formatToman, toFaDigits } from "@/lib/utils";
 import type { ProductView } from "@/lib/woo/view";
 
-function money(n: number): string {
-  return `${toFaDigits(n.toLocaleString("en-US"))} تومان`;
-}
-
 /**
- * Product hero — info card (title, meta, weight + packaging selectors, features),
- * gallery, and the sticky buy box. Selection state (weight / packaging / qty) is
- * shared here because the selectors live in the info card while the price + CTA
- * live in the sticky sidebar (matches the design's LayoutCompact).
+ * Product hero — info card (title, meta, weight + packaging via OptionGrid,
+ * feature chips), gallery, and the sticky buy box. Selection state is shared
+ * because the selectors live in the info card while price + CTA live in the
+ * sidebar. Body sections render as children inside the main column.
  */
-export function ProductHero({ view }: { view: ProductView }) {
+export function ProductHero({ view, children }: { view: ProductView; children?: ReactNode }) {
   const p = view.product;
   const addItem = useCart((s) => s.addItem);
 
   const [wid, setWid] = useState(() => (view.weights.find((w) => w.popular) ?? view.weights[0])?.id ?? "");
   const [pkg, setPkg] = useState(() => view.packaging[0]?.id ?? "");
   const [qty, setQty] = useState(1);
-  const [cashOpen, setCashOpen] = useState(false);
   const [liked, setLiked] = useState(false);
   const [added, setAdded] = useState(false);
   const [active, setActive] = useState(0);
@@ -34,25 +30,16 @@ export function ProductHero({ view }: { view: ProductView }) {
   const finalP = (w?.price ?? 0) + extra;
   const oldP = (w?.old ?? w?.price ?? 0) + extra;
   const off = w?.old ? Math.round((1 - w.price / w.old) * 100) : 0;
-  const profit = oldP - finalP;
-  const rate = view.cashDiscount ?? 0;
-  const cashTotal = Math.round((finalP * (1 - rate / 100)) / 1000) * 1000;
-  const cashSave = finalP - cashTotal;
-  const FREE = 700000;
-  const toFree = FREE - finalP * qty;
 
+  const ratingVal = Number(p.average_rating);
+  const reviewCount =
+    view.ratingBreakdown.reduce((a, b) => a + b.count, 0) || view.reviews.length || p.rating_count;
   const stockLeft = view.stockLeft ?? 0;
   const stockPct = view.stockOf > 0 ? Math.max(6, Math.min(100, (stockLeft / view.stockOf) * 100)) : 0;
 
   function add() {
     addItem(
-      {
-        productId: p.id,
-        slug: p.slug,
-        name: `${p.name}${w ? ` · ${w.label}` : ""}`,
-        price: finalP,
-        image: p.images[0]?.src,
-      },
+      { productId: p.id, slug: p.slug, name: `${p.name}${w ? ` · ${w.label}` : ""}`, price: finalP, image: p.images[0]?.src },
       qty,
     );
     setAdded(true);
@@ -67,7 +54,6 @@ export function ProductHero({ view }: { view: ProductView }) {
         <div className="zc-page__main">
           <div className="card zc-info">
             <div className="zc-info__body">
-              {/* header */}
               <div className="zc-head">
                 <div className="zc-head__t">
                   <h1 className="zc-title display">{p.name}</h1>
@@ -87,27 +73,36 @@ export function ProductHero({ view }: { view: ProductView }) {
                   >
                     <i className={liked ? "fa-solid fa-heart" : "fa-regular fa-heart"} aria-hidden />
                   </button>
+                  <button type="button" className="zc-iconbtn" aria-label="اشتراک‌گذاری">
+                    <i className="fa-solid fa-share-nodes" aria-hidden />
+                  </button>
                 </div>
               </div>
 
-              {/* meta row */}
               <div className="zc-meta">
                 {p.sku && (
                   <span className="zc-meta__i">
-                    کد کالا: <b className="num" dir="ltr">{p.sku}</b>
+                    کد کالا:{" "}
+                    <b className="num" dir="ltr">
+                      {p.sku}
+                    </b>
                   </span>
                 )}
-                {p.rating_count > 0 && (
+                {ratingVal > 0 && (
                   <>
                     <span className="zc-meta__sep" />
                     <a className="zc-meta__i" href="#reviews-section">
                       <i className="fa-solid fa-star" aria-hidden style={{ color: "var(--star)" }} />{" "}
                       <span className="num">{toFaDigits(p.average_rating).replace(".", "٫")}</span> امتیاز
                     </a>
-                    <span className="zc-meta__sep" />
-                    <a className="zc-meta__i" href="#reviews-section">
-                      <span className="num">{toFaDigits(p.rating_count)}</span> دیدگاه
-                    </a>
+                    {reviewCount > 0 && (
+                      <>
+                        <span className="zc-meta__sep" />
+                        <a className="zc-meta__i" href="#reviews-section">
+                          <span className="num">{toFaDigits(reviewCount)}</span> دیدگاه
+                        </a>
+                      </>
+                    )}
                   </>
                 )}
                 {view.questions.length > 0 && (
@@ -118,35 +113,26 @@ export function ProductHero({ view }: { view: ProductView }) {
                     </a>
                   </>
                 )}
-                {view.soldCount != null && (
-                  <>
-                    <span className="zc-meta__sep" />
-                    <span className="zc-meta__i">
-                      <span className="num">{toFaDigits(view.soldCount)}</span>+ فروش
-                    </span>
-                  </>
-                )}
               </div>
 
-              {/* weight selector */}
               {view.weights.length > 0 && (
                 <div className="zc-field">
                   <label className="zc-field__lbl">وزن بسته</label>
-                  <div className="wsel">
+                  <div className="option-grid option-grid--3">
                     {view.weights.map((opt) => {
                       const o = opt.old ? Math.round((1 - opt.price / opt.old) * 100) : 0;
                       return (
                         <button
                           key={opt.id}
                           type="button"
-                          className="wsel__opt"
+                          className="option"
                           data-active={opt.id === wid}
                           onClick={() => setWid(opt.id)}
                         >
-                          {opt.popular && <span className="wsel__pop">پرفروش</span>}
-                          {sale && o > 0 && <span className="wsel__off num">٪{toFaDigits(o)}</span>}
-                          <span className="wsel__label">{opt.label}</span>
-                          <span className="wsel__now num">{money(opt.price)}</span>
+                          {opt.popular && <span className="option__pop">پرفروش</span>}
+                          {sale && o > 0 && <span className="option__off num">٪{toFaDigits(o)}</span>}
+                          <span className="option__label">{opt.label}</span>
+                          <span className="option__meta num">{formatToman(opt.price)}</span>
                         </button>
                       );
                     })}
@@ -154,58 +140,57 @@ export function ProductHero({ view }: { view: ProductView }) {
                 </div>
               )}
 
-              {/* packaging selector */}
               {view.packaging.length > 0 && (
                 <div className="zc-field">
                   <label className="zc-field__lbl">بسته‌بندی</label>
-                  <div className="pkgsel">
+                  <div className="option-grid option-grid--row">
                     {view.packaging.map((opt) => (
                       <button
                         key={opt.id}
                         type="button"
-                        className="pkg-opt"
+                        className="option option--start"
                         data-active={opt.id === pkg}
                         onClick={() => setPkg(opt.id)}
                       >
-                        <span className="pkg-opt__l">{opt.label}</span>
-                        <span className="pkg-opt__n">{opt.note}</span>
+                        <span className="option__label">{opt.label}</span>
+                        <span className="option__meta">{opt.note}</span>
                       </button>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* feature badges */}
               {view.badges.length > 0 && (
                 <div className="zc-field">
                   <h4 className="zc-field__h">ویژگی‌های اصلی</h4>
-                  <div className="feat-chips">
+                  <div className="zc-feats">
                     {view.badges.map((b) => (
-                      <span key={b.id} className="feat-chip">
-                        <i className={`fa-solid ${b.icon}`} aria-hidden /> {b.label}
-                      </span>
+                      <Chip key={b.id} icon={b.icon}>
+                        {b.label}
+                      </Chip>
                     ))}
                   </div>
                 </div>
               )}
             </div>
 
-            {/* gallery */}
             <div className="zc-gallery-col">
               <div className="zc-gallery">
                 <div className="zc-gallery__main">
-                  {view.badges.length > 0 && (
-                    <div className="zc-gallery__badges">
-                      <span className="badge badge--clay">
-                        <i className="fa-solid fa-medal" aria-hidden /> ممتاز
-                      </span>
-                      {sale && (
-                        <span className="badge badge--gold">
-                          <i className="fa-solid fa-bolt" aria-hidden /> فروش ویژه
-                        </span>
-                      )}
-                    </div>
-                  )}
+                  <div className="zc-gallery__badges">
+                    <Badge tone="clay" icon="fa-medal">
+                      ممتاز
+                    </Badge>
+                    {sale ? (
+                      <Badge tone="gold" icon="fa-bolt">
+                        فروش ویژه
+                      </Badge>
+                    ) : (
+                      <Badge tone="gold" icon="fa-apple-whole">
+                        طعم شیرین
+                      </Badge>
+                    )}
+                  </div>
                   <div className="ph zc-gallery__ph">
                     {mainImg?.src ? (
                       // eslint-disable-next-line @next/next/no-img-element
@@ -243,47 +228,25 @@ export function ProductHero({ view }: { view: ProductView }) {
                 )}
               </div>
 
-              {/* under-image: cash nudge + free shipping */}
-              <div className="under-img">
-                {rate > 0 && sale && (
-                  <button
-                    type="button"
-                    className="cash-nudge"
-                    data-open={cashOpen}
-                    onClick={() => setCashOpen((o) => !o)}
-                  >
-                    {!cashOpen ? (
-                      <span className="cash-nudge__teaser">
-                        <span className="cash-nudge__spark">٪{toFaDigits(rate)}</span> تخفیف پرداخت نقدی
-                        می‌خوای؟ بزن روی من
-                      </span>
-                    ) : (
-                      <span className="cash-nudge__open">
-                        <span>با پرداخت نقدی (درگاه دشت‌زاد)</span>
-                        <span className="cash-nudge__price num">{money(cashTotal)}</span>
-                        <span className="cash-nudge__save num">{money(cashSave)} سود</span>
-                      </span>
-                    )}
-                  </button>
+              <div className="freeship" data-done={700000 - finalP * qty <= 0}>
+                <i className="fa-solid fa-truck-fast" aria-hidden />
+                {700000 - finalP * qty <= 0 ? (
+                  <span>
+                    این سفارش <b>ارسال رایگان</b> دارد
+                  </span>
+                ) : (
+                  <span>
+                    تا <b className="num">{formatToman(700000 - finalP * qty)}</b> دیگر تا ارسال رایگان
+                  </span>
                 )}
-                <div className="freeship" data-done={toFree <= 0}>
-                  <i className="fa-solid fa-truck-fast" aria-hidden />
-                  {toFree <= 0 ? (
-                    <span>
-                      این سفارش <b>ارسال رایگان</b> دارد
-                    </span>
-                  ) : (
-                    <span>
-                      تا <b className="num">{money(toFree)}</b> دیگر تا ارسال رایگان
-                    </span>
-                  )}
-                </div>
               </div>
             </div>
           </div>
+
+          {/* body sections live in the main column, alongside the sticky buy box */}
+          {children}
         </div>
 
-        {/* sticky buy box */}
         <aside className="zc-page__side">
           <div className="card zc-buy">
             <div className="zc-row">
@@ -294,94 +257,59 @@ export function ProductHero({ view }: { view: ProductView }) {
             </div>
             <div className="zc-row zc-row--b">
               <span className="zc-row__l">زمان و هزینه ارسال:</span>
-              <span className="zc-row__v faint">۱ تا ۴ روز کاری</span>
+              <button type="button" className="zc-link">
+                مشاهده <i className="fa-solid fa-angle-left" aria-hidden />
+              </button>
             </div>
 
             {view.inStock && stockLeft > 0 && stockLeft <= 10 && (
-              <div className="stock zc-stock">
-                <div className="stock__row">
-                  <span className="stock__hot">
+              <div className="zc-stock">
+                <div className="zc-stock__row">
+                  <span className="zc-stock__hot">
                     تنها <b className="num">{toFaDigits(stockLeft)}</b> عدد باقی مانده
                   </span>
                   <span className="faint">
                     از <span className="num">{toFaDigits(view.stockOf)}</span> عدد
                   </span>
                 </div>
-                <span className="stock__bar">
-                  <span className="stock__fill zc-fuse" style={{ width: `${stockPct}%` }} />
+                <span className="stockbar zc-fuse">
+                  <span className="stockbar__fill" style={{ width: `${stockPct}%` }} />
                 </span>
               </div>
             )}
 
             {view.inStock ? (
               <>
-                <div className="zc-price">
-                  {sale && off > 0 ? (
-                    <>
-                      <div className="zc-row">
-                        <span className="zc-row__l">قیمت:</span>
-                        <span className="zc-row__v zc-strike num">{money(oldP)}</span>
-                      </div>
-                      <div className="zc-row">
-                        <span className="zc-row__l">سود خرید شما:</span>
-                        <span className="zc-row__v is-ok">
-                          <span className="discount-chip num">٪{toFaDigits(off)}</span>{" "}
-                          <span className="num">{money(profit)}</span>
-                        </span>
-                      </div>
-                      <div className="zc-row zc-row--b">
-                        <span className="zc-row__l">قیمت نهایی:</span>
-                        <span className="zc-row__v zc-final num">{money(finalP)}</span>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="zc-row zc-row--b">
-                      <span className="zc-row__l">قیمت:</span>
-                      <span className="zc-row__v zc-final num">{money(finalP)}</span>
-                    </div>
-                  )}
+                <div className="zc-row zc-row--b zc-pricerow">
+                  <span className="zc-row__l">قیمت:</span>
+                  <Price now={finalP} old={sale && off > 0 ? oldP : undefined} off={sale ? off : undefined} />
                 </div>
 
                 <div className="zc-qtyrow">
                   <span className="zc-row__l">تعداد</span>
                   <div className="qty">
-                    <button
-                      type="button"
-                      className="qty__btn"
-                      onClick={() => setQty((q) => Math.max(1, q - 1))}
-                      disabled={qty <= 1}
-                      aria-label="کاهش"
-                    >
-                      <i className="fa-solid fa-minus" aria-hidden />
+                    <button type="button" className="qty__btn" onClick={() => setQty((q) => Math.min(99, q + 1))} aria-label="افزایش">
+                      <i className="fa-solid fa-plus" aria-hidden />
                     </button>
                     <span className="qty__n num">{toFaDigits(qty)}</span>
-                    <button
-                      type="button"
-                      className="qty__btn"
-                      onClick={() => setQty((q) => Math.min(99, q + 1))}
-                      aria-label="افزایش"
-                    >
-                      <i className="fa-solid fa-plus" aria-hidden />
+                    <button type="button" className="qty__btn" onClick={() => setQty((q) => Math.max(1, q - 1))} disabled={qty <= 1} aria-label="کاهش">
+                      <i className="fa-solid fa-minus" aria-hidden />
                     </button>
                   </div>
                 </div>
 
-                <button type="button" className="btn btn--primary btn--block zc-cta" onClick={add}>
+                <Button block className="zc-cta" onClick={add}>
                   <i className={`fa-solid ${sale ? "fa-bolt" : "fa-cart-plus"}`} aria-hidden />{" "}
                   {sale ? "خرید با قیمت ویژه" : "افزودن به سبد خرید"}
-                </button>
-                <div className={`buy-ok${added ? " show" : ""}`} role="status" aria-live="polite">
+                </Button>
+                <div className={`form-ok zc-ok${added ? " show" : ""}`} role="status" aria-live="polite">
                   <i className="fa-solid fa-circle-check" aria-hidden /> به سبد خرید افزوده شد
                 </div>
-                <button type="button" className="wishlist-link" onClick={() => setLiked((l) => !l)}>
-                  <i className={liked ? "fa-solid fa-heart" : "fa-regular fa-heart"} aria-hidden /> افزودن به
-                  علاقه‌مندی‌ها
-                </button>
               </>
             ) : (
               <div className="zc-soldout">
                 <p className="zc-soldout__t">
-                  <i className="fa-solid fa-box" aria-hidden /> فعلاً تمام شد
+                  <IconBox tone="clay" size="sm" icon="fa-box" /> فعلاً تمام شد
                 </p>
                 <p className="zc-soldout__d">این محصول پرطرفدار به‌زودی دوباره شارژ می‌شود.</p>
                 <a className="btn btn--ghost btn--block" href="#related-section">
@@ -389,6 +317,18 @@ export function ProductHero({ view }: { view: ProductView }) {
                 </a>
               </div>
             )}
+
+            <ul className="zc-trust">
+              <li>
+                <i className="fa-solid fa-truck-fast" aria-hidden /> ارسال سریع، تهران ۲۴ ساعته
+              </li>
+              <li>
+                <i className="fa-solid fa-shield-heart" aria-hidden /> ضمانت اصالت و کیفیت دشت‌زاد
+              </li>
+              <li>
+                <i className="fa-solid fa-rotate-left" aria-hidden /> بازگشت ۷ روزه بدون قید و شرط
+              </li>
+            </ul>
           </div>
         </aside>
       </div>

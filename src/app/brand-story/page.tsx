@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/jsonld";
+import { ButtonLink, IconBox, Placeholder } from "@/components/ui";
 import { StoryScene } from "./StoryScene";
 import "./brand-story.css";
+
+// Font Awesome is loaded site-wide in app/layout.tsx.
 
 export const metadata: Metadata = {
   title: "داستان برند — روایتِ درخت",
@@ -11,6 +14,23 @@ export const metadata: Metadata = {
     "روایتِ دشت‌زاد؛ قصه یک ریشه که از شب تا طلوع، ایستاده می‌ماند. از باغ‌های دماوند، از سالِ ۱۳۰۵ — بدون واسطه، مستقیم از خاک تا سفره شما.",
   alternates: { canonical: "/brand-story" },
 };
+
+/** Time-of-day sky layers that crossfade as the reader scrolls (StoryScene drives opacity). */
+const SKY_LAYERS = [
+  { stop: "0", label: "تصویر درخت در شب — تاریکی پیش از طلوع" },
+  { stop: "0.30", label: "تصویر درخت در گرگ‌ومیش" },
+  { stop: "0.52", label: "تصویر درخت هنگام غروب" },
+  { stop: "0.74", label: "تصویر درخت در سپیده‌دم" },
+  { stop: "0.94", label: "تصویر درخت در صبحِ روشن" },
+];
+
+/** Finale product tiles — the story returns to the actual storefront. */
+const FINALE_PRODUCTS = [
+  { icon: "fa-bowl-rice", tone: "green" as const, title: "برنج", note: "هاشمی، طارم، دمسیاه", img: "عکس برنجِ ایرانی" },
+  { icon: "fa-seedling", tone: "clay" as const, title: "حبوبات", note: "لوبیا، عدس، نخود", img: "عکس حبوبات" },
+  { icon: "fa-bowl-food", tone: "gold" as const, title: "خشکبار", note: "آجیل، میوه خشک", img: "عکس خشکبار و آجیل" },
+  { icon: "fa-mug-hot", tone: "green" as const, title: "چای", note: "چای و دمنوشِ گیاهی", img: "عکس چای و دمنوش" },
+];
 
 export default function BrandStoryPage() {
   return (
@@ -29,33 +49,13 @@ export default function BrandStoryPage() {
         </div>
 
         {/* FIXED SKY — the single tree, time changes on scroll.
-            Image layers are .ph placeholders that crossfade. */}
+            Image layers are Placeholders that crossfade. */}
         <div className="skybg" aria-hidden>
-          <div className="skybg__img" data-stop="0">
-            <div className="ph">
-              <span className="ph__label">تصویر درخت در شب — تاریکی پیش از طلوع</span>
+          {SKY_LAYERS.map((layer) => (
+            <div key={layer.stop} className="skybg__img" data-stop={layer.stop}>
+              <Placeholder label={layer.label} />
             </div>
-          </div>
-          <div className="skybg__img" data-stop="0.30">
-            <div className="ph">
-              <span className="ph__label">تصویر درخت در گرگ‌ومیش</span>
-            </div>
-          </div>
-          <div className="skybg__img" data-stop="0.52">
-            <div className="ph">
-              <span className="ph__label">تصویر درخت هنگام غروب</span>
-            </div>
-          </div>
-          <div className="skybg__img" data-stop="0.74">
-            <div className="ph">
-              <span className="ph__label">تصویر درخت در سپیده‌دم</span>
-            </div>
-          </div>
-          <div className="skybg__img" data-stop="0.94">
-            <div className="ph">
-              <span className="ph__label">تصویر درخت در صبحِ روشن</span>
-            </div>
-          </div>
+          ))}
           <div className="skybg__scrim" />
           <div className="skybg__vignette" />
         </div>
@@ -205,60 +205,22 @@ export default function BrandStoryPage() {
             </div>
 
             <div className="finale__grid">
-              <article className="fprod">
-                <div className="fprod__media">
-                  <div className="ph">
-                    <span className="ph__label">عکس برنجِ ایرانی</span>
+              {FINALE_PRODUCTS.map((p) => (
+                <article key={p.title} className="fprod">
+                  <div className="fprod__media">
+                    <Placeholder label={p.img} />
+                    <IconBox className="fprod__ic" icon={p.icon} tone={p.tone} size="sm" round />
                   </div>
-                  <span className="fprod__ic">
-                    <i className="fa-solid fa-bowl-rice" aria-hidden />
-                  </span>
-                </div>
-                <span className="fprod__t">برنج</span>
-                <span className="fprod__n">هاشمی، طارم، دمسیاه</span>
-              </article>
-              <article className="fprod">
-                <div className="fprod__media">
-                  <div className="ph">
-                    <span className="ph__label">عکس حبوبات</span>
-                  </div>
-                  <span className="fprod__ic">
-                    <i className="fa-solid fa-seedling" aria-hidden />
-                  </span>
-                </div>
-                <span className="fprod__t">حبوبات</span>
-                <span className="fprod__n">لوبیا، عدس، نخود</span>
-              </article>
-              <article className="fprod">
-                <div className="fprod__media">
-                  <div className="ph">
-                    <span className="ph__label">عکس خشکبار و آجیل</span>
-                  </div>
-                  <span className="fprod__ic">
-                    <i className="fa-solid fa-bowl-food" aria-hidden />
-                  </span>
-                </div>
-                <span className="fprod__t">خشکبار</span>
-                <span className="fprod__n">آجیل، میوه خشک</span>
-              </article>
-              <article className="fprod">
-                <div className="fprod__media">
-                  <div className="ph">
-                    <span className="ph__label">عکس چای و دمنوش</span>
-                  </div>
-                  <span className="fprod__ic">
-                    <i className="fa-solid fa-mug-hot" aria-hidden />
-                  </span>
-                </div>
-                <span className="fprod__t">چای</span>
-                <span className="fprod__n">چای و دمنوشِ گیاهی</span>
-              </article>
+                  <span className="fprod__t">{p.title}</span>
+                  <span className="fprod__n">{p.note}</span>
+                </article>
+              ))}
             </div>
 
             <div className="finale__cta">
-              <Link className="btn btn--primary btn--lg" href="/products">
+              <ButtonLink href="/products" variant="primary" size="lg">
                 <i className="fa-solid fa-store" aria-hidden /> دیدنِ محصولاتِ دشت‌زاد
-              </Link>
+              </ButtonLink>
               <p className="finale__note">
                 <i className="fa-solid fa-seedling" aria-hidden /> بدون واسطه · مستقیم از باغ‌های
                 دماوند · از ۱۳۰۵

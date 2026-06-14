@@ -1,6 +1,8 @@
 /* ============================================================
-   دشت‌زاد — صفحه تماس با ما (Contact), scoped under .contact-page.
-   Hero (.faq-hero) + link-card come from dz.css.
+   دشت‌زاد — صفحه تماس با ما (Contact)
+   Page-specific LAYOUT only, scoped under .contact-page.
+   Primitives (card, icon-box, field/input/select, form-ok,
+   hero, avatar, link-card, ph) come from dz.css / ui.
    ============================================================ */
 
 .contact-page {
@@ -8,29 +10,17 @@
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
     gap: clamp(2.4rem, 4vw, 4rem);
-    position: relative;
-    z-index: 2;
+    align-items: start;
     padding-top: clamp(3rem, 4vw, 4.4rem);
     padding-bottom: clamp(4rem, 6vw, 7rem);
-    align-items: start;
   }
 
-  /* form card */
-  .contact-form-card {
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
-    padding: clamp(2.2rem, 3vw, 3.2rem);
-    box-shadow: var(--shadow);
-  }
+  /* form card — heading + intro typography on top of <Card> */
   .contact-form-card__h {
-    font-family: var(--display);
-    font-weight: 700;
     font-size: clamp(2rem, 2.6vw, 2.6rem);
     letter-spacing: -0.01em;
   }
   .contact-form-card__sub {
-    color: var(--ink-soft);
     font-size: 1.45rem;
     line-height: 1.85;
     margin-top: 0.8rem;
@@ -41,96 +31,8 @@
     flex-direction: column;
     gap: 1.6rem;
   }
-  .cf-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.6rem;
-  }
-  .cf-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-  }
-  .cf-field label {
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: var(--ink);
-  }
-  .cf-field label .req {
-    color: var(--clay);
-  }
-  .cf-field input,
-  .cf-field select,
-  .cf-field textarea {
-    font-family: inherit;
-    font-size: 1.5rem;
-    color: var(--ink);
-    background: var(--surface-warm);
-    border: 1.5px solid var(--hair-strong);
-    border-radius: var(--r);
-    padding: 1.25rem 1.5rem;
-    outline: none;
-    transition:
-      border-color 0.15s,
-      box-shadow 0.15s,
-      background 0.15s;
-    width: 100%;
-  }
-  .cf-field textarea {
-    resize: vertical;
-    min-height: 13rem;
-    line-height: 1.8;
-  }
-  .cf-field input::placeholder,
-  .cf-field textarea::placeholder {
-    color: var(--ink-faint);
-  }
-  .cf-field input:focus,
-  .cf-field select:focus,
-  .cf-field textarea:focus {
-    border-color: var(--green);
-    background: #fff;
-    box-shadow: 0 0 0 4px var(--green-soft);
-  }
-  .cf-field select {
-    appearance: none;
-    -webkit-appearance: none;
-    cursor: pointer;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2378716c' stroke-width='2.5'><path d='M6 9l6 6 6-6'/></svg>");
-    background-repeat: no-repeat;
-    background-position: left 1.5rem center;
-    background-size: 1.6rem;
-    padding-inline-start: 4rem;
-  }
-  .contact-form .btn {
+  .contact-form__submit {
     align-self: flex-start;
-  }
-  .cf-note {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-size: 1.3rem;
-    color: var(--ink-faint);
-  }
-  .cf-note i {
-    color: var(--green);
-  }
-  .cf-ok {
-    display: none;
-    align-items: center;
-    gap: 1rem;
-    background: var(--green-soft);
-    color: var(--green-deep);
-    border-radius: var(--r);
-    padding: 1.4rem 1.6rem;
-    font-weight: 700;
-    font-size: 1.5rem;
-  }
-  .cf-ok.show {
-    display: flex;
-  }
-  .cf-ok i {
-    font-size: 1.8rem;
   }
 
   /* info column */
@@ -144,47 +46,17 @@
     flex-direction: column;
     gap: 1.2rem;
   }
-  .contact-method {
+  .contact-method__link {
     display: flex;
     align-items: center;
     gap: 1.4rem;
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r);
-    padding: 1.6rem 1.8rem;
-    box-shadow: var(--shadow-sm);
-    transition:
-      border-color 0.15s,
-      transform 0.15s,
-      box-shadow 0.15s;
   }
-  .contact-method:hover {
-    border-color: var(--green);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-  }
-  .contact-method__ic {
-    width: 5rem;
-    height: 5rem;
-    border-radius: var(--r-sm);
-    display: grid;
-    place-items: center;
-    flex: 0 0 auto;
-    background: var(--green-soft);
-    color: var(--green-deep);
-    font-size: 2rem;
-  }
-  .contact-method:nth-child(2) .contact-method__ic {
-    background: var(--clay-soft);
-    color: var(--clay-deep);
-  }
-  .contact-method:nth-child(3) .contact-method__ic {
-    background: var(--amber-soft);
-    color: var(--gold-deep);
+  .contact-method__b {
+    display: flex;
+    flex-direction: column;
   }
   .contact-method__l {
     font-size: 1.25rem;
-    color: var(--ink-faint);
     font-weight: 600;
   }
   .contact-method__v {
@@ -198,20 +70,12 @@
   }
 
   /* social block */
-  .contact-social {
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
-    padding: 2rem;
-    box-shadow: var(--shadow-sm);
-  }
   .contact-social__h {
     display: flex;
     align-items: center;
     gap: 0.8rem;
     font-weight: 700;
     font-size: 1.5rem;
-    color: var(--ink);
     margin-bottom: 1.4rem;
   }
   .contact-social__h i {
@@ -232,8 +96,11 @@
     background: var(--surface-warm);
     border: 1.5px solid var(--hair-strong);
     border-radius: 999px;
-    padding: 0.9rem 1.5rem;
-    transition: all 0.15s;
+    padding: 0.7rem 1.4rem 0.7rem 0.7rem;
+    transition:
+      border-color 0.15s,
+      color 0.15s,
+      transform 0.15s;
   }
   .social-chip:hover {
     border-color: var(--green);
@@ -241,60 +108,43 @@
     transform: translateY(-2px);
   }
   .social-chip__ic {
-    width: 2.4rem;
-    height: 2.4rem;
-    border-radius: 999px;
-    display: grid;
-    place-items: center;
-    flex: 0 0 auto;
     background: var(--green);
     color: #fff;
     font-size: 1.2rem;
-    font-weight: 700;
   }
-  .social-chip:nth-child(2) .social-chip__ic {
+  .social-chip--eitaa .social-chip__ic {
     background: var(--clay);
   }
-  .social-chip:nth-child(3) .social-chip__ic {
+  .social-chip--bale .social-chip__ic {
     background: var(--gold-deep);
   }
-  .social-chip:nth-child(4) .social-chip__ic {
+  .social-chip--rubika .social-chip__ic {
     background: var(--green-deep);
   }
-  .social-chip:nth-child(5) .social-chip__ic {
+  .social-chip--instagram .social-chip__ic {
     background: #e1306c;
   }
   .contact-social__id {
     margin-top: 1.3rem;
     font-size: 1.3rem;
-    color: var(--ink-faint);
   }
   .contact-social__id b {
     color: var(--ink);
   }
 
   /* address + hours + map */
-  .contact-info-card {
-    background: #fff;
-    border: 1px solid var(--hair);
-    border-radius: var(--r-lg);
-    padding: 2rem;
-    box-shadow: var(--shadow-sm);
-  }
   .contact-info-card__h {
     display: flex;
     align-items: center;
     gap: 0.8rem;
     font-weight: 700;
     font-size: 1.5rem;
-    color: var(--ink);
     margin-bottom: 1.2rem;
   }
   .contact-info-card__h i {
     color: var(--clay);
   }
   .contact-info-card p {
-    color: var(--ink-soft);
     font-size: 1.45rem;
     line-height: 1.9;
   }
@@ -313,21 +163,15 @@
   }
   .contact-map {
     margin-top: 1.6rem;
-    border-radius: var(--r);
-    overflow: hidden;
-    border: 1px solid var(--hair);
-  }
-  .contact-map .ph {
     height: 18rem;
+    border-radius: var(--r);
+    border: 1px solid var(--hair);
   }
 
   @media (max-width: 900px) {
     .contact-layout {
       grid-template-columns: 1fr;
       padding-top: clamp(2.4rem, 4vw, 3.4rem);
-    }
-    .cf-row {
-      grid-template-columns: 1fr;
     }
   }
 }

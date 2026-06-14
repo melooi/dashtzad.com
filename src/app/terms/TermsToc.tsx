@@ -69,8 +69,8 @@ export function TermsToc() {
   }
 
   return (
-    <aside className="faq-nav">
-      <div className="faq-nav__h">
+    <aside className="terms-nav">
+      <div className="terms-nav__h">
         <i className="fa-solid fa-list-ol" aria-hidden /> فهرست مقررات
       </div>
       {ITEMS.map((it) => (
@@ -82,14 +82,14 @@ export function TermsToc() {
             if (jump(it.id)) e.preventDefault();
           }}
         >
-          <span className="faq-nav__ic">
+          <span className="terms-nav__ic">
             <i className={`fa-solid ${it.icon}`} aria-hidden />
           </span>{" "}
           {it.label}
         </a>
       ))}
-      <div className="faq-nav__sep" />
-      <Link className="faq-nav__contact" href="/faq">
+      <div className="terms-nav__sep" />
+      <Link className="terms-nav__contact" href="/faq">
         <i className="fa-solid fa-circle-question" aria-hidden />
         <span>
           <b>پرسشی دارید؟</b>
