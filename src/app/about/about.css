@@ -45,14 +45,7 @@
   color: var(--ink);
   background: var(--paper);
 
-  /* icons inherit size from their text context (like the original FA glyphs) */
-  & svg {
-    width: 1em;
-    height: 1em;
-    display: inline-block;
-    vertical-align: -0.125em;
-    flex: 0 0 auto;
-  }
+  /* Font Awesome glyphs (loaded via CDN) are sized by font-size on their context. */
 
   /* ---------- layout primitives ---------- */
   .wrap {
@@ -97,6 +90,15 @@
   }
   .btn--primary:hover {
     background: var(--green-deep);
+  }
+  .btn--ghost {
+    background: var(--surface);
+    color: var(--ink);
+    border: 1.5px solid var(--hair-strong);
+  }
+  .btn--ghost:hover {
+    color: var(--green);
+    border-color: var(--green);
   }
   .btn--lg {
     padding: 1.7rem 3rem;
@@ -265,7 +267,7 @@
     font-size: 1.4rem;
     backdrop-filter: blur(6px);
   }
-  .ab-stat svg {
+  .ab-stat i {
     color: var(--honey);
     font-size: 1.5rem;
   }
@@ -591,9 +593,10 @@
     font-size: 1.5rem;
     line-height: 1.7;
   }
-  .cli svg {
+  .cli i {
     font-size: 1.5rem;
     margin-top: 0.35rem;
+    flex: 0 0 auto;
   }
   .cpanel--dull {
     background: var(--surface-warm);
@@ -612,7 +615,7 @@
   .cpanel--dull .cli {
     color: var(--ink-soft);
   }
-  .cpanel--dull .cli svg {
+  .cpanel--dull .cli i {
     color: var(--hair-strong);
   }
   .cpanel--us {
@@ -642,7 +645,7 @@
   .cpanel--us .cli {
     color: oklch(1 0 0 / 0.92);
   }
-  .cpanel--us .cli svg {
+  .cpanel--us .cli i {
     color: var(--honey);
   }
 
